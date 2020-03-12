@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="mui-master/dist/css/mui.min.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_1670955_vhisq8dat6a.css">
+    <link rel="stylesheet" href="frame.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/prototype/1.7.3.0/prototype.js"></script>
+    <script src="mui-master/dist/js/mui.min.js"></script>
+    <script src="video.js"></script>
+    <title>Video Clip</title>
+</head>
+
+<body>
+    <video id="video" controls="controls" width="100%" height="20%">
+        <source src="materials/Coca-Cola ads.mp4" type="video/mp4">
+    </video>
+    <div class="container">
+        <div class="container">
+            <div id="muted" class="mui-switch">
+                <div class="mui-switch-handle"></div>
+            </div>
+            <label id="mute-label">消音</label>
+        </div>
+        <div class="container">
+            <i id="rewind" class="iconfont icon-kuaitui icon"></i>
+            <i id="play" class="iconfont icon-play icon"></i>
+            <i id="forward" class="iconfont icon-kuaijin icon"></i>
+        </div>
+        <div class="container">
+            <i id="cut" class="iconfont icon-jianqie icon"></i>
+        </div>
+    </div>
+    <p id="alert"></p>
+</body>
+
+</html>
