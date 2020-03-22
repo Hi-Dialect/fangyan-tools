@@ -4,9 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_1670955_zh8w74vlsp.css">
     <link rel="stylesheet" href="mui-master/dist/css/mui.min.css">
-    <link rel="stylesheet" href="https://at.alicdn.com/t/font_1670955_vhisq8dat6a.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="frame.css">
+    <script src="https://at.alicdn.com/t/font_1670955_zh8w74vlsp.js"></script>
+    <script src="jquery.slim.min.js"></script>
+    <script src="popper.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
     <script src="prototype.js"></script>
     <script src="mui-master/dist/js/mui.min.js"></script>
     <script src="video.js"></script>
@@ -14,26 +19,130 @@
 </head>
 
 <body>
-    <video id="video" controls="controls" width="100%" height="20%">
-        <source src="materials/Coca-Cola.mp4" type="video/mp4">
-    </video>
-    <div class="container">
-        <div class="container">
-            <div id="muted" class="mui-switch">
-                <div class="mui-switch-handle"></div>
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingOne">
+                <button class="mui-btn mui-btn-royal mui-btn-outlined" type="button" data-toggle="collapse"
+                    data-target="#collapseOne">
+                    预览
+                    <svg class="iconfont" aria-hidden="true">
+                        <use xlink:href="#icon-yulan"></use>
+                    </svg>
+                </button>
             </div>
-            <label id="mute-label">消音</label>
-        </div>
-        <div class="container">
-            <i id="rewind" class="iconfont icon-kuaitui icon"></i>
-            <i id="play" class="iconfont icon-play icon"></i>
-            <i id="forward" class="iconfont icon-kuaijin icon"></i>
-        </div>
-        <div class="container">
-            <i id="cut" class="iconfont icon-jianqie icon"></i>
+            <div id="collapseOne" class="collapse" data-parent="#accordionExample">
+                <div id="video-body" class="card-body">
+                    <video id="video" width="100%">
+                        <source src="materials/Coca-Cola.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
         </div>
     </div>
-    <p id="alert">111</p>
+
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingTwo">
+                <button class="mui-btn mui-btn-royal mui-btn-outlined" type="button" data-toggle="collapse"
+                    data-target="#collapseTwo">
+                    控制
+                    <svg class="iconfont" aria-hidden="true">
+                        <use xlink:href="#icon-kongzhi"></use>
+                    </svg>
+                </button>
+            </div>
+            <div id="collapseTwo" class="collapse" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="container-row">
+                        <i id="rewind" class="iconfont icon-kuaitui icon"></i>
+                        <i id="play" class="iconfont icon-play icon"></i>
+                        <i id="forward" class="iconfont icon-kuaijin icon"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingThree">
+                <button class="mui-btn mui-btn-royal mui-btn-outlined" type="button" data-toggle="collapse"
+                    data-target="#collapseThree">
+                    剪辑
+                    <svg class="iconfont" aria-hidden="true">
+                        <use xlink:href="#icon-jianqie"></use>
+                    </svg>
+                </button>
+            </div>
+            <div id="collapseThree" class="collapse" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="mui-input-row mui-input-range">
+                        <label>开始时间</label>
+                        <input id="videoStart" type="range" min="0" max="60" value="0">
+                    </div>
+                    <div class="mui-input-row mui-input-range">
+                        <label>结束时间</label>
+                        <input id="videoEnd" type="range" min="0" max="60" value="60">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingFour">
+                <button class="mui-btn mui-btn-royal mui-btn-outlined" type="button" data-toggle="collapse"
+                    data-target="#collapseFour">
+                    混声
+                    <svg class="iconfont" aria-hidden="true">
+                        <use xlink:href="#icon-hunsheng"></use>
+                    </svg>
+                </button>
+            </div>
+            <div id="collapseFour" class="collapse" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="mui-input-row mui-input-range">
+                        <label> 视频音量</label>
+                        <input type="range" min="-99" max="99">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="accordion" id="accordionExample">
+        <div class="card">
+            <div class="card-header" id="headingFive">
+                <button class="mui-btn mui-btn-royal mui-btn-outlined" type="button" data-toggle="collapse"
+                    data-target="#collapseFive">
+                    合成
+                    <svg class="iconfont" aria-hidden="true">
+                        <use xlink:href="#icon-ronghe"></use>
+                    </svg>
+                </button>
+            </div>
+            <div id="collapseFive" class="collapse" data-parent="#accordionExample">
+                <div class="card-body">
+                    <div class="mui-input-row">
+                        <label>发布动态</label>
+                        <div id="muted" class="mui-switch">
+                            <div class="mui-switch-handle"></div>
+                        </div>
+                    </div>
+                    <div class="mui-input-row">
+                        <label>本地保存</label>
+                        <div id="muted" class="mui-switch">
+                            <div class="mui-switch-handle"></div>
+                        </div>
+                    </div>
+                    <button id="render" type="button" class="mui-btn mui-btn-royal">
+                        开始渲染
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

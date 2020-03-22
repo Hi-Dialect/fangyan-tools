@@ -6,8 +6,38 @@ window.onload = () => {
     $('rewind').onclick = handleRewindClick;
     $('play').onclick = handlePlay;
     $('forward').onclick = handleForwardClick;
-    $('muted').onclick = handleMuted;
+    //$('muted').onclick = handleMuted;
+    $('videoStart').onchange = handleCutStart;
+    $('videoEnd').onchange = handleCutEnd;
+    $('render').onclick = handleRender;
     $('alert').innerHTML = android.hello('试试就试试');
+}
+
+function handleRender() {
+    mui($('render')).button('loading');
+    setTimeout(function () {
+        mui($('render')).button('reset');
+    }.bind(this), 2000);
+}
+
+function handleCutStart() {
+    let start = $('videoStart').value;
+    let end = $('videoEnd').value;
+
+    if (end - start < 1) {
+        $('videoStart').value = 0;
+        mui.alert('开始时间应小于结束时间', '警告');
+    }
+}
+
+function handleCutEnd() {
+    let start = $('videoStart').value;
+    let end = $('videoEnd').value;
+
+    if (end - start < 1) {
+        $('videoEnd').value = 60;
+        mui.alert('结束时间应大于开始时间', '警告');
+    }
 }
 
 function handleForwardClick() {

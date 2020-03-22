@@ -13,6 +13,8 @@ then
     sudo cp -r frame.css android/app/src/main/assets
     sudo cp -r video.js android/app/src/main/assets
     sudo cp -r prototype.js android/app/src/main/assets
+    sudo cp -r jquery.slim.min.js android/app/src/main/assets
+    sudo cp -r popper.min.js android/app/src/main/assets
 elif [ $number -eq 2 ]
 then
     sh /home/yuwen/AndroidStudio/bin/studio.sh

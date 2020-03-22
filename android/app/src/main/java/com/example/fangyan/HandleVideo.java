@@ -14,11 +14,11 @@ import VideoHandle.OnEditorListener;
 
 public class HandleVideo extends Object {
     private static final String TAG = "FFmpeg";
-    private String url = "file:///storage/emulated/0/download/Coca-Cola ads.mp4";
-    private String output = "file:///storage/emulated/0/download/output.mp4";
+    private String video = "file:///storage/emulated/0/download/Coca-Cola ads.mp4";
 
     public void test() {
-        EpVideo epVideo = new EpVideo(url);
+        String output = "file:///storage/emulated/0/download/output.mp4";
+        EpVideo epVideo = new EpVideo(video);
         //输出选项，参数为输出文件路径(目前仅支持mp4格式输出)
         EpEditor.OutputOption outputOption = new EpEditor.OutputOption(output);
         outputOption.setWidth(480);//输出视频宽，如果不设置则为原始视频宽高
@@ -43,9 +43,31 @@ public class HandleVideo extends Object {
         });
     }
 
+    public void getFrame() {
+        String video = "\"file:///storage/emulated/0/download/Coca-Cola.mp4\"";
+        String output = "\"file:///storage/emulated/0/download/output.jpeg\"";
+        String cmd = "ffmpeg -i " + video + " -threads 1 -ss 00:00:05.167 -f image2 -r 1 -t 1 -s 256*256 " + output;
+        EpEditor.execCmd(cmd, 0, new OnEditorListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "onSuccess: ");
+            }
+
+            @Override
+            public void onFailure() {
+                Log.d(TAG, "onFailure: ");
+            }
+
+            @Override
+            public void onProgress(float progress) {
+
+            }
+        });
+    }
+
     @JavascriptInterface
     public String hello(String msg) {
-        test();
+        getFrame();
         Log.i("FangYan", msg);
         return new String("不服来干");
     }

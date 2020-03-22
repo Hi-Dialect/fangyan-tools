@@ -1,17 +1,51 @@
-.container {
+::-webkit-scrollbar {
+    display: none;
+}
+
+body {
+    font-size: 4vw;
+}
+
+.container-row {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
 }
 
-#mute-label {
+.iconfont {
+    width: 1.2em;
+    height: 1.2em;
+    vertical-align: -0.15em;
     margin-left: 2vw;
-    font-size: 5vw;
+    fill: currentColor;
+    overflow: hidden;
 }
 
 .icon {
     font-size: 8vw;
-    padding: 3vw;
     color: gray;
+}
+
+#video-body {
+    padding: 0;
+    margin: 0;
+    background-color: black;
+}
+
+.card-header {
+    padding: 0;
+    margin: 0;
+}
+
+.card-header button {
+    font-size: 18px;
+    width: 100%;
+}
+
+#render {
+    width: 100%;
+    height: 8vh;
+    margin-top: 3vh;
+    font-size: 5vw;
 }
