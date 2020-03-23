@@ -2,13 +2,20 @@ let speedRate = 5.0; //播放倍速
 let forwardInterval = 0;
 let rewindInterval = 0;
 
+let backgroundMusicPath = '';
+let dialectPath = '';
+
 window.onload = () => {
+    $('video').currentTime = 0.1;
     $('rewind').onclick = handleRewindClick;
     $('play').onclick = handlePlay;
     $('forward').onclick = handleForwardClick;
     //$('muted').onclick = handleMuted;
     $('videoStart').onchange = handleCutStart;
     $('videoEnd').onchange = handleCutEnd;
+    $('backgroundMusicButton').onclick = () => android.command(1);
+    $('dialectButton').onclick = () => android.command(2);
+    $('uploadVideoFromLocal').onclick = () => android.command(3);
     $('render').onclick = handleRender;
     $('alert').innerHTML = android.hello('试试就试试');
 }
@@ -89,7 +96,7 @@ function handlePlay() {
     clearInterval(forwardInterval);
     clearInterval(rewindInterval);
 
-    // 判断前一个状态是否为快进快退
+    // 判断前一个状态是否为快进快退，如是则暂停视频播放
     if (play.hasClassName('icon-pause') && video.paused) {
         play.removeClassName('icon-pause');
         play.addClassName('icon-play');
@@ -113,4 +120,24 @@ function handleMuted() {
     } else {
         $('video').muted = false;
     }
+}
+
+//=================================================================
+
+function addBackgroundMusic(filePath) {
+    let fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
+
+    backgroundMusicPath = filePath;
+    $('backgroundMusicLabel').innerHTML = fileName;
+}
+
+function addDialect(filePath) {
+    let fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
+
+    dialectPath = filePath;
+    $('dialectLabel').innerHTML = fileName;
+}
+
+function addVideo(filePath) {
+    $('video').src = filePath;
 }

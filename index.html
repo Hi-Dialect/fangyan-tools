@@ -32,7 +32,14 @@
             </div>
             <div id="collapseOne" class="collapse" data-parent="#accordionExample">
                 <div id="video-body" class="card-body">
-                    <video id="video" width="100%">
+                    <div class="container-row">
+                        <input type="file" id="selectVideo" style="display:none">
+                        <button type="button" class="btn btn-outline-primary body-button">选择素材</button>
+                        <button id="uploadVideoFromLocal" type="button"
+                            class="btn btn-outline-primary body-button">本地上传</button>
+                        <button type="button" class="btn btn-outline-primary body-button">拍摄视频</button>
+                    </div>
+                    <video id="video" controls="controls" width="100%">
                         <source src="materials/Coca-Cola.mp4" type="video/mp4">
                     </video>
                 </div>
@@ -78,7 +85,7 @@
                 <div class="card-body">
                     <div class="mui-input-row mui-input-range">
                         <label>开始时间</label>
-                        <input id="videoStart" type="range" min="0" max="60" value="0">
+                        <input id="videoStart" type="range" min="0" max="60" value="0" width="20px">
                     </div>
                     <div class="mui-input-row mui-input-range">
                         <label>结束时间</label>
@@ -102,9 +109,31 @@
             </div>
             <div id="collapseFour" class="collapse" data-parent="#accordionExample">
                 <div class="card-body">
+                    <div class="mui-input-row">
+                        <label>消音</label>
+                        <div id="muted" class="mui-switch">
+                            <div class="mui-switch-handle"></div>
+                        </div>
+                    </div>
                     <div class="mui-input-row mui-input-range">
-                        <label> 视频音量</label>
+                        <label>音量</label>
                         <input type="range" min="-99" max="99">
+                    </div>
+                    <div class="mui-input-row">
+                        <div class="container-row">
+                            <label>背景音</label>
+                            <label id="backgroundMusicLabel"></label>
+                            <button id="backgroundMusicButton" type="button"
+                                class="btn btn-outline-primary body-button">点击上传</button>
+                        </div>
+                    </div>
+                    <div class="mui-input-row">
+                        <div class="container-row">
+                            <label>配音</label>
+                            <label id="dialectLabel"></label>
+                            <button id="dialectButton" type="button"
+                                class="btn btn-outline-primary body-button">点击上传</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -126,13 +155,13 @@
                 <div class="card-body">
                     <div class="mui-input-row">
                         <label>发布动态</label>
-                        <div id="muted" class="mui-switch">
+                        <div id="muted" class="mui-switch mui-active">
                             <div class="mui-switch-handle"></div>
                         </div>
                     </div>
                     <div class="mui-input-row">
                         <label>本地保存</label>
-                        <div id="muted" class="mui-switch">
+                        <div id="muted" class="mui-switch mui-active">
                             <div class="mui-switch-handle"></div>
                         </div>
                     </div>

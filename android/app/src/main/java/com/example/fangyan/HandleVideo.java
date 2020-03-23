@@ -1,52 +1,26 @@
 package com.example.fangyan;
 
 import android.content.Context;
-import android.content.res.AssetManager;
+import android.content.Intent;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
-import java.io.IOException;
-import java.io.InputStream;
+import androidx.appcompat.app.AppCompatActivity;
 
 import VideoHandle.EpEditor;
-import VideoHandle.EpVideo;
 import VideoHandle.OnEditorListener;
+import me.rosuh.filepicker.config.FilePickerManager;
 
 public class HandleVideo extends Object {
+    public AppCompatActivity appCompatActivity;
     private static final String TAG = "FFmpeg";
-    private String video = "file:///storage/emulated/0/download/Coca-Cola ads.mp4";
 
-    public void test() {
-        String output = "file:///storage/emulated/0/download/output.mp4";
-        EpVideo epVideo = new EpVideo(video);
-        //输出选项，参数为输出文件路径(目前仅支持mp4格式输出)
-        EpEditor.OutputOption outputOption = new EpEditor.OutputOption(output);
-        outputOption.setWidth(480);//输出视频宽，如果不设置则为原始视频宽高
-        outputOption.setHeight(360);//输出视频高度
-        outputOption.frameRate = 30;//输出视频帧率,默认30
-        outputOption.bitRate = 10;//输出视频码率,默认10
-        EpEditor.exec(epVideo, outputOption, new OnEditorListener() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "onSuccess: ");
-            }
-
-            @Override
-            public void onFailure() {
-                Log.d(TAG, "onFailure: ");
-            }
-
-            @Override
-            public void onProgress(float progress) {
-                //这里获取处理进度
-            }
-        });
+    public HandleVideo(AppCompatActivity appCompatActivity) {
+        this.appCompatActivity = appCompatActivity;
     }
 
-    public void getFrame() {
-        String video = "\"file:///storage/emulated/0/download/Coca-Cola.mp4\"";
-        String output = "\"file:///storage/emulated/0/download/output.jpeg\"";
-        String cmd = "ffmpeg -i " + video + " -threads 1 -ss 00:00:05.167 -f image2 -r 1 -t 1 -s 256*256 " + output;
+    public void getFrame(String videoPath, String outputPath) {
+        String cmd = "-i " + videoPath + " -y -f image2 -ss 00:00:01 -vframes 1 " + outputPath;
         EpEditor.execCmd(cmd, 0, new OnEditorListener() {
             @Override
             public void onSuccess() {
@@ -60,15 +34,65 @@ public class HandleVideo extends Object {
 
             @Override
             public void onProgress(float progress) {
+                Log.d(TAG, "onProgress: ");
+            }
+        });
+    }
 
+    public void mute(String videoPath, String outputPath) {
+        EpEditor.demuxer(videoPath, outputPath, EpEditor.Format.MP4, new OnEditorListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "onSuccess: ");
+            }
+
+            @Override
+            public void onFailure() {
+                Log.d(TAG, "onFailure: ");
+            }
+
+            @Override
+            public void onProgress(float progress) {
+                Log.d(TAG, "onProgress: ");
+            }
+        });
+    }
+
+    public void addMusic(String videoPath, String audioPath, String outputPath) {
+        EpEditor.music(videoPath, audioPath, outputPath, 1, 1, new OnEditorListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "onSuccess: ");
+            }
+
+            @Override
+            public void onFailure() {
+                Log.d(TAG, "onFailure: ");
+            }
+
+            @Override
+            public void onProgress(float progress) {
+                Log.d(TAG, "onProgress: ");
             }
         });
     }
 
     @JavascriptInterface
-    public String hello(String msg) {
-        getFrame();
-        Log.i("FangYan", msg);
-        return new String("不服来干");
+    public void command(int type) {
+        String video = "file:///storage/emulated/0/download/Coca-Cola.mp4";
+        String music = "file:///storage/emulated/0/download/music.mp3";
+        String output = "file:///storage/emulated/0/download/output.mp4";
+
+        switch (type) {
+            case 1:
+                FilePickerManager.INSTANCE.from(appCompatActivity).forResult(1);
+                break;
+            case 2:
+                FilePickerManager.INSTANCE.from(appCompatActivity).forResult(2);
+                break;
+            case 3:
+                FilePickerManager.INSTANCE.from(appCompatActivity).forResult(3);
+                break;
+        }
     }
 }
