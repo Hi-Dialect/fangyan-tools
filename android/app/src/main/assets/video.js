@@ -7,15 +7,14 @@ let dialectPath = '';
 
 window.onload = () => {
     $('video').currentTime = 0.1;
-    $('rewind').onclick = handleRewindClick;
-    $('play').onclick = handlePlay;
-    $('forward').onclick = handleForwardClick;
-    //$('muted').onclick = handleMuted;
+    $('kuaitui').onclick = handleRewindClick;
+    $('bofang').onclick = handlePlay;
+    $('kuaijin').onclick = handleForwardClick;
     $('videoStart').onchange = handleCutStart;
     $('videoEnd').onchange = handleCutEnd;
-    $('backgroundMusicButton').onclick = () => android.command(1);
-    $('dialectButton').onclick = () => android.command(2);
-    $('uploadVideoFromLocal').onclick = () => android.command(3);
+    $('backgroundMusicButton').onclick = () => android.selectFile(1);
+    $('dialectButton').onclick = () => android.selectFile(2);
+    $('uploadVideoFromLocal').onclick = () => android.selectFile(3);
     $('render').onclick = handleRender;
     $('alert').innerHTML = android.hello('试试就试试');
 }
@@ -25,6 +24,12 @@ function handleRender() {
     setTimeout(function () {
         mui($('render')).button('reset');
     }.bind(this), 2000);
+
+    let startTime = $('videoStart').value;
+    let endTime = $('videoEnd').value;
+    let isMuted = document.getElementById('muted').classList.contains('mui-active');
+
+    android.renderVideo($('video').src, startTime, endTime, isMuted, backgroundMusicPath, dialectPath);
 }
 
 function handleCutStart() {
@@ -49,11 +54,10 @@ function handleCutEnd() {
 
 function handleForwardClick() {
     let video = $('video');
-    let play = $('play');
+    let play = $('bofang');
 
     video.pause();
-    play.removeClassName('icon-play');
-    play.addClassName('icon-pause');
+    play.setAttribute('xlink:href', '#icon-zanting');
     clearInterval(forwardInterval);
     clearInterval(rewindInterval);
 
@@ -61,8 +65,7 @@ function handleForwardClick() {
     forwardInterval = setInterval(() => {
         video.currentTime += 0.2;
         if (video.currentTime >= video.duration) {
-            play.removeClassName('icon-pause');
-            play.addClassName('icon-play');
+            play.setAttribute('xlink:href', '#icon-bofang');
             clearInterval(forwardInterval);
         }
     }, 40);
@@ -70,11 +73,10 @@ function handleForwardClick() {
 
 function handleRewindClick() {
     let video = $('video');
-    let play = $('play');
+    let play = $('bofang');
 
     video.pause();
-    play.removeClassName('icon-play');
-    play.addClassName('icon-pause');
+    play.setAttribute('xlink:href', '#icon-zanting');
     clearInterval(forwardInterval);
     clearInterval(rewindInterval);
 
@@ -82,8 +84,7 @@ function handleRewindClick() {
     rewindInterval = setInterval(() => {
         video.currentTime -= 0.2;
         if (video.currentTime <= 0) {
-            play.removeClassName('icon-pause');
-            play.addClassName('icon-play');
+            play.setAttribute('xlink:href', '#icon-bofang');
             clearInterval(rewindInterval);
         }
     }, 40);
@@ -91,34 +92,23 @@ function handleRewindClick() {
 
 function handlePlay() {
     let video = $('video');
-    let play = $('play');
+    let play = $('bofang');
 
     clearInterval(forwardInterval);
     clearInterval(rewindInterval);
 
     // 判断前一个状态是否为快进快退，如是则暂停视频播放
-    if (play.hasClassName('icon-pause') && video.paused) {
-        play.removeClassName('icon-pause');
-        play.addClassName('icon-play');
+    if (play.getAttribute('xlink:href') == '#icon-zanting' && video.paused) {
+        play.setAttribute('xlink:href', '#icon-bofang');
         return;
     }
 
     if (video.paused) {
         video.play();
-        play.removeClassName('icon-play');
-        play.addClassName('icon-pause');
+        play.setAttribute('xlink:href', '#icon-zanting');
     } else {
         video.pause();
-        play.removeClassName('icon-pause');
-        play.addClassName('icon-play');
-    }
-}
-
-function handleMuted() {
-    if ($('muted').hasClassName('mui-active')) {
-        $('video').muted = true;
-    } else {
-        $('video').muted = false;
+        play.setAttribute('xlink:href', '#icon-bofang');
     }
 }
 
@@ -140,4 +130,5 @@ function addDialect(filePath) {
 
 function addVideo(filePath) {
     $('video').src = filePath;
+    $('video').style.display = 'block';
 }

@@ -2,6 +2,21 @@
     display: none;
 }
 
+/*修改预定义MUI样式*/
+.mui-input-range input[type='range']::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+}
+
+/*修改预定义MUI样式*/
+.mui-input-range .mui-tooltip {
+    top: -60px;
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    line-height: 50px;
+}
+
 body {
     font-size: 4vw;
 }
@@ -24,8 +39,12 @@ body {
 
 .icon {
     margin: 0vh 10vw;
-    font-size: 10vw;
+    font-size: 8vw;
     color: gray;
+}
+
+#video {
+    display: none;
 }
 
 #video-body {
