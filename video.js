@@ -137,6 +137,7 @@ function addVideo(filePath) {
 function updateRenderBar(percentage, filePath) {
     $('renderBar').style.width = percentage + '%';
     if (percentage == '100') {
+        $('cancelRendering').style.display = 'none';
         $('outputVideo').src = filePath;
         $('outputVideo').style.display = 'block';
     }

@@ -66,7 +66,6 @@ public class HandleVideo extends Object {
         EpEditor.OutputOption outputOption = new EpEditor.OutputOption(outputPath);
         EpEditor.exec(epVideo, outputOption, new OnEditorListener() {
             @Override
-            @SuppressLint("SetJavaScriptEnabled")
             public void onSuccess() {
                 Log.d(TAG, "onSuccess: videoClip");
                 sendProgressMessage(25);
