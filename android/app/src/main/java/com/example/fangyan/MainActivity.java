@@ -2,9 +2,11 @@ package com.example.fangyan;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
@@ -38,6 +40,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //注册广播接收器
+        CommonReceiver myReceiver = new CommonReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.nangch.broadcasereceiver.MYRECEIVER");
+        registerReceiver(myReceiver, intentFilter);
+
         webView = (WebView) findViewById(R.id.webview);
         webView.loadUrl("file:///android_asset/index.html");
 
@@ -50,6 +58,17 @@ public class MainActivity extends AppCompatActivity {
 
         //申请读写权限
         requestMyPermissions();
+    }
+
+    //更新渲染进度
+    private class CommonReceiver extends BroadcastReceiver {
+        @Override
+        @SuppressLint("SetJavaScriptEnabled")
+        public void onReceive(Context context, Intent intent) {
+            int percentage = intent.getIntExtra("percentage", 0);
+            String filePath = intent.getStringExtra("filePath");
+            webView.loadUrl("javascript:updateRenderBar(" + percentage + ",'" + filePath + "')");
+        }
     }
 
     @Override

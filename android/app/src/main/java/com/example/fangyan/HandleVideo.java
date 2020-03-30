@@ -1,15 +1,13 @@
 package com.example.fangyan;
 
-import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.text.style.BackgroundColorSpan;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.File;
 
 import VideoHandle.EpEditor;
 import VideoHandle.EpVideo;
@@ -18,8 +16,8 @@ import me.rosuh.filepicker.config.FilePickerManager;
 
 public class HandleVideo extends Object {
     private AppCompatActivity appCompatActivity;
+
     private static final String TAG = "FFmpeg";
-    private String tempPath = "file:///storage/emulated/0/download/temp.mp4";
     private String outputPath = "file:///storage/emulated/0/download/output.mp4";
 
     private String videoPath = null;
@@ -33,7 +31,15 @@ public class HandleVideo extends Object {
         this.appCompatActivity = appCompatActivity;
     }
 
-    public void getFrame(String outputPath) {
+    public void sendProgressMessage(int percentage) {
+        Intent intent = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
+        intent.putExtra("percentage", percentage);
+        intent.putExtra("filePath", outputPath);
+        appCompatActivity.sendBroadcast(intent);
+    }
+
+    //提取视频帧
+    public void getFrame() {
         String cmd = "-i " + videoPath + " -y -f image2 -ss 00:00:01 -vframes 1 " + outputPath;
         EpEditor.execCmd(cmd, 0, new OnEditorListener() {
             @Override
@@ -53,13 +59,40 @@ public class HandleVideo extends Object {
         });
     }
 
-    //第一步，选择是否消除原视频的音频
+    //第一步，选择剪辑范围
+    public void videoClip() {
+        EpVideo epVideo = new EpVideo(videoPath);
+        epVideo.clip(startTime, endTime - startTime);
+        EpEditor.OutputOption outputOption = new EpEditor.OutputOption(outputPath);
+        EpEditor.exec(epVideo, outputOption, new OnEditorListener() {
+            @Override
+            @SuppressLint("SetJavaScriptEnabled")
+            public void onSuccess() {
+                Log.d(TAG, "onSuccess: videoClip");
+                sendProgressMessage(25);
+                mute();
+            }
+
+            @Override
+            public void onFailure() {
+                Log.d(TAG, "onFailure: videoClip");
+            }
+
+            @Override
+            public void onProgress(float progress) {
+                Log.d(TAG, "onProgress: videoClip");
+            }
+        });
+    }
+
+    //第二步，选择是否消除原视频的音频
     public void mute() {
         if (isMuted) {
-            EpEditor.demuxer(videoPath, tempPath, EpEditor.Format.MP4, new OnEditorListener() {
+            EpEditor.demuxer(videoPath, outputPath, EpEditor.Format.MP4, new OnEditorListener() {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "onSuccess: mute");
+                    sendProgressMessage(50);
                     addBackgroundMusic();
                 }
 
@@ -74,17 +107,19 @@ public class HandleVideo extends Object {
                 }
             });
         } else {
+            sendProgressMessage(50);
             addBackgroundMusic();
         }
     }
 
-    //第二步，选择是否添加背景音乐
+    //第三步，选择是否添加背景音乐
     public void addBackgroundMusic() {
         if (backgroundMusicPath != null && backgroundMusicPath.length() > 0) {
-            EpEditor.music(videoPath, backgroundMusicPath, tempPath, 1, 1, new OnEditorListener() {
+            EpEditor.music(videoPath, backgroundMusicPath, outputPath, 1, 1, new OnEditorListener() {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "onSuccess: addBackgroundMusic");
+                    sendProgressMessage(75);
                     addDialect();
                 }
 
@@ -100,18 +135,19 @@ public class HandleVideo extends Object {
             });
         } else {
             Log.d(TAG, "addBackgroundMusic: backgroundMusicPath Wrong!");
+            sendProgressMessage(75);
             addDialect();
         }
     }
 
-    //第三步，选择是否添加方言配音
+    //第四步，选择是否添加方言配音
     public void addDialect() {
         if (dialectPath != null && dialectPath.length() > 0) {
-            EpEditor.music(videoPath, dialectPath, tempPath, 1, 1, new OnEditorListener() {
+            EpEditor.music(videoPath, dialectPath, outputPath, 1, 1, new OnEditorListener() {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "onSuccess: addDialect");
-                    videoClip();
+                    sendProgressMessage(100);
                 }
 
                 @Override
@@ -126,33 +162,8 @@ public class HandleVideo extends Object {
             });
         } else {
             Log.d(TAG, "addDialect: dialectPath Wrong!");
-            videoClip();
+            sendProgressMessage(100);
         }
-    }
-
-    //第四步，选择剪辑范围
-    public void videoClip() {
-        EpVideo epVideo = new EpVideo(tempPath);
-        Log.d(TAG, "videoClip: " + startTime);
-        Log.d(TAG, "videoClip: " + endTime);
-        epVideo.clip(startTime, endTime - startTime);
-        EpEditor.OutputOption outputOption = new EpEditor.OutputOption(outputPath);
-        EpEditor.exec(epVideo, outputOption, new OnEditorListener() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "onSuccess: videoClip");
-            }
-
-            @Override
-            public void onFailure() {
-                Log.d(TAG, "onFailure: videoClip");
-            }
-
-            @Override
-            public void onProgress(float progress) {
-                Log.d(TAG, "onProgress: videoClip");
-            }
-        });
     }
 
     @JavascriptInterface
@@ -180,11 +191,11 @@ public class HandleVideo extends Object {
         this.backgroundMusicPath = backgroundMusicPath;
         this.dialectPath = dialectPath;
 
-        //异步操作临时解决方案：消音->添加背景音乐->添加方言配音->剪辑输出
+        //异步操作临时解决方案：剪辑->消音->添加背景音乐->添加方言配音
         if (videoPath == null || videoPath.length() <= 0) {
             Log.d(TAG, "renderVideo: videoPath Wrong!");
         } else {
-            mute();
+            videoClip();
         }
     }
 }

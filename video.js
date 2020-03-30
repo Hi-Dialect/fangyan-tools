@@ -23,12 +23,13 @@ function handleRender() {
     mui($('render')).button('loading');
     setTimeout(function () {
         mui($('render')).button('reset');
-    }.bind(this), 2000);
+    }.bind(this), 500);
 
     let startTime = $('videoStart').value;
     let endTime = $('videoEnd').value;
     let isMuted = document.getElementById('muted').classList.contains('mui-active');
 
+    $('showModal').click();
     android.renderVideo($('video').src, startTime, endTime, isMuted, backgroundMusicPath, dialectPath);
 }
 
@@ -131,4 +132,12 @@ function addDialect(filePath) {
 function addVideo(filePath) {
     $('video').src = filePath;
     $('video').style.display = 'block';
+}
+
+function updateRenderBar(percentage, filePath) {
+    $('renderBar').style.width = percentage + '%';
+    if (percentage == '100') {
+        $('outputVideo').src = filePath;
+        $('outputVideo').style.display = 'block';
+    }
 }

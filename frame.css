@@ -47,6 +47,11 @@ body {
     display: none;
 }
 
+#outputVideo {
+    display: none;
+    padding-top: 2vh;
+}
+
 #video-body {
     padding: 2vh 0 0 0;
 }
@@ -72,4 +77,8 @@ body {
     height: 8vh;
     margin-top: 3vh;
     font-size: 4vw;
+}
+
+#showModal {
+    display: none;
 }
