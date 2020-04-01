@@ -7,5 +7,5 @@
 * 第 4 步: 合并 [android/app/src/main/java/com/example/fangyan/] (./android/app/src/main/java/com/example/fangyan)目录下的所有文件，它们是后端的主要代码逻辑
 
 > 在这一步完成后，你可能会发现 Activity 的名称会有冲突，请修改它的名字（建议在 AndroidStudio 中修改，不易出错）
->> 目前只开发了一个 Activity，你可以使用 Intent 正常跳转
->>> 如果前一个页面的 Layout 构成只有一个 Webview 元素，你也可以直接载入这个地址：file:///android_asset/index.html
+> 目前只开发了一个 Activity，你可以使用 Intent 正常跳转
+> 你也可以通过 Webview 导航，只需要连接到这个地址：file:///android_asset/index.html
