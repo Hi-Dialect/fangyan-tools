@@ -16,20 +16,19 @@ window.onload = () => {
     $('dialectButton').onclick = () => android.selectFile(2);
     $('uploadVideoFromLocal').onclick = () => android.selectFile(3);
     $('render').onclick = handleRender;
-    $('alert').innerHTML = android.hello('试试就试试');
+    //$('alert').innerHTML = android.hello('试试就试试');
 }
 
 function handleRender() {
     mui($('render')).button('loading');
     setTimeout(function () {
         mui($('render')).button('reset');
-    }.bind(this), 500);
+    }.bind(this), 200);
 
     let startTime = $('videoStart').value;
     let endTime = $('videoEnd').value;
     let isMuted = document.getElementById('muted').classList.contains('mui-active');
 
-    $('showModal').click();
     android.renderVideo($('video').src, startTime, endTime, isMuted, backgroundMusicPath, dialectPath);
 }
 
@@ -113,7 +112,7 @@ function handlePlay() {
     }
 }
 
-//=================================================================
+//=========================以下函数为安卓调用JS=========================
 
 function addBackgroundMusic(filePath) {
     let fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
@@ -136,9 +135,21 @@ function addVideo(filePath) {
 
 function updateRenderBar(percentage, filePath) {
     $('renderBar').style.width = percentage + '%';
-    if (percentage == '100') {
+
+    if (percentage == '0') {
+        $('renderProgressLabel').innerHTML = '视频渲染中...';
+        $('cancelRendering').style.display = 'block';
+        $('outputVideo').style.display = 'none';
+        $('renderBar').style.width = '0%';
+        $('showModal').click();
+    } else if (percentage == '100') {
+        $('renderProgressLabel').innerHTML = '视频渲染完成';
         $('cancelRendering').style.display = 'none';
         $('outputVideo').src = filePath;
         $('outputVideo').style.display = 'block';
     }
+}
+
+function alertError(message) {
+    mui.alert(message, '提示');
 }

@@ -34,7 +34,6 @@
                 <div id="video-body" class="card-body">
                     <div class="container-row">
                         <input type="file" id="selectVideo" style="display:none">
-                        <button type="button" class="btn btn-outline-primary body-button">选择素材</button>
                         <button id="uploadVideoFromLocal" type="button"
                             class="btn btn-outline-primary body-button">本地上传</button>
                         <button type="button" class="btn btn-outline-primary body-button">拍摄视频</button>
@@ -130,7 +129,7 @@
                             <label>背景音</label>
                             <label id="backgroundMusicLabel">待上传</label>
                             <button id="backgroundMusicButton" type="button"
-                                class="btn btn-outline-primary body-button">点击上传</button>
+                                class="btn btn-outline-primary audio-button">点击上传</button>
                         </div>
                     </div>
                     <div class="mui-input-row">
@@ -138,7 +137,7 @@
                             <label>配音</label>
                             <label id="dialectLabel">待上传</label>
                             <button id="dialectButton" type="button"
-                                class="btn btn-outline-primary body-button">点击上传</button>
+                                class="btn btn-outline-primary audio-button">点击上传</button>
                         </div>
                     </div>
                 </div>
@@ -184,7 +183,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="renderProgressLabel">视频渲染中，请稍后...</h5>
+                    <h5 class="modal-title" id="renderProgressLabel">视频渲染中...</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>

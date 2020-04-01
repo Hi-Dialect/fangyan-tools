@@ -24,7 +24,7 @@ body {
 .container-row {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -58,7 +58,14 @@ body {
 
 .body-button {
     font-size: 3.5vw;
-    margin: 0.5vh 5vw 2vh 5vw;
+    margin: 0.5vh 0 2vh 0;
+    border-radius: 50px;
+    padding: 1vh 5vw;
+}
+
+.audio-button {
+    font-size: 3.5vw;
+    margin: 0.5vh 4vw 2vh 4vw;
     border-radius: 50px;
 }
 

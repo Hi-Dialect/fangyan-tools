@@ -65,9 +65,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         @SuppressLint("SetJavaScriptEnabled")
         public void onReceive(Context context, Intent intent) {
-            int percentage = intent.getIntExtra("percentage", 0);
-            String filePath = intent.getStringExtra("filePath");
-            webView.loadUrl("javascript:updateRenderBar(" + percentage + ",'" + filePath + "')");
+            String type = intent.getStringExtra("type");
+            Log.d(TAG, "onReceive: " + type);
+            if (type.equals("updateRenderProgress")) {
+                int percentage = intent.getIntExtra("percentage", 0);
+                String filePath = intent.getStringExtra("filePath");
+                webView.loadUrl("javascript:updateRenderBar(" + percentage + ",'" + filePath + "')");
+            } else if (type.equals("alertError")) {
+                String message = intent.getStringExtra("message");
+                webView.loadUrl("javascript:alertError('" + message + "')");
+            }
         }
     }
 

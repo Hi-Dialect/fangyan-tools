@@ -9,6 +9,8 @@ import android.webkit.WebView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+
 import VideoHandle.EpEditor;
 import VideoHandle.EpVideo;
 import VideoHandle.OnEditorListener;
@@ -18,7 +20,8 @@ public class HandleVideo extends Object {
     private AppCompatActivity appCompatActivity;
 
     private static final String TAG = "FFmpeg";
-    private String outputPath = "file:///storage/emulated/0/download/output.mp4";
+    private String inputPath = "/storage/emulated/0/Hi-Dialect/input.mp4";
+    private String outputPath = "/storage/emulated/0/Hi-Dialect/output.mp4";
 
     private String videoPath = null;
     private String backgroundMusicPath = null;
@@ -33,35 +36,15 @@ public class HandleVideo extends Object {
 
     public void sendProgressMessage(int percentage) {
         Intent intent = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
+        intent.putExtra("type", "updateRenderProgress");
         intent.putExtra("percentage", percentage);
-        intent.putExtra("filePath", outputPath);
+        intent.putExtra("filePath", "file://" + inputPath);
         appCompatActivity.sendBroadcast(intent);
-    }
-
-    //提取视频帧
-    public void getFrame() {
-        String cmd = "-i " + videoPath + " -y -f image2 -ss 00:00:01 -vframes 1 " + outputPath;
-        EpEditor.execCmd(cmd, 0, new OnEditorListener() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "onSuccess: getFrame");
-            }
-
-            @Override
-            public void onFailure() {
-                Log.d(TAG, "onFailure: getFrame");
-            }
-
-            @Override
-            public void onProgress(float progress) {
-                Log.d(TAG, "onProgress: getFrame");
-            }
-        });
     }
 
     //第一步，选择剪辑范围
     public void videoClip() {
-        EpVideo epVideo = new EpVideo(videoPath);
+        EpVideo epVideo = new EpVideo(inputPath);
         epVideo.clip(startTime, endTime - startTime);
         EpEditor.OutputOption outputOption = new EpEditor.OutputOption(outputPath);
         EpEditor.exec(epVideo, outputOption, new OnEditorListener() {
@@ -69,6 +52,8 @@ public class HandleVideo extends Object {
             public void onSuccess() {
                 Log.d(TAG, "onSuccess: videoClip");
                 sendProgressMessage(25);
+                FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
+                        "/Hi-Dialect/", "input.mp4");
                 mute();
             }
 
@@ -87,11 +72,13 @@ public class HandleVideo extends Object {
     //第二步，选择是否消除原视频的音频
     public void mute() {
         if (isMuted) {
-            EpEditor.demuxer(videoPath, outputPath, EpEditor.Format.MP4, new OnEditorListener() {
+            EpEditor.demuxer(inputPath, outputPath, EpEditor.Format.MP4, new OnEditorListener() {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "onSuccess: mute");
                     sendProgressMessage(50);
+                    FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
+                            "/Hi-Dialect/", "input.mp4");
                     addBackgroundMusic();
                 }
 
@@ -114,11 +101,13 @@ public class HandleVideo extends Object {
     //第三步，选择是否添加背景音乐
     public void addBackgroundMusic() {
         if (backgroundMusicPath != null && backgroundMusicPath.length() > 0) {
-            EpEditor.music(videoPath, backgroundMusicPath, outputPath, 1, 1, new OnEditorListener() {
+            EpEditor.music(inputPath, backgroundMusicPath, outputPath, 1, 1, new OnEditorListener() {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "onSuccess: addBackgroundMusic");
                     sendProgressMessage(75);
+                    FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
+                            "/Hi-Dialect/", "input.mp4");
                     addDialect();
                 }
 
@@ -142,10 +131,12 @@ public class HandleVideo extends Object {
     //第四步，选择是否添加方言配音
     public void addDialect() {
         if (dialectPath != null && dialectPath.length() > 0) {
-            EpEditor.music(videoPath, dialectPath, outputPath, 1, 1, new OnEditorListener() {
+            EpEditor.music(inputPath, dialectPath, outputPath, 1, 1, new OnEditorListener() {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "onSuccess: addDialect");
+                    FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
+                            "/Hi-Dialect/", "input.mp4");
                     sendProgressMessage(100);
                 }
 
@@ -166,21 +157,6 @@ public class HandleVideo extends Object {
     }
 
     @JavascriptInterface
-    public void selectFile(int type) {
-        switch (type) {
-            case 1:
-                FilePickerManager.INSTANCE.from(appCompatActivity).forResult(1);
-                break;
-            case 2:
-                FilePickerManager.INSTANCE.from(appCompatActivity).forResult(2);
-                break;
-            case 3:
-                FilePickerManager.INSTANCE.from(appCompatActivity).forResult(3);
-                break;
-        }
-    }
-
-    @JavascriptInterface
     public void renderVideo(String videoPath, String startTime, String endTime, boolean isMuted,
                             String backgroundMusicPath, String dialectPath) {
         this.videoPath = videoPath;
@@ -193,8 +169,35 @@ public class HandleVideo extends Object {
         //异步操作临时解决方案：剪辑->消音->添加背景音乐->添加方言配音
         if (videoPath == null || videoPath.length() <= 0) {
             Log.d(TAG, "renderVideo: videoPath Wrong!");
+            Intent intent = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
+            intent.putExtra("type", "alertError");
+            intent.putExtra("message", "无法读取视频文件");
+            appCompatActivity.sendBroadcast(intent);
         } else {
+            //FileManager类操控外部储存文件，路径以"/storage"为前缀
+            videoPath = videoPath.substring(videoPath.indexOf("/storage"));
+            //加载原始视频
+            byte[] bytes = FileManager.loadFileFromSDCard(videoPath);
+            //视频文件重定向（复制移动）
+            FileManager.saveFileToSDCardCustomDir(bytes, "/Hi-Dialect/", "input.mp4");
+            //开始渲染视频
+            sendProgressMessage(0);
             videoClip();
+        }
+    }
+
+    @JavascriptInterface
+    public void selectFile(int type) {
+        switch (type) {
+            case 1: //选择背景音乐
+                FilePickerManager.INSTANCE.from(appCompatActivity).forResult(1);
+                break;
+            case 2: //选择方言配音
+                FilePickerManager.INSTANCE.from(appCompatActivity).forResult(2);
+                break;
+            case 3: //选择原始视频
+                FilePickerManager.INSTANCE.from(appCompatActivity).forResult(3);
+                break;
         }
     }
 }
