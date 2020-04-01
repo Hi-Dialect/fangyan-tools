@@ -9,4 +9,4 @@
 ### 合并小提示
 1. 考虑到可能只有工具组有混合开发的内容，建议使用本仓库的 [android](./android) 文件夹作为基准文件夹
 2. 在第四步完成后，你可能会发现 Activity 的名字会有冲突，请在 AndroidStudio 中修改它的名字
-3. 目前只开发了一个 Activity，你可以使用 Intent 正常跳转，或者 Webview 链接到　file:///android_asset/index.html(./android/app/src/main/assets/index.html)
+3. 目前只开发了一个 Activity，你可以使用 Intent 正常跳转，或者 Webview 链接到 [file:///android_asset/index.html](./android/app/src/main/assets/index.html)
