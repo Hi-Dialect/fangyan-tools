@@ -181,8 +181,6 @@ public class HandleVideo extends Object {
         this.backgroundMusicPath = backgroundMusicPath;
         this.dialectPath = dialectPath;
 
-        Log.d(TAG, "renderVideo: " + videoPath);
-
         //异步操作临时解决方案：剪辑->消音->添加背景音乐->添加方言配音
         if (videoPath == null || videoPath.length() <= 0) {
             Log.d(TAG, "renderVideo: videoPath Wrong!");
