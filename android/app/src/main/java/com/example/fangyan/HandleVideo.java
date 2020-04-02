@@ -10,6 +10,8 @@ import android.webkit.WebView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
+import java.nio.charset.Charset;
+import java.util.Random;
 
 import VideoHandle.EpEditor;
 import VideoHandle.EpVideo;
@@ -22,7 +24,7 @@ public class HandleVideo extends Object {
     private static final String TAG = "FFmpeg";
     private String inputPath = "/storage/emulated/0/Hi-Dialect/input.mp4";
     private String outputPath = "/storage/emulated/0/Hi-Dialect/output.mp4";
-    private String finalPath = "/storage/emulated/0/Hi-Dialect/myVideo.mp4";
+    private String finalPath = "/storage/emulated/0/Hi-Dialect/final.mp4";
 
     private String videoPath = null;
     private String backgroundMusicPath = null;
@@ -165,8 +167,12 @@ public class HandleVideo extends Object {
 
     //最后一步
     public void finalStep() {
+        //生成随机的临时文件名
+        String tempFileName = new String(System.currentTimeMillis() + ".mp4");
+
+        finalPath = finalPath.substring(0, finalPath.lastIndexOf("/") + 1) + tempFileName;
         FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(inputPath),
-                "/Hi-Dialect/", "myVideo.mp4");
+                "/Hi-Dialect/", tempFileName);
         FileManager.removeFileFromSDCard(inputPath);
         sendProgressMessage(100);
     }
