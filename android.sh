@@ -17,7 +17,7 @@ then
     sudo cp -r popper.min.js android/app/src/main/assets
 elif [ $number -eq 2 ]
 then
-    sh /home/yuwen/AndroidStudio/bin/studio.sh
+    sh /home/yuwen/AndroidStudio/bin/studio.sh &
 else
     echo "输入有误"
 fi
