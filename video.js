@@ -17,6 +17,7 @@ window.onload = () => {
     $('dialectButton').onclick = () => android.selectFile(2);
     $('uploadVideoFromLocal').onclick = () => android.selectFile(3);
     $('render').onclick = handleRender;
+    $('backToEdit').onclick = () => $('outputVideo').src = '';
 }
 
 function handleTimeUpdate() {
@@ -32,8 +33,10 @@ function handleRender() {
     let endTime = $('videoEnd').value;
     let isMuted = document.getElementById('muted').classList.contains('mui-active');
 
-    if (!$('video').paused) handlePlay();
     android.renderVideo($('video').src, startTime, endTime, isMuted, backgroundMusicPath, dialectPath);
+    if ($('video').src != '' && !$('video').paused) {
+        handlePlay();
+    }
 }
 
 function handleCutStart() {
@@ -143,14 +146,18 @@ function updateRenderBar(percentage, filePath) {
     if (percentage == '0') {
         $('renderProgressLabel').innerHTML = '视频渲染中...';
         $('cancelRendering').style.display = 'block';
+        $('backToEdit').style.display = 'none';
+        $('postNews').style.display = 'none';
         $('outputVideo').style.display = 'none';
-        $('renderBar').style.width = '0%';
         $('showModal').click();
     } else if (percentage == '100') {
         $('renderProgressLabel').innerHTML = '视频渲染完成';
         $('cancelRendering').style.display = 'none';
-        $('outputVideo').src = filePath;
+        $('backToEdit').style.display = 'block';
+        $('postNews').style.display = 'block';
         $('outputVideo').style.display = 'block';
+        $('outputVideo').src = filePath;
+        $('outputVideo').play();
     }
 }
 

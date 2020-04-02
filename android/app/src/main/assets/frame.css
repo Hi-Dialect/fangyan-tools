@@ -45,11 +45,15 @@ body {
 
 #video {
     display: none;
+    border: solid 1vw darkgray;
+    border-radius: 5vw;
 }
 
 #outputVideo {
     display: none;
-    padding-top: 2vh;
+    margin-top: 2vh;
+    border: solid 1vw darkgray;
+    border-radius: 5vw;
 }
 
 #video-body {

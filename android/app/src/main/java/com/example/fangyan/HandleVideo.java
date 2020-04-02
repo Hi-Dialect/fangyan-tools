@@ -22,6 +22,7 @@ public class HandleVideo extends Object {
     private static final String TAG = "FFmpeg";
     private String inputPath = "/storage/emulated/0/Hi-Dialect/input.mp4";
     private String outputPath = "/storage/emulated/0/Hi-Dialect/output.mp4";
+    private String finalPath = "/storage/emulated/0/Hi-Dialect/myVideo.mp4";
 
     private String videoPath = null;
     private String backgroundMusicPath = null;
@@ -38,7 +39,7 @@ public class HandleVideo extends Object {
         Intent intent = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
         intent.putExtra("type", "updateRenderProgress");
         intent.putExtra("percentage", percentage);
-        intent.putExtra("filePath", "file://" + inputPath);
+        intent.putExtra("filePath", "file://" + finalPath);
         appCompatActivity.sendBroadcast(intent);
     }
 
@@ -51,9 +52,10 @@ public class HandleVideo extends Object {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "onSuccess: videoClip");
-                sendProgressMessage(25);
                 FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
                         "/Hi-Dialect/", "input.mp4");
+                FileManager.removeFileFromSDCard(outputPath);
+                sendProgressMessage(25);
                 mute();
             }
 
@@ -76,9 +78,10 @@ public class HandleVideo extends Object {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "onSuccess: mute");
-                    sendProgressMessage(50);
                     FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
                             "/Hi-Dialect/", "input.mp4");
+                    FileManager.removeFileFromSDCard(outputPath);
+                    sendProgressMessage(50);
                     addBackgroundMusic();
                 }
 
@@ -105,9 +108,10 @@ public class HandleVideo extends Object {
                 @Override
                 public void onSuccess() {
                     Log.d(TAG, "onSuccess: addBackgroundMusic");
-                    sendProgressMessage(75);
                     FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
                             "/Hi-Dialect/", "input.mp4");
+                    FileManager.removeFileFromSDCard(outputPath);
+                    sendProgressMessage(75);
                     addDialect();
                 }
 
@@ -137,7 +141,9 @@ public class HandleVideo extends Object {
                     Log.d(TAG, "onSuccess: addDialect");
                     FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
                             "/Hi-Dialect/", "input.mp4");
-                    sendProgressMessage(100);
+                    FileManager.removeFileFromSDCard(outputPath);
+                    sendProgressMessage(99);
+                    finalStep();
                 }
 
                 @Override
@@ -152,8 +158,17 @@ public class HandleVideo extends Object {
             });
         } else {
             Log.d(TAG, "addDialect: dialectPath Wrong!");
-            sendProgressMessage(100);
+            sendProgressMessage(99);
+            finalStep();
         }
+    }
+
+    //最后一步
+    public void finalStep() {
+        FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(inputPath),
+                "/Hi-Dialect/", "myVideo.mp4");
+        FileManager.removeFileFromSDCard(inputPath);
+        sendProgressMessage(100);
     }
 
     @JavascriptInterface
@@ -165,6 +180,8 @@ public class HandleVideo extends Object {
         this.isMuted = isMuted;
         this.backgroundMusicPath = backgroundMusicPath;
         this.dialectPath = dialectPath;
+
+        Log.d(TAG, "renderVideo: " + videoPath);
 
         //异步操作临时解决方案：剪辑->消音->添加背景音乐->添加方言配音
         if (videoPath == null || videoPath.length() <= 0) {
