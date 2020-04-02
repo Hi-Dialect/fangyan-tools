@@ -35,8 +35,9 @@
                     <div class="container-row">
                         <input type="file" id="selectVideo" style="display:none">
                         <button id="uploadVideoFromLocal" type="button"
-                            class="btn btn-outline-primary body-button">本地上传</button>
-                        <button type="button" class="btn btn-outline-primary body-button">拍摄视频</button>
+                            class="btn btn-outline-primary btn-block body-button">本地上传</button>
+                        <button id="takeNewVideo" type="button"
+                            class="btn btn-outline-primary btn-block body-button">拍摄视频</button>
                     </div>
                     <video id="video" controls="controls" width="100%">
                         <source src="materials/Coca-Cola.mp4" type="video/mp4">
@@ -187,21 +188,24 @@
                 </div>
                 <div class="modal-body">
                     <div class="progress">
-                        <div id="renderBar" class="progress-bar bg-success" role="progressbar"></div>
+                        <div id="renderBar" class="progress-bar bg-success" role="progressbar">
+                        </div>
                     </div>
                     <video id="outputVideo" controls="controls" width="100%">
                         <source src="materials/Coca-Cola.mp4" type="video/mp4">
                     </video>
                 </div>
                 <div class="modal-footer">
-                    <button id="cancelRendering" type="button" class="btn btn-danger" data-dismiss="modal">
+                    <button id="cancelRendering" type="button" class="btn btn-danger btn-block"
+                        data-dismiss="modal">
                         终止渲染
                     </button>
-                    <button id="cancelRendering" type="button" class="btn btn-success">
-                        发布到动态
+                    <button id="backToEdit" type="button" class="btn btn-outline-secondary btn-block"
+                        data-dismiss="modal">
+                        返回编辑
                     </button>
-                    <button id="cancelRendering" type="button" class="btn btn-danger">
-                        重新编辑
+                    <button id="postNews" type="button" class="btn btn-outline-primary btn-block">
+                        发布动态
                     </button>
                 </div>
             </div>

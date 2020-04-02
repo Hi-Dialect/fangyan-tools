@@ -60,13 +60,13 @@ public class MainActivity extends AppCompatActivity {
         requestMyPermissions();
     }
 
-    //更新渲染进度
+    //接收广播，然后与JS通信
     private class CommonReceiver extends BroadcastReceiver {
         @Override
         @SuppressLint("SetJavaScriptEnabled")
         public void onReceive(Context context, Intent intent) {
             String type = intent.getStringExtra("type");
-            Log.d(TAG, "onReceive: " + type);
+
             if (type.equals("updateRenderProgress")) {
                 int percentage = intent.getIntExtra("percentage", 0);
                 String filePath = intent.getStringExtra("filePath");
