@@ -16,7 +16,6 @@ window.onload = () => {
     $('dialectButton').onclick = () => android.selectFile(2);
     $('uploadVideoFromLocal').onclick = () => android.selectFile(3);
     $('render').onclick = handleRender;
-    //$('alert').innerHTML = android.hello('试试就试试');
 }
 
 function handleRender() {
@@ -110,6 +109,71 @@ function handlePlay() {
         video.pause();
         play.setAttribute('xlink:href', '#icon-bofang');
     }
+}
+
+//=========================调用摄像头、录音（娄）=========================
+
+var cmr = null;
+
+// 初始化
+mui.init();
+// 扩展API加载完毕后调用onPlusReady回调函数
+document.addEventListener("plusready", onPlusReady, false);
+
+// 扩展API加载完毕，现在可以正常调用扩展API
+function onPlusReady() {
+    console.log("plusready");
+    r = plus.audio.getRecorder();
+}
+
+// 摄像，实现本地摄像头调用并保存到本地
+function videoCapture() {
+    cmr = plus.camera.getCamera();//获取摄像头对象
+    var res = cmr.supportedVideoResolutions[0];//分辨率
+    var fmt = cmr.supportedVideoFormats[0];//文件格式
+    console.log("Resolution: " + res + ", Format: " + fmt);
+    cmr.startVideoCapture(function (path) {
+        alert("Capture video success: " + path);
+    },
+        function (error) {
+            alert("Capture video failed: " + error.message);
+        },
+        { resolution: res, format: fmt }
+    );
+    // 此处设置拍摄10s后自动完成
+    setTimeout(stopCapture, 10000);
+}
+
+// 停止摄像
+function stopCapture() {
+    console.log("stopCapture");
+    cmr.stopVideoCapture();
+}
+
+//开始录音，完毕后结束录音，之后自动播放
+function startRecord() {
+    if (!r) {
+        plus.nativeUI.toast('录音设备准备中!');
+        return;
+    }
+    r.record(
+        { filename: "_doc/audio/" },
+        function (recordFile) {
+            console.log(recordFile);
+            var player = plus.audio.createPlayer(recordFile);
+            player.play();
+            //利用 recordFile 结合上传知识可以完成音频文件的上传
+        },
+        function (e) {
+            console.log("Audio record failed: " + e.message);
+        }
+    );
+}
+
+function stopRecord() {
+    //r.stop(); 
+    console.log(JSON.stringify(r));
+    if (r) { r.stop(); }
 }
 
 //=========================以下函数为安卓调用JS=========================
