@@ -7,6 +7,7 @@ let dialectPath = '';
 
 window.onload = () => {
     $('video').currentTime = 0.1;
+    $('video').ontimeupdate = handleTimeUpdate;
     $('kuaitui').onclick = handleRewindClick;
     $('bofang').onclick = handlePlay;
     $('kuaijin').onclick = handleForwardClick;
@@ -16,6 +17,14 @@ window.onload = () => {
     $('dialectButton').onclick = () => android.selectFile(2);
     $('uploadVideoFromLocal').onclick = () => android.selectFile(3);
     $('render').onclick = handleRender;
+}
+
+function handleTimeUpdate() {
+    if ($('video').paused) {
+        $('bofang').setAttribute('xlink:href', '#icon-bofang');
+    } else {
+        $('bofang').setAttribute('xlink:href', '#icon-zanting');
+    }
 }
 
 function handleRender() {

@@ -184,9 +184,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="renderProgressLabel">视频渲染中...</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
                 </div>
                 <div class="modal-body">
                     <div class="progress">
@@ -199,6 +196,12 @@
                 <div class="modal-footer">
                     <button id="cancelRendering" type="button" class="btn btn-danger" data-dismiss="modal">
                         终止渲染
+                    </button>
+                    <button id="cancelRendering" type="button" class="btn btn-success">
+                        发布到动态
+                    </button>
+                    <button id="cancelRendering" type="button" class="btn btn-danger">
+                        重新编辑
                     </button>
                 </div>
             </div>
