@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.StatFs;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -25,8 +26,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-// 以下代码来自互联网
 public class FileManager {
+    private static final String TAG = "FileManager";
+
     // 判断SD卡是否被挂载
     public static boolean isSDCardMounted() {
         // return Environment.getExternalStorageState().equals("mounted");
@@ -268,14 +270,21 @@ public class FileManager {
     // 从sdcard中删除文件
     public static boolean removeFileFromSDCard(String filePath) {
         File file = new File(filePath);
-        if (file.exists()) {
-            try {
+
+        try {
+            if (file.isDirectory()) {
+                File[] files = file.listFiles();
+                for (int i = 0; i < files.length; i++) {
+                    File f = files[i];
+                    if (!f.isDirectory()) {
+                        f.delete();
+                    }
+                }
+            } else if (file.exists()) {
                 file.delete();
-                return true;
-            } catch (Exception e) {
-                return false;
             }
-        } else {
+            return true;
+        } catch (Exception e) {
             return false;
         }
     }

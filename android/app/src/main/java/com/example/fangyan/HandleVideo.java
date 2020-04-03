@@ -1,17 +1,10 @@
 package com.example.fangyan;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
-import android.webkit.WebView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.io.File;
-import java.nio.charset.Charset;
-import java.util.Random;
 
 import VideoHandle.EpEditor;
 import VideoHandle.EpVideo;
@@ -22,15 +15,15 @@ public class HandleVideo extends Object {
     private AppCompatActivity appCompatActivity;
 
     private static final String TAG = "FFmpeg";
-    private String inputPath = "/storage/emulated/0/Hi-Dialect/input.mp4";
-    private String outputPath = "/storage/emulated/0/Hi-Dialect/output.mp4";
-    private String finalPath = "/storage/emulated/0/Hi-Dialect/final.mp4";
+    private static String inputPath = "/storage/emulated/0/Hi-Dialect/temp/input.mp4";
+    private static String outputPath = "/storage/emulated/0/Hi-Dialect/temp/output.mp4";
+    private static String finalPath = "/storage/emulated/0/Hi-Dialect/temp/final.mp4";
+    private static String tempVideoPath = "/Hi-Dialect/temp/";
 
-    private String videoPath = null;
     private String backgroundMusicPath = null;
     private String dialectPath = null;
     private int startTime = 0;
-    private int endTime = 10;
+    private int endTime = 1;
     private boolean isMuted = false;
 
     public HandleVideo(AppCompatActivity appCompatActivity) {
@@ -55,7 +48,7 @@ public class HandleVideo extends Object {
             public void onSuccess() {
                 Log.d(TAG, "onSuccess: videoClip");
                 FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
-                        "/Hi-Dialect/", "input.mp4");
+                        tempVideoPath, "input.mp4");
                 FileManager.removeFileFromSDCard(outputPath);
                 sendProgressMessage(25);
                 mute();
@@ -81,7 +74,7 @@ public class HandleVideo extends Object {
                 public void onSuccess() {
                     Log.d(TAG, "onSuccess: mute");
                     FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
-                            "/Hi-Dialect/", "input.mp4");
+                            tempVideoPath, "input.mp4");
                     FileManager.removeFileFromSDCard(outputPath);
                     sendProgressMessage(50);
                     addBackgroundMusic();
@@ -111,7 +104,7 @@ public class HandleVideo extends Object {
                 public void onSuccess() {
                     Log.d(TAG, "onSuccess: addBackgroundMusic");
                     FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
-                            "/Hi-Dialect/", "input.mp4");
+                            tempVideoPath, "input.mp4");
                     FileManager.removeFileFromSDCard(outputPath);
                     sendProgressMessage(75);
                     addDialect();
@@ -142,7 +135,7 @@ public class HandleVideo extends Object {
                 public void onSuccess() {
                     Log.d(TAG, "onSuccess: addDialect");
                     FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
-                            "/Hi-Dialect/", "input.mp4");
+                            tempVideoPath, "input.mp4");
                     FileManager.removeFileFromSDCard(outputPath);
                     sendProgressMessage(99);
                     finalStep();
@@ -172,7 +165,7 @@ public class HandleVideo extends Object {
 
         finalPath = finalPath.substring(0, finalPath.lastIndexOf("/") + 1) + tempFileName;
         FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(inputPath),
-                "/Hi-Dialect/", tempFileName);
+                tempVideoPath, tempFileName);
         FileManager.removeFileFromSDCard(inputPath);
         sendProgressMessage(100);
     }
@@ -180,7 +173,6 @@ public class HandleVideo extends Object {
     @JavascriptInterface
     public void renderVideo(String videoPath, String startTime, String endTime, boolean isMuted,
                             String backgroundMusicPath, String dialectPath) {
-        this.videoPath = videoPath;
         this.startTime = Integer.parseInt(startTime);
         this.endTime = Integer.parseInt(endTime);
         this.isMuted = isMuted;
@@ -200,7 +192,7 @@ public class HandleVideo extends Object {
             //加载原始视频
             byte[] bytes = FileManager.loadFileFromSDCard(videoPath);
             //视频文件重定向（复制移动）
-            FileManager.saveFileToSDCardCustomDir(bytes, "/Hi-Dialect/", "input.mp4");
+            FileManager.saveFileToSDCardCustomDir(bytes, tempVideoPath, "input.mp4");
             //开始渲染视频
             sendProgressMessage(0);
             videoClip();

@@ -34,6 +34,7 @@ import me.rosuh.filepicker.config.FilePickerManager;
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "FFmpeg";
     private WebView webView;
+    private CommonReceiver myReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //注册广播接收器
-        CommonReceiver myReceiver = new CommonReceiver();
+        myReceiver = new CommonReceiver();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.nangch.broadcasereceiver.MYRECEIVER");
         registerReceiver(myReceiver, intentFilter);
@@ -139,6 +140,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        //删除临时生成的视频文件
+        FileManager.removeFileFromSDCard("/storage/emulated/0/Hi-Dialect/temp/");
+
+        //取消注册广播监听器
+        unregisterReceiver(myReceiver);
 
         webView.destroy();
         webView = null;
