@@ -39,7 +39,7 @@
                         <button id="takeNewVideo" type="button"
                             class="btn btn-outline-primary body-button">拍摄视频</button>
                     </div>
-                    <video id="video" controls="controls" width="100%">
+                    <video id="video" class="video-container" controls="controls" width="100%">
                         <source src="" type="video/mp4">
                     </video>
                 </div>
@@ -179,7 +179,8 @@
         </div>
     </div>
 
-    <button type="button" data-toggle="modal" id="showModal" data-target="#renderProgress"></button>
+    <button type="button" data-toggle="modal" id="showModal" style="display:none"
+        data-target="#renderProgress"></button>
     <div class="modal fade" id="renderProgress" data-backdrop="static" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -190,7 +191,7 @@
                     <div class="progress">
                         <div id="renderBar" class="progress-bar bg-success" role="progressbar"></div>
                     </div>
-                    <video id="outputVideo" controls="controls" width="100%">
+                    <video id="outputVideo" class="video-container" controls="controls" width="100%">
                         <source src="" type="video/mp4">
                     </video>
                 </div>

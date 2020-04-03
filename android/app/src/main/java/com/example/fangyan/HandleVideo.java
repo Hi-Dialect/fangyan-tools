@@ -1,6 +1,7 @@
 package com.example.fangyan;
 
 import android.content.Intent;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
@@ -210,6 +211,14 @@ public class HandleVideo extends Object {
                 break;
             case 3: //选择原始视频
                 FilePickerManager.INSTANCE.from(appCompatActivity).forResult(3);
+                break;
+            case 4:
+                Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                //设置拍摄的视频质量
+                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                //录制视频最大时长为一分钟
+                intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 60);
+                appCompatActivity.startActivityForResult(intent, 4);
                 break;
         }
     }

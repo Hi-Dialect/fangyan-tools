@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -83,8 +85,10 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetJavaScriptEnabled")
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
+        if (resultCode != RESULT_OK) return;
+        if (requestCode == 1 || requestCode == 2 || requestCode == 3) { //读取本地文件
             List<String> list = FilePickerManager.INSTANCE.obtainData();
+
             if (list.size() == 0) {
                 Toast.makeText(this, "至少选择一个文件", Toast.LENGTH_LONG).show();
             } else if (list.size() > 1) {
@@ -112,13 +116,23 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
+        } else if (requestCode == 4) { //拍摄视频
+            Uri uri = data.getData();
+            Cursor cursor = this.getContentResolver().query(uri, null, null, null, null);
+
+            if (cursor != null && cursor.moveToNext()) {
+                //获取视频路径并传递到前端
+                String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Video.VideoColumns.DATA));
+
+                webView.loadUrl("javascript:addVideo('" + filePath + "')");
+                cursor.close();
+            }
         }
     }
 
     //动态权限申请
     private void requestMyPermissions() {
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             //没有授权，编写申请权限代码
             ActivityCompat.requestPermissions(MainActivity.this,
@@ -126,8 +140,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "requestMyPermissions: 有写SD权限");
         }
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             //没有授权，编写申请权限代码
             ActivityCompat.requestPermissions(MainActivity.this,

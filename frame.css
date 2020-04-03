@@ -43,17 +43,17 @@ body {
     color: gray;
 }
 
-#video {
+.video-container {
     display: none;
-    border: solid 1vw darkgray;
+    object-fit: contain;
+    max-height: 50vh;
+    border: solid 0.5vw darkgray;
     border-radius: 5vw;
+    background-color: black;
 }
 
 #outputVideo {
-    display: none;
     margin-top: 2vh;
-    border: solid 1vw darkgray;
-    border-radius: 5vw;
 }
 
 #video-body {
@@ -88,8 +88,4 @@ body {
     height: 8vh;
     margin-top: 3vh;
     font-size: 4vw;
-}
-
-#showModal {
-    display: none;
 }

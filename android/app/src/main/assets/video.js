@@ -6,7 +6,6 @@ let backgroundMusicPath = '';
 let dialectPath = '';
 
 window.onload = () => {
-    $('video').currentTime = 0.1;
     $('video').ontimeupdate = handleTimeUpdate;
     $('kuaitui').onclick = handleRewindClick;
     $('bofang').onclick = handlePlay;
@@ -16,6 +15,7 @@ window.onload = () => {
     $('backgroundMusicButton').onclick = () => android.selectFile(1);
     $('dialectButton').onclick = () => android.selectFile(2);
     $('uploadVideoFromLocal').onclick = () => android.selectFile(3);
+    $('takeNewVideo').onclick = () => android.selectFile(4);
     $('render').onclick = handleRender;
     $('backToEdit').onclick = () => $('outputVideo').src = '';
 }
@@ -125,19 +125,20 @@ function addBackgroundMusic(filePath) {
     let fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
 
     backgroundMusicPath = filePath;
-    $('backgroundMusicLabel').innerHTML = fileName;
+    $('backgroundMusicLabel').innerHTML = '已上传';
 }
 
 function addDialect(filePath) {
     let fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
 
     dialectPath = filePath;
-    $('dialectLabel').innerHTML = fileName;
+    $('dialectLabel').innerHTML = '已上传';
 }
 
 function addVideo(filePath) {
     $('video').src = filePath;
     $('video').style.display = 'block';
+    $('video').currentTime = 0.1;
 }
 
 function updateRenderBar(percentage, filePath) {
@@ -164,5 +165,3 @@ function updateRenderBar(percentage, filePath) {
 function alertError(message) {
     mui.alert(message, '提示');
 }
-
-//=========================调用摄像头、录音（娄）=========================
