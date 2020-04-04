@@ -17,6 +17,12 @@
     line-height: 50px;
 }
 
+/*修改预定义Bootstrap样式*/
+.form-control:focus {
+    border-color: #fff;
+    box-shadow: none;
+}
+
 body {
     font-size: 4vw;
 }
