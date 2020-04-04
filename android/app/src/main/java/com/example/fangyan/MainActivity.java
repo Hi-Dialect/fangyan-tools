@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode != RESULT_OK) return;
         if (requestCode == 1 || requestCode == 2 || requestCode == 3) { //读取本地文件
             List<String> list = FilePickerManager.INSTANCE.obtainData();
-
             if (list.size() == 0) {
                 Toast.makeText(this, "至少选择一个文件", Toast.LENGTH_LONG).show();
             } else if (list.size() > 1) {
@@ -116,15 +115,26 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-        } else if (requestCode == 4) { //拍摄视频
+        } else if (requestCode == 4) { //录制视频
             Uri uri = data.getData();
-            Cursor cursor = this.getContentResolver().query(uri, null, null, null, null);
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 
             if (cursor != null && cursor.moveToNext()) {
                 //获取视频路径并传递到前端
                 String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Video.VideoColumns.DATA));
 
                 webView.loadUrl("javascript:addVideo('" + filePath + "')");
+                cursor.close();
+            }
+        } else if (requestCode == 5) { //录制音频
+            Uri uri = data.getData();
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+
+            if (cursor != null && cursor.moveToNext()) {
+                //获取音频路径并传递到前端
+                String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Video.VideoColumns.DATA));
+
+                webView.loadUrl("javascript:addAudio('" + filePath + "')");
                 cursor.close();
             }
         }

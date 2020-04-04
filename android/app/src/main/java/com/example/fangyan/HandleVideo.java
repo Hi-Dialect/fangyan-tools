@@ -212,13 +212,17 @@ public class HandleVideo extends Object {
             case 3: //选择原始视频
                 FilePickerManager.INSTANCE.from(appCompatActivity).forResult(3);
                 break;
-            case 4:
-                Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+            case 4: //录制视频
+                Intent intent4 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                 //设置拍摄的视频质量
-                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                intent4.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
                 //录制视频最大时长为一分钟
-                intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 60);
-                appCompatActivity.startActivityForResult(intent, 4);
+                intent4.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 60);
+                appCompatActivity.startActivityForResult(intent4, 4);
+                break;
+            case 5: //录制音频
+                Intent intent5 = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+                appCompatActivity.startActivityForResult(intent5, 5);
                 break;
         }
     }
