@@ -35,9 +35,9 @@
                     <div class="container-row">
                         <input type="file" id="selectVideo" style="display:none">
                         <button id="uploadVideoFromLocal" type="button"
-                            class="btn btn-outline-primary body-button">本地上传</button>
+                            class="btn btn-outline-primary video-button">本地上传</button>
                         <button id="takeNewVideo" type="button"
-                            class="btn btn-outline-primary body-button">拍摄视频</button>
+                            class="btn btn-outline-primary video-button">拍摄视频</button>
                     </div>
                     <video id="video" class="video-container" controls="controls" width="100%">
                         <source src="" type="video/mp4">
@@ -167,11 +167,15 @@
                     </div>
                     <div class="mui-input-row">
                         <label>本地保存</label>
-                        <div id="muted" class="mui-switch mui-active">
+                        <div id="localSave" class="mui-switch mui-active">
                             <div class="mui-switch-handle"></div>
                         </div>
                     </div>
-                    <button id="render" type="button" class="mui-btn mui-btn-royal">
+                    <div class="mui-input-row">
+                        <label>保存名称</label>
+                        <input id="localSaveName" type="text" class="mui-input-clear" value="我创作的视频">
+                    </div>
+                    <button id="render" type="button" class="btn btn-primary btn-block">
                         开始渲染
                     </button>
                 </div>
@@ -179,8 +183,7 @@
         </div>
     </div>
 
-    <button type="button" data-toggle="modal" id="showModal" style="display:none"
-        data-target="#renderProgress"></button>
+    <button type="button" data-toggle="modal" id="showModal" data-target="#renderProgress"></button>
     <div class="modal fade" id="renderProgress" data-backdrop="static" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">

@@ -60,7 +60,7 @@ body {
     padding: 2vh 0 0 0;
 }
 
-.body-button {
+.video-button {
     width: 100%;
     font-size: 3.5vw;
     margin: 0vh 7vw 2vh 7vw;
@@ -81,6 +81,16 @@ body {
 .card-header button {
     font-size: 5vw;
     width: 100%;
+}
+
+#localSaveName {
+    text-align: right;
+    padding-right: 5vw;
+    color: blue;
+}
+
+#showModal {
+    display: none;
 }
 
 #render {
