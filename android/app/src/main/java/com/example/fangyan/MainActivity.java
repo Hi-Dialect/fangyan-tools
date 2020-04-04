@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (cursor != null && cursor.moveToNext()) {
                 //获取音频路径并传递到前端
-                String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Video.VideoColumns.DATA));
+                String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA));
 
                 webView.loadUrl("javascript:addAudio('" + filePath + "')");
                 cursor.close();

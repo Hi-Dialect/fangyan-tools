@@ -13,7 +13,7 @@ window.onload = () => {
     $('videoStart').onchange = handleCutStart;
     $('videoEnd').onchange = handleCutEnd;
     $('backgroundMusicButton').onclick = () => android.selectFile(1);
-    $('dialectButton').onclick = () => android.selectFile(2);
+    $('dialectButton').onclick = () => android.selectFile(5);
     $('uploadVideoFromLocal').onclick = () => android.selectFile(3);
     $('takeNewVideo').onclick = () => android.selectFile(4);
     $('render').onclick = handleRender;
@@ -125,20 +125,27 @@ function addBackgroundMusic(filePath) {
     let fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
 
     backgroundMusicPath = filePath;
-    $('backgroundMusicLabel').innerHTML = '已上传';
+    $('backgroundMusicLabel').innerHTML = '已上传文件';
 }
 
 function addDialect(filePath) {
     let fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
 
     dialectPath = filePath;
-    $('dialectLabel').innerHTML = '已上传';
+    $('dialectLabel').innerHTML = '已上传文件';
 }
 
 function addVideo(filePath) {
     $('video').src = filePath;
     $('video').style.display = 'block';
     $('video').currentTime = 0.1;
+}
+
+function addAudio(filePath) {
+    let fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
+
+    dialectPath = filePath;
+    $('dialectLabel').innerHTML = '已上传录音';
 }
 
 function updateRenderBar(percentage, filePath) {
