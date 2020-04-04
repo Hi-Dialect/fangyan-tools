@@ -99,6 +99,7 @@ body {
     margin: 5vh 5vw;
     padding: 5vw;
     font-size: 5vw;
+    border-radius: 50px;
 }
 
 #localSaveName {
