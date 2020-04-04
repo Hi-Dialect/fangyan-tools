@@ -34,7 +34,7 @@
                 <div id="video-body" class="card-body">
                     <div class="container-row">
                         <input type="file" id="selectVideo" style="display:none">
-                        <button id="uploadVideoFromLocal" type="button"
+                        <button id="selectVideoFromLocal" type="button"
                             class="btn btn-outline-primary video-button">本地上传</button>
                         <button id="takeNewVideo" type="button"
                             class="btn btn-outline-primary video-button">拍摄视频</button>
@@ -129,18 +129,43 @@
                         <div class="container-row">
                             <label>背景音</label>
                             <label id="backgroundMusicLabel">待上传</label>
-                            <button id="backgroundMusicButton" type="button"
-                                class="btn btn-outline-primary audio-button">点击上传</button>
+                            <button id="addBackgroundMusic" type="button" data-toggle="modal"
+                                data-target="#selectAudio" class="btn btn-outline-primary audio-button">
+                                点击添加
+                            </button>
                         </div>
                     </div>
                     <div class="mui-input-row">
                         <div class="container-row">
                             <label>配音</label>
                             <label id="dialectLabel">待上传</label>
-                            <button id="dialectButton" type="button"
-                                class="btn btn-outline-primary audio-button">点击上传</button>
+                            <button id="addDialect" type="button" data-toggle="modal"
+                                data-target="#selectAudio" class="btn btn-outline-primary audio-button">
+                                点击添加
+                            </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="selectAudio" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <button id="selectAudioFromLocal" type="button" class="btn btn-light btn-block"
+                        data-dismiss="modal">
+                        从本地文件中选取
+                    </button>
+                    <button id="recordNewAudio" type="button" class="btn btn-light btn-block"
+                        data-dismiss="modal">
+                        录制新的音频
+                    </button>
+                    <button id="selectAudioFromWeb" type="button" class="btn btn-light btn-block"
+                        data-dismiss="modal">
+                        嗨方言热门歌曲/音效
+                    </button>
                 </div>
             </div>
         </div>
@@ -173,7 +198,8 @@
                     </div>
                     <div class="mui-input-row">
                         <label>保存名称</label>
-                        <input id="localSaveName" type="text" class="form-control" value="我创作的视频">
+                        <input id="localSaveName" type="text" class="form-control" placeholder="请输入文件名"
+                            value="我创作的视频">
                     </div>
                     <button id="render" type="button" class="btn btn-primary btn-block">
                         开始渲染
@@ -183,7 +209,7 @@
         </div>
     </div>
 
-    <button type="button" data-toggle="modal" id="showModal" data-target="#renderProgress"></button>
+    <button type="button" data-toggle="modal" id="showRenderModal" data-target="#renderProgress"></button>
     <div class="modal fade" id="renderProgress" data-backdrop="static" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">

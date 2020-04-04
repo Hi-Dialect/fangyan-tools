@@ -203,26 +203,30 @@ public class HandleVideo extends Object {
     @JavascriptInterface
     public void selectFile(int type) {
         switch (type) {
-            case 1: //选择背景音乐
+            case 1: //选择原始视频
                 FilePickerManager.INSTANCE.from(appCompatActivity).forResult(1);
                 break;
-            case 2: //选择方言配音
-                FilePickerManager.INSTANCE.from(appCompatActivity).forResult(2);
+            case 2: //录制视频
+                Intent intent2 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+                //设置拍摄的视频质量
+                intent2.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                //录制视频最大时长为一分钟
+                intent2.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 60);
+                appCompatActivity.startActivityForResult(intent2, 2);
                 break;
-            case 3: //选择原始视频
+            case 3: //选择背景音乐
                 FilePickerManager.INSTANCE.from(appCompatActivity).forResult(3);
                 break;
-            case 4: //录制视频
-                Intent intent4 = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-                //设置拍摄的视频质量
-                intent4.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-                //录制视频最大时长为一分钟
-                intent4.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 60);
+            case 4: //录制背景音乐
+                Intent intent4 = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
                 appCompatActivity.startActivityForResult(intent4, 4);
                 break;
-            case 5: //录制音频
-                Intent intent5 = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
-                appCompatActivity.startActivityForResult(intent5, 5);
+            case 5: //选择方言配音
+                FilePickerManager.INSTANCE.from(appCompatActivity).forResult(5);
+                break;
+            case 6: //录制方言配音
+                Intent intent6 = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+                appCompatActivity.startActivityForResult(intent6, 6);
                 break;
         }
     }

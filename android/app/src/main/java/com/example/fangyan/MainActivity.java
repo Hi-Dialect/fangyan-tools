@@ -70,11 +70,14 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             String type = intent.getStringExtra("type");
 
+            //更新渲染进度
             if (type.equals("updateRenderProgress")) {
                 int percentage = intent.getIntExtra("percentage", 0);
                 String filePath = intent.getStringExtra("filePath");
                 webView.loadUrl("javascript:updateRenderBar(" + percentage + ",'" + filePath + "')");
-            } else if (type.equals("alertError")) {
+            }
+            //报错
+            else if (type.equals("alertError")) {
                 String message = intent.getStringExtra("message");
                 webView.loadUrl("javascript:alertError('" + message + "')");
             }
@@ -86,36 +89,40 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK) return;
-        if (requestCode == 1 || requestCode == 2 || requestCode == 3) { //读取本地文件
+
+        //调用FilePickerManager读取本地文件
+        if (requestCode == 1 || requestCode == 3 || requestCode == 5) {
             List<String> list = FilePickerManager.INSTANCE.obtainData();
             if (list.size() == 0) {
                 Toast.makeText(this, "至少选择一个文件", Toast.LENGTH_LONG).show();
             } else if (list.size() > 1) {
-                Toast.makeText(this, "只能选择一个文件", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "至多选择一个文件", Toast.LENGTH_LONG).show();
             } else {
                 String suffix = list.get(0).substring(list.get(0).lastIndexOf(".") + 1);
 
                 if (requestCode == 1) {
-                    if (suffix.contentEquals("mp3")) {
-                        webView.loadUrl("javascript:addBackgroundMusic('" + list.get(0) + "')");
-                    } else {
-                        Toast.makeText(this, "请选择mp3文件", Toast.LENGTH_LONG).show();
-                    }
-                } else if (requestCode == 2) {
-                    if (suffix.contentEquals("mp3")) {
-                        webView.loadUrl("javascript:addDialect('" + list.get(0) + "')");
-                    } else {
-                        Toast.makeText(this, "请选择mp3文件", Toast.LENGTH_LONG).show();
-                    }
-                } else if (requestCode == 3) {
                     if (suffix.contentEquals("mp4")) {
                         webView.loadUrl("javascript:addVideo('" + list.get(0) + "')");
                     } else {
                         Toast.makeText(this, "请选择mp4文件", Toast.LENGTH_LONG).show();
                     }
+                } else if (requestCode == 3) {
+                    if (suffix.contentEquals("mp3")) {
+                        webView.loadUrl("javascript:addBackgroundMusic('" + list.get(0) + "')");
+                    } else {
+                        Toast.makeText(this, "请选择mp3文件", Toast.LENGTH_LONG).show();
+                    }
+                } else if (requestCode == 5) {
+                    if (suffix.contentEquals("mp3")) {
+                        webView.loadUrl("javascript:addDialect('" + list.get(0) + "')");
+                    } else {
+                        Toast.makeText(this, "请选择mp3文件", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
-        } else if (requestCode == 4) { //录制视频
+        }
+        //录制视频
+        else if (requestCode == 2) {
             Uri uri = data.getData();
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 
@@ -126,7 +133,9 @@ public class MainActivity extends AppCompatActivity {
                 webView.loadUrl("javascript:addVideo('" + filePath + "')");
                 cursor.close();
             }
-        } else if (requestCode == 5) { //录制音频
+        }
+        //录制背景音乐
+        else if (requestCode == 4) {
             Uri uri = data.getData();
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
 
@@ -134,7 +143,20 @@ public class MainActivity extends AppCompatActivity {
                 //获取音频路径并传递到前端
                 String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA));
 
-                webView.loadUrl("javascript:addAudio('" + filePath + "')");
+                webView.loadUrl("javascript:addBackgroundMusic('" + filePath + "')");
+                cursor.close();
+            }
+        }
+        //录制方言配音
+        else if (requestCode == 6) {
+            Uri uri = data.getData();
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+
+            if (cursor != null && cursor.moveToNext()) {
+                //获取音频路径并传递到前端
+                String filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA));
+
+                webView.loadUrl("javascript:addDialect('" + filePath + "')");
                 cursor.close();
             }
         }

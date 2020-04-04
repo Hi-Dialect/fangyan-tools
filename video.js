@@ -1,7 +1,7 @@
-let speedRate = 5.0; //播放倍速
 let forwardInterval = 0;
 let rewindInterval = 0;
 
+let focusElement = '';
 let backgroundMusicPath = '';
 let dialectPath = '';
 
@@ -12,12 +12,32 @@ window.onload = () => {
     $('kuaijin').onclick = handleForwardClick;
     $('videoStart').onchange = handleCutStart;
     $('videoEnd').onchange = handleCutEnd;
-    $('backgroundMusicButton').onclick = () => android.selectFile(1);
-    $('dialectButton').onclick = () => android.selectFile(5);
-    $('uploadVideoFromLocal').onclick = () => android.selectFile(3);
-    $('takeNewVideo').onclick = () => android.selectFile(4);
+
+    $('addBackgroundMusic').onfocus = () => focusElement = 'addBackgroundMusic';
+    $('addDialect').onfocus = () => focusElement = 'addDialect';
+    $('selectVideoFromLocal').onclick = () => android.selectFile(1);
+    $('takeNewVideo').onclick = () => android.selectFile(2);
+    $('selectAudioFromLocal').onclick = handleSelectAudioFromLocal;
+    $('recordNewAudio').onclick = handleRecordNewAudio;
+
     $('render').onclick = handleRender;
     $('backToEdit').onclick = () => $('outputVideo').src = '';
+}
+
+function handleSelectAudioFromLocal() {
+    if (focusElement == 'addBackgroundMusic') {
+        android.selectFile(3);
+    } else if (focusElement == 'addDialect') {
+        android.selectFile(5);
+    }
+}
+
+function handleRecordNewAudio() {
+    if (focusElement == 'addBackgroundMusic') {
+        android.selectFile(4);
+    } else if (focusElement == 'addDialect') {
+        android.selectFile(6);
+    }
 }
 
 function handleTimeUpdate() {
@@ -121,31 +141,29 @@ function handlePlay() {
 
 //=========================以下函数为安卓调用JS=========================
 
+function addVideo(filePath) {
+    $('video').src = filePath;
+    $('video').style.display = 'block';
+    $('video').currentTime = 0.1;
+    $('video').oncanplaythrough = () => {
+        $('videoStart').max = $('video').duration;
+        $('videoEnd').max = $('video').duration;
+        $('videoEnd').value = $('video').duration;
+    }
+}
+
 function addBackgroundMusic(filePath) {
     let fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
 
     backgroundMusicPath = filePath;
-    $('backgroundMusicLabel').innerHTML = '已上传文件';
+    $('backgroundMusicLabel').innerHTML = '已上传';
 }
 
 function addDialect(filePath) {
     let fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
 
     dialectPath = filePath;
-    $('dialectLabel').innerHTML = '已上传文件';
-}
-
-function addVideo(filePath) {
-    $('video').src = filePath;
-    $('video').style.display = 'block';
-    $('video').currentTime = 0.1;
-}
-
-function addAudio(filePath) {
-    let fileName = filePath.substring(filePath.lastIndexOf('/') + 1, filePath.length);
-
-    dialectPath = filePath;
-    $('dialectLabel').innerHTML = '已上传录音';
+    $('dialectLabel').innerHTML = '已上传';
 }
 
 function updateRenderBar(percentage, filePath) {
@@ -157,7 +175,7 @@ function updateRenderBar(percentage, filePath) {
         $('backToEdit').style.display = 'none';
         $('postNews').style.display = 'none';
         $('outputVideo').style.display = 'none';
-        $('showModal').click();
+        $('showRenderModal').click();
     } else if (percentage == '100') {
         $('renderProgressLabel').innerHTML = '视频渲染完成';
         $('cancelRendering').style.display = 'none';

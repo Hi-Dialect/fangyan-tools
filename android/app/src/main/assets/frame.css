@@ -89,18 +89,30 @@ body {
     width: 100%;
 }
 
+#selectAudio .modal-content {
+    background-color: #00000000;
+    border: none;
+}
+
+#selectAudio button {
+    width: 90%;
+    margin: 5vh 5vw;
+    padding: 5vw;
+    font-size: 5vw;
+}
+
 #localSaveName {
     text-align: right;
     padding-right: 5vw;
-    color: blue;
+    color: #696969;
 }
 
-#showModal {
+#showRenderModal {
     display: none;
 }
 
 #render {
-    height: 12vw;
+    height: 15vw;
     margin-top: 2vh;
-    font-size: 4vw;
+    border-radius: 50px;
 }
