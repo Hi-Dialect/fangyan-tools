@@ -71,6 +71,7 @@ body {
     font-size: 3.5vw;
     margin: 0vh 8vw 2vh 8vw;
     padding: 1vh 5vw;
+    border-radius: 50px;
 }
 
 .audio-button {
@@ -106,6 +107,7 @@ body {
     text-align: right;
     padding-right: 5vw;
     color: #696969;
+    font-size: 4vw;
 }
 
 #showRenderModal {
