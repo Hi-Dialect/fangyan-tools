@@ -12,6 +12,6 @@
 3. 目前只开发了一个 Activity，你可以使用 Intent 正常跳转，或者 Webview 链接到 [file:///android_asset/index.html](./android/app/src/main/assets/index.html)
 
 ### 开发进度
-* 最近更新: 集成录音调用功能，前端录音 UI 模块开发
-* 计划更新: 添加调整音量大小功能，文件自定义保存
+* 最近更新: 文件自定义保存，剪辑范围取值（目前比较丑，有时间修改外观）
+* 计划更新: 混音区模块重构，以方便用户操作
 * 最新安卓 APK 下载: [传送门（点我点我）](http://49.235.190.178/file/fangyan.apk) 
