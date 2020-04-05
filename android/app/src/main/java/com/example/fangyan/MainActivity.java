@@ -3,19 +3,13 @@ package com.example.fangyan;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.WebSettings;
@@ -26,10 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import java.io.File;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import me.rosuh.filepicker.config.FilePickerManager;
 
@@ -187,9 +178,10 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 
         //删除临时生成的视频文件
-        FileManager.removeFileFromSDCard("/storage/emulated/0/Hi-Dialect/temp/");
+        FileManager.removeFileFromSDCard("/storage/emulated/0/" +
+                new HandleVideo(this).getTempVideoPath());
 
-        //取消注册广播监听器
+        //注销广播监听器
         unregisterReceiver(myReceiver);
 
         webView.destroy();

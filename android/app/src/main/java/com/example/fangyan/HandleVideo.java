@@ -20,18 +20,25 @@ public class HandleVideo extends Object {
     private static String outputPath = "/storage/emulated/0/Hi-Dialect/temp/output.mp4";
     private static String finalPath = "/storage/emulated/0/Hi-Dialect/temp/final.mp4";
     private static String tempVideoPath = "/Hi-Dialect/temp/";
+    private static String userVideoPath = "/Hi-Dialect/myVideo/";
 
     private String backgroundMusicPath = null;
     private String dialectPath = null;
     private int startTime = 0;
     private int endTime = 1;
     private boolean isMuted = false;
+    private boolean isSaveToLocal = false;
+    private String localSaveName = null;
 
     public HandleVideo(AppCompatActivity appCompatActivity) {
         this.appCompatActivity = appCompatActivity;
     }
 
-    public void sendProgressMessage(int percentage) {
+    public String getTempVideoPath() {
+        return tempVideoPath;
+    }
+
+    private void sendProgressMessage(int percentage) {
         Intent intent = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
         intent.putExtra("type", "updateRenderProgress");
         intent.putExtra("percentage", percentage);
@@ -40,7 +47,7 @@ public class HandleVideo extends Object {
     }
 
     //第一步，选择剪辑范围
-    public void videoClip() {
+    private void videoClip() {
         EpVideo epVideo = new EpVideo(inputPath);
         epVideo.clip(startTime, endTime - startTime);
         EpEditor.OutputOption outputOption = new EpEditor.OutputOption(outputPath);
@@ -68,7 +75,7 @@ public class HandleVideo extends Object {
     }
 
     //第二步，选择是否消除原视频的音频
-    public void mute() {
+    private void mute() {
         if (isMuted) {
             EpEditor.demuxer(inputPath, outputPath, EpEditor.Format.MP4, new OnEditorListener() {
                 @Override
@@ -98,7 +105,7 @@ public class HandleVideo extends Object {
     }
 
     //第三步，选择是否添加背景音乐
-    public void addBackgroundMusic() {
+    private void addBackgroundMusic() {
         if (backgroundMusicPath != null && backgroundMusicPath.length() > 0) {
             EpEditor.music(inputPath, backgroundMusicPath, outputPath, 1, 1, new OnEditorListener() {
                 @Override
@@ -129,7 +136,7 @@ public class HandleVideo extends Object {
     }
 
     //第四步，选择是否添加方言配音
-    public void addDialect() {
+    private void addDialect() {
         if (dialectPath != null && dialectPath.length() > 0) {
             EpEditor.music(inputPath, dialectPath, outputPath, 1, 1, new OnEditorListener() {
                 @Override
@@ -160,25 +167,35 @@ public class HandleVideo extends Object {
     }
 
     //最后一步
-    public void finalStep() {
+    private void finalStep() {
         //生成随机的临时文件名
         String tempFileName = new String(System.currentTimeMillis() + ".mp4");
 
         finalPath = finalPath.substring(0, finalPath.lastIndexOf("/") + 1) + tempFileName;
+        //生成临时文件（退出程序时会自动删除）
         FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(inputPath),
                 tempVideoPath, tempFileName);
+        //生成永久文件（不会自动删除，由用户选择是否保存）
+        if (isSaveToLocal) {
+            FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(inputPath),
+                    userVideoPath, localSaveName);
+        }
+        //删除"FFmpeg"处理的中间文件
         FileManager.removeFileFromSDCard(inputPath);
         sendProgressMessage(100);
     }
 
     @JavascriptInterface
-    public void renderVideo(String videoPath, String startTime, String endTime, boolean isMuted,
-                            String backgroundMusicPath, String dialectPath) {
+    public void renderVideo(String videoPath, String backgroundMusicPath, String dialectPath,
+                            String startTime, String endTime, boolean isMuted, boolean isSaveToLocal,
+                            String localSaveName) {
+        this.backgroundMusicPath = backgroundMusicPath;
+        this.dialectPath = dialectPath;
         this.startTime = Integer.parseInt(startTime);
         this.endTime = Integer.parseInt(endTime);
         this.isMuted = isMuted;
-        this.backgroundMusicPath = backgroundMusicPath;
-        this.dialectPath = dialectPath;
+        this.isSaveToLocal = isSaveToLocal;
+        this.localSaveName = localSaveName;
 
         //异步操作临时解决方案：剪辑->消音->添加背景音乐->添加方言配音
         if (videoPath == null || videoPath.length() <= 0) {

@@ -49,11 +49,18 @@ function handleTimeUpdate() {
 }
 
 function handleRender() {
+    let videoPath = $('video').src;
     let startTime = $('videoStart').value;
     let endTime = $('videoEnd').value;
-    let isMuted = document.getElementById('muted').classList.contains('mui-active');
+    let isMuted = $('muted').classList.contains('mui-active');
+    let isSaveToLocal = $('localSave').classList.contains('mui-active');
+    let localSaveName = $('localSaveName').value + '.mp4';
 
-    android.renderVideo($('video').src, startTime, endTime, isMuted, backgroundMusicPath, dialectPath);
+    //注意参数传递和后端保持一致
+    android.renderVideo(videoPath, backgroundMusicPath, dialectPath,
+        startTime, endTime, isMuted, isSaveToLocal, localSaveName);
+
+    //开始渲染时暂停原始视频播放
     if ($('video').src != '' && !$('video').paused) {
         handlePlay();
     }
