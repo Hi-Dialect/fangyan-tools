@@ -30,7 +30,7 @@ body {
 .container-row {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 
@@ -103,7 +103,7 @@ body {
     border-radius: 50px;
 }
 
-#localSaveName {
+.label-font {
     text-align: right;
     padding-right: 5vw;
     color: #696969;

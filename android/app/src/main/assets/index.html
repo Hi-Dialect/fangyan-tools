@@ -7,12 +7,14 @@
     <link rel="stylesheet" href="https://at.alicdn.com/t/font_1670955_wvazv3l6ai.css">
     <link rel="stylesheet" href="mui-master/dist/css/mui.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="range-slider/ion.rangeSlider.min.css">
     <link rel="stylesheet" href="frame.css">
     <script src="https://at.alicdn.com/t/font_1670955_wvazv3l6ai.js"></script>
     <script src="jquery.min.js"></script>
     <script src="popper.min.js"></script>
     <script src="mui-master/dist/js/mui.min.js"></script>
     <script src="bootstrap/js/bootstrap.min.js"></script>
+    <script src="range-slider/ion.rangeSlider.min.js"></script>
     <script src="video.js"></script>
     <title>Video Clip</title>
 </head>
@@ -88,13 +90,10 @@
             </div>
             <div id="collapseThree" class="collapse show">
                 <div class="card-body">
-                    <div class="mui-input-row mui-input-range">
-                        <label>开始时间</label>
-                        <input id="videoStart" type="range" min="0" max="60" value="0" width="20px">
-                    </div>
-                    <div class="mui-input-row mui-input-range">
-                        <label>结束时间</label>
-                        <input id="videoEnd" type="range" min="0" max="60" value="60">
+                    <input type="text" class="js-range-slider" />
+                    <div class="mui-input-row">
+                        <label>持续时间</label>
+                        <input id="cutDuration" type="text" class="form-control label-font" value="0 s">
                     </div>
                 </div>
             </div>
@@ -197,8 +196,8 @@
                     </div>
                     <div class="mui-input-row">
                         <label>保存名称</label>
-                        <input id="localSaveName" type="text" class="form-control" placeholder="请输入文件名"
-                            value="我创作的视频">
+                        <input id="localSaveName" type="text" class="form-control label-font"
+                            placeholder="请输入文件名" value="我创作的视频">
                     </div>
                     <button id="render" type="button" class="btn btn-primary btn-block">
                         开始渲染

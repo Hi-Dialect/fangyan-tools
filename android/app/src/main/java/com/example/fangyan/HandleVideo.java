@@ -24,8 +24,8 @@ public class HandleVideo extends Object {
 
     private String backgroundMusicPath = null;
     private String dialectPath = null;
-    private int startTime = 0;
-    private int endTime = 1;
+    private float startTime = 0;
+    private float endTime = 1;
     private boolean isMuted = false;
     private boolean isSaveToLocal = false;
     private String localSaveName = null;
@@ -191,8 +191,8 @@ public class HandleVideo extends Object {
                             String localSaveName) {
         this.backgroundMusicPath = backgroundMusicPath;
         this.dialectPath = dialectPath;
-        this.startTime = Integer.parseInt(startTime);
-        this.endTime = Integer.parseInt(endTime);
+        this.startTime = Float.parseFloat(startTime);
+        this.endTime = Float.parseFloat(endTime);
         this.isMuted = isMuted;
         this.isSaveToLocal = isSaveToLocal;
         this.localSaveName = localSaveName;

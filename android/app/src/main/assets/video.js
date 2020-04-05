@@ -5,9 +5,30 @@ let focusElement = '';
 let backgroundMusicPath = '';
 let dialectPath = '';
 
+let cutStart = 0;
+let cutEnd = 0;
+
 window.onload = () => {
-    //jquery不支持此事件绑定
+    //Jquery不支持此事件绑定
     document.getElementById('video').ontimeupdate = handleTimeUpdate;
+    //初始化滑块，用于剪辑范围的选取
+    $('.js-range-slider').ionRangeSlider({
+        skin: 'big',
+        type: 'double',
+        min: 0,
+        max: 60,
+        from: 0,
+        to: 60,
+        step: 0.1,
+        hide_min_max: true,
+        onChange: (data) => {
+            let cutDuration = document.getElementById('cutDuration');
+
+            cutStart = data.from;
+            cutEnd = data.to;
+            cutDuration.value = Math.round((cutEnd - cutStart) * 10) / 10 + ' s';
+        },
+    });
 
     $('#kuaitui').click(() => handleRewind());
     $('#bofang').click(() => handlePlay());
@@ -54,15 +75,13 @@ function handleTimeUpdate() {
 
 function handleRender() {
     let video = document.getElementById('video');
-    let startTime = document.getElementById('videoStart').value;
-    let endTime = document.getElementById('videoEnd').value;
     let isMuted = document.getElementById('muted').classList.contains('mui-active');
     let isSaveToLocal = document.getElementById('localSave').classList.contains('mui-active');
     let localSaveName = document.getElementById('localSaveName').value + '.mp4';
 
     //注意参数传递和后端保持一致
     android.renderVideo(video.src, backgroundMusicPath, dialectPath,
-        startTime, endTime, isMuted, isSaveToLocal, localSaveName);
+        cutStart, cutEnd, isMuted, isSaveToLocal, localSaveName);
 
     //开始渲染时暂停原始视频播放
     if (video.src != '' && !video.paused) {
@@ -142,16 +161,20 @@ function handlePlay() {
 
 function addVideo(filePath) {
     let video = document.getElementById('video');
-    let videoStart = document.getElementById('videoStart');
-    let videoEnd = document.getElementById('videoEnd');
 
     video.src = filePath;
     video.style.display = 'block';
     video.currentTime = 0.1;
     video.oncanplaythrough = () => {
-        videoStart.max = video.duration;
-        videoEnd.max = video.duration;
-        videoEnd.value = video.duration;
+        let my_range = $('.js-range-slider').data('ionRangeSlider');
+
+        my_range.update({
+            min: 0,
+            max: video.duration,
+            from: 0,
+            to: video.duration,
+        });
+        my_range.reset();
     }
 }
 
