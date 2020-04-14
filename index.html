@@ -127,8 +127,7 @@
                         <div class="container-row">
                             <label>背景音</label>
                             <label id="backgroundMusicLabel">待上传</label>
-                            <button id="addBackgroundMusic" type="button" data-toggle="modal"
-                                data-target="#selectAudio" class="btn btn-outline-primary audio-button">
+                            <button id="addBackgroundMusic" class="btn btn-outline-primary audio-button">
                                 点击添加
                             </button>
                         </div>
@@ -137,8 +136,7 @@
                         <div class="container-row">
                             <label>配音</label>
                             <label id="dialectLabel">待上传</label>
-                            <button id="addDialect" type="button" data-toggle="modal"
-                                data-target="#selectAudio" class="btn btn-outline-primary audio-button">
+                            <button id="addDialect" class="btn btn-outline-primary audio-button">
                                 点击添加
                             </button>
                         </div>
@@ -148,25 +146,27 @@
         </div>
     </div>
 
-    <div class="modal fade" id="selectAudio" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <button id="selectAudioFromLocal" type="button" class="btn btn-light btn-block"
-                        data-dismiss="modal">
-                        从本地文件中选取
-                    </button>
-                    <button id="recordNewAudio" type="button" class="btn btn-light btn-block"
-                        data-dismiss="modal">
-                        录制新的音频
-                    </button>
-                    <button id="selectAudioFromWeb" type="button" class="btn btn-light btn-block"
-                        data-dismiss="modal">
-                        嗨方言热门歌曲/音效
-                    </button>
-                </div>
-            </div>
-        </div>
+    <div id="popover" class="box mui-popover mui-popover-action mui-popover-bottom">
+        <ul class="mui-table-view">
+            <li class="mui-table-view-cell">
+                <button id="selectAudioFromLocal" type="button" class="btn btn-light btn-block"
+                    data-dismiss="modal">
+                    从本地文件中选取
+                </button>
+            </li>
+            <li class="mui-table-view-cell">
+                <button id="recordNewAudio" type="button" class="btn btn-light btn-block"
+                    data-dismiss="modal">
+                    录制新的音频
+                </button>
+            </li>
+            <li class="mui-table-view-cell">
+                <button id="selectAudioFromWeb" type="button" class="btn btn-light btn-block"
+                    data-dismiss="modal">
+                    嗨方言热门歌曲/音效
+                </button>
+            </li>
+        </ul>
     </div>
 
     <div class="accordion" id="accordionExample">

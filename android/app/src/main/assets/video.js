@@ -39,7 +39,9 @@ window.onload = () => {
     $('#backToEdit').click(() => document.getElementById('outputVideo').src = '');
 
     $('#addBackgroundMusic').focus(() => focusElement = 'addBackgroundMusic');
+    $('#addBackgroundMusic').click(() => mui('#popover').popover('toggle'));
     $('#addDialect').focus(() => focusElement = 'addDialect');
+    $('#addDialect').click(() => mui('#popover').popover('toggle'));
     $('#selectVideoFromLocal').click(() => android.selectFile(1));
     $('#takeNewVideo').click(() => android.selectFile(2));
     $('#selectAudioFromLocal').click(() => handleSelectAudioFromLocal());
@@ -86,26 +88,6 @@ function handleRender() {
     //开始渲染时暂停原始视频播放
     if (video.src != '' && !video.paused) {
         handlePlay();
-    }
-}
-
-function handleCutStart() {
-    let start = document.getElementById('videoStart');
-    let end = document.getElementById('videoEnd');
-
-    if (end.value - start.value < 1) {
-        start.value = start.min;
-        mui.alert('开始时间应小于结束时间', '警告');
-    }
-}
-
-function handleCutEnd() {
-    let start = document.getElementById('videoStart');
-    let end = document.getElementById('videoEnd');
-
-    if (end.value - start.value < 1) {
-        end.value = end.max;
-        mui.alert('结束时间应大于开始时间', '警告');
     }
 }
 
