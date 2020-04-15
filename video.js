@@ -14,6 +14,9 @@ let cutStart = 0;
 let cutEnd = 0;
 
 window.onload = () => {
+    //Jquery不支持此事件绑定
+    document.getElementById('video').ontimeupdate = handleTimeUpdate;
+    //绘制视频帧当做剪辑背景
     document.getElementById('video').onloadeddata = () => {
         let video = document.getElementById("video");
 
@@ -30,8 +33,6 @@ window.onload = () => {
             }, i * 100);
         }
     }
-    //Jquery不支持此事件绑定
-    document.getElementById('video').ontimeupdate = handleTimeUpdate;
     //初始化滑块，用于剪辑范围的选取
     $('.js-range-slider').ionRangeSlider({
         skin: 'big',
