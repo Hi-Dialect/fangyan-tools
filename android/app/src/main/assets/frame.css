@@ -50,7 +50,7 @@ body {
 }
 
 .video-container {
-    display: none;
+    /*display: none;*/
     object-fit: contain;
     max-height: 50vh;
     border: solid 0.5vw darkgray;
