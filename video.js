@@ -14,6 +14,22 @@ let cutStart = 0;
 let cutEnd = 0;
 
 window.onload = () => {
+    document.getElementById('video').onloadeddata = () => {
+        let video = document.getElementById("video");
+
+        video.currentTime = video.duration / 5 * 1;
+        for (let i = 1; i <= 5; i++) {
+            setTimeout(() => {
+                let canvas = document.createElement('canvas');
+                let context = canvas.getContext("2d");
+
+                canvas.style.width = '20%';
+                document.getElementById('frames').appendChild(canvas);
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                video.currentTime = video.duration / 5 * i;
+            }, i * 100);
+        }
+    }
     //Jquery不支持此事件绑定
     document.getElementById('video').ontimeupdate = handleTimeUpdate;
     //初始化滑块，用于剪辑范围的选取
