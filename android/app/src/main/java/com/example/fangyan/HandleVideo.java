@@ -1,6 +1,7 @@
 package com.example.fangyan;
 
 import android.content.Intent;
+import android.media.MediaMetadataRetriever;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
@@ -215,6 +216,31 @@ public class HandleVideo extends Object {
             sendProgressMessage(0);
             videoClip();
         }
+    }
+
+    @JavascriptInterface
+    public void getVideoFrames(String videoPath) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(videoPath);
+        String width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
+        String height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
+        Log.d(TAG, "getVideoFrames: " + width + "   " + height);
+        /*EpEditor.video2pic(videoPath, outputPath, width, height, 5, new OnEditorListener() {
+            @Override
+            public void onSuccess() {
+                Log.d(TAG, "onSuccess: getVideoFrames");
+            }
+
+            @Override
+            public void onFailure() {
+                Log.d(TAG, "onFailure: getVideoFrames");
+            }
+
+            @Override
+            public void onProgress(float progress) {
+                Log.d(TAG, "onProgress: getVideoFrames");
+            }
+        });*/
     }
 
     @JavascriptInterface
