@@ -22,11 +22,9 @@ window.onload = () => {
         step: 0.1,
         hide_min_max: true,
         onChange: (data) => {
-            let cutDuration = document.getElementById('cutDuration');
-
-            cutStart = data.from;
-            cutEnd = data.to;
-            cutDuration.value = Math.round((cutEnd - cutStart) * 10) / 10 + ' s';
+            cutStart = Math.round(data.from * 10) / 10;
+            cutEnd = Math.round(data.to * 10) / 10;
+            $('#cutDuration').value = Math.round((cutEnd - cutStart) * 10) / 10 + ' s';
         },
     });
 
@@ -49,6 +47,7 @@ window.onload = () => {
 }
 
 function handleSelectAudioFromLocal() {
+    mui('#popover').popover('hide');
     if (focusElement == 'addBackgroundMusic') {
         android.selectFile(3);
     } else if (focusElement == 'addDialect') {
@@ -57,6 +56,7 @@ function handleSelectAudioFromLocal() {
 }
 
 function handleRecordNewAudio() {
+    mui('#popover').popover('hide');
     if (focusElement == 'addBackgroundMusic') {
         android.selectFile(4);
     } else if (focusElement == 'addDialect') {
@@ -152,9 +152,9 @@ function addVideo(filePath) {
 
         my_range.update({
             min: 0,
-            max: video.duration,
+            max: Math.round(video.duration * 10) / 10,
             from: 0,
-            to: video.duration,
+            to: Math.round(video.duration * 10) / 10,
         });
         my_range.reset();
     }
