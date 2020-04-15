@@ -32,7 +32,7 @@ window.onload = () => {
             cutStart = Math.round(data.from * 10) / 10;
             cutEnd = Math.round(data.to * 10) / 10;
             cutDuration.value = Math.round((cutEnd - cutStart) * 10) / 10 + ' s';
-        },
+        }
     });
 
     $('#kuaitui').click(() => handleRewind());
