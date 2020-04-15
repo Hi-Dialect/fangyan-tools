@@ -1,6 +1,6 @@
-//快进定时器（重复）
+//快进定时器
 let forwardInterval = 0;
-//快退定时器（重复）
+//快退定时器
 let rewindInterval = 0;
 //标记选择音频文件的方式
 let focusElement = '';
