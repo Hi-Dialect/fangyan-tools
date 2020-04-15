@@ -22,6 +22,7 @@ window.onload = () => {
         let frameNumber = 10;
 
         video.currentTime = 0;
+        document.getElementById('frames').innerHTML = '';
         for (let i = 1; i <= frameNumber; i++) {
             setTimeout(() => {
                 let canvas = document.createElement('canvas');
