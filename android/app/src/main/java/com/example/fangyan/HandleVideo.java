@@ -20,6 +20,7 @@ public class HandleVideo extends Object {
     private static String inputPath = "/storage/emulated/0/Hi-Dialect/temp/input.mp4";
     private static String outputPath = "/storage/emulated/0/Hi-Dialect/temp/output.mp4";
     private static String finalPath = "/storage/emulated/0/Hi-Dialect/temp/final.mp4";
+    private static String framePath = "/storage/emulated/0/Hi-Dialect/temp/frame%3d.jpg";
     private static String tempVideoPath = "/Hi-Dialect/temp/";
     private static String userVideoPath = "/Hi-Dialect/myVideo/";
 
@@ -222,13 +223,18 @@ public class HandleVideo extends Object {
     public void getVideoFrames(String videoPath) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(videoPath);
-        String width = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH);
-        String height = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT);
-        Log.d(TAG, "getVideoFrames: " + width + "   " + height);
-        /*EpEditor.video2pic(videoPath, outputPath, width, height, 5, new OnEditorListener() {
+        //获取视频长宽，注意区分横竖屏拍摄造成的影响
+        int width = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+        int height = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+        //截取视频帧供前端使用
+        EpEditor.video2pic(videoPath, framePath, width, height, 1, new OnEditorListener() {
             @Override
             public void onSuccess() {
                 Log.d(TAG, "onSuccess: getVideoFrames");
+                Intent intent = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
+                intent.putExtra("type", "loadFrames");
+                intent.putExtra("filePath", "file:///storage/emulated/0" + tempVideoPath);
+                appCompatActivity.sendBroadcast(intent);
             }
 
             @Override
@@ -240,7 +246,7 @@ public class HandleVideo extends Object {
             public void onProgress(float progress) {
                 Log.d(TAG, "onProgress: getVideoFrames");
             }
-        });*/
+        });
     }
 
     @JavascriptInterface
