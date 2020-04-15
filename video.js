@@ -19,17 +19,19 @@ window.onload = () => {
     //绘制视频帧当做剪辑背景
     document.getElementById('video').onloadeddata = () => {
         let video = document.getElementById("video");
+        let frameNumber = 10;
 
-        video.currentTime = video.duration / 5 * 1;
-        for (let i = 1; i <= 5; i++) {
+        video.currentTime = 0;
+        for (let i = 1; i <= frameNumber; i++) {
             setTimeout(() => {
                 let canvas = document.createElement('canvas');
                 let context = canvas.getContext("2d");
 
-                canvas.style.width = '20%';
+                canvas.style.width = 100 / frameNumber + '%';
+                canvas.style.height = '5vh';
                 document.getElementById('frames').appendChild(canvas);
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                video.currentTime = video.duration / 5 * i;
+                video.currentTime = video.duration / frameNumber * i;
             }, i * 100);
         }
     }
