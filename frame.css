@@ -30,7 +30,7 @@ body {
 .container-row {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -78,6 +78,11 @@ body {
     font-size: 3.5vw;
     margin: 0.5vh 4vw 2vh 4vw;
     border-radius: 50px;
+}
+
+#frames {
+    position: absolute;
+    padding-right: 1.25rem;
 }
 
 .card-header {

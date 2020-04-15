@@ -28,7 +28,7 @@ window.onload = () => {
                 let context = canvas.getContext("2d");
 
                 canvas.style.width = 100 / frameNumber + '%';
-                canvas.style.height = '5vh';
+                canvas.style.height = '8vh';
                 document.getElementById('frames').appendChild(canvas);
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
                 video.currentTime = video.duration / frameNumber * i;
