@@ -151,7 +151,6 @@ function handlePlay() {
 function addVideo(filePath) {
     let video = document.getElementById('video');
 
-    android.getVideoFrames(filePath);
     video.src = filePath;
     video.style.display = 'block';
     video.currentTime = 0.1;
