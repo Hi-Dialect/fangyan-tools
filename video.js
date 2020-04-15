@@ -27,9 +27,11 @@ window.onload = () => {
         step: 0.1,
         hide_min_max: true,
         onChange: (data) => {
+            let cutDuration = document.getElementById('cutDuration');
+
             cutStart = Math.round(data.from * 10) / 10;
             cutEnd = Math.round(data.to * 10) / 10;
-            $('#cutDuration').value = Math.round((cutEnd - cutStart) * 10) / 10 + ' s';
+            cutDuration.value = Math.round((cutEnd - cutStart) * 10) / 10 + ' s';
         },
     });
 
@@ -154,6 +156,7 @@ function addVideo(filePath) {
     video.currentTime = 0.1;
     video.oncanplaythrough = () => {
         let my_range = $('.js-range-slider').data('ionRangeSlider');
+        let cutDuration = document.getElementById('cutDuration');
 
         my_range.update({
             min: 0,
@@ -161,7 +164,9 @@ function addVideo(filePath) {
             from: 0,
             to: Math.round(video.duration * 10) / 10,
         });
+
         my_range.reset();
+        cutDuration.value = Math.round(video.duration * 10) / 10 + ' s';
     }
 }
 

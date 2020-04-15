@@ -1,11 +1,16 @@
+//快进定时器（重复）
 let forwardInterval = 0;
+//快退定时器（重复）
 let rewindInterval = 0;
-
+//标记选择音频文件的方式
 let focusElement = '';
+//上传的背景音乐的路径
 let backgroundMusicPath = '';
+//上传的方言配音的路径
 let dialectPath = '';
-
+//剪辑的开始时间
 let cutStart = 0;
+//剪辑的结束时间
 let cutEnd = 0;
 
 window.onload = () => {
@@ -22,9 +27,11 @@ window.onload = () => {
         step: 0.1,
         hide_min_max: true,
         onChange: (data) => {
+            let cutDuration = document.getElementById('cutDuration');
+
             cutStart = Math.round(data.from * 10) / 10;
             cutEnd = Math.round(data.to * 10) / 10;
-            $('#cutDuration').value = Math.round((cutEnd - cutStart) * 10) / 10 + ' s';
+            cutDuration.value = Math.round((cutEnd - cutStart) * 10) / 10 + ' s';
         },
     });
 
@@ -98,7 +105,7 @@ function handleForward() {
     clearInterval(forwardInterval);
     clearInterval(rewindInterval);
 
-    // 按固定节奏控制视频进度
+    //按固定节奏控制视频进度
     forwardInterval = setInterval(() => {
         video.currentTime += 0.2;
         if (video.currentTime >= video.duration) {
@@ -114,7 +121,7 @@ function handleRewind() {
     clearInterval(forwardInterval);
     clearInterval(rewindInterval);
 
-    // 按固定节奏控制视频进度
+    //按固定节奏控制视频进度
     rewindInterval = setInterval(() => {
         video.currentTime -= 0.2;
         if (video.currentTime <= 0) {
@@ -149,6 +156,7 @@ function addVideo(filePath) {
     video.currentTime = 0.1;
     video.oncanplaythrough = () => {
         let my_range = $('.js-range-slider').data('ionRangeSlider');
+        let cutDuration = document.getElementById('cutDuration');
 
         my_range.update({
             min: 0,
@@ -156,7 +164,9 @@ function addVideo(filePath) {
             from: 0,
             to: Math.round(video.duration * 10) / 10,
         });
+
         my_range.reset();
+        cutDuration.value = Math.round(video.duration * 10) / 10 + ' s';
     }
 }
 
