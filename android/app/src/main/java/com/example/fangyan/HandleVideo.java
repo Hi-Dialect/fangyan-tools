@@ -2,11 +2,15 @@ package com.example.fangyan;
 
 import android.content.Intent;
 import android.media.MediaMetadataRetriever;
+import android.media.MediaRecorder;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.io.IOException;
 
 import VideoHandle.EpEditor;
 import VideoHandle.EpVideo;
@@ -14,15 +18,18 @@ import VideoHandle.OnEditorListener;
 import me.rosuh.filepicker.config.FilePickerManager;
 
 public class HandleVideo extends Object {
+    private MediaRecorder recorder;
     private AppCompatActivity appCompatActivity;
 
     private static final String TAG = "FFmpeg";
-    private static String inputPath = "/storage/emulated/0/Hi-Dialect/temp/input.mp4";
-    private static String outputPath = "/storage/emulated/0/Hi-Dialect/temp/output.mp4";
-    private static String finalPath = "/storage/emulated/0/Hi-Dialect/temp/final.mp4";
-    private static String framePath = "/storage/emulated/0/Hi-Dialect/temp/frame%3d.jpg";
-    private static String tempVideoPath = "/Hi-Dialect/temp/";
+    private static String basicPath = Environment.getExternalStorageDirectory().getAbsolutePath();
+    private static String tempVideoPath = "/Hi-Dialect/temp/video/";
     private static String userVideoPath = "/Hi-Dialect/myVideo/";
+    private static String tempRecordingPath = "/Hi-Dialect/temp/recording/";
+    private static String inputPath = basicPath + tempVideoPath + "input.mp4";
+    private static String outputPath = basicPath + tempVideoPath + "output.mp4";
+    private static String finalPath = basicPath + tempVideoPath + "final.mp4";
+    private static String framePath = "/storage/emulated/0/Hi-Dialect/temp/frame%3d.jpg";
 
     private String backgroundMusicPath = null;
     private String dialectPath = null;
@@ -37,7 +44,11 @@ public class HandleVideo extends Object {
     }
 
     public String getTempVideoPath() {
-        return tempVideoPath;
+        return basicPath + tempVideoPath;
+    }
+
+    public String getTempRecordingPath() {
+        return basicPath + tempRecordingPath;
     }
 
     private void sendProgressMessage(int percentage) {
@@ -278,5 +289,38 @@ public class HandleVideo extends Object {
                 appCompatActivity.startActivityForResult(intent6, 6);
                 break;
         }
+    }
+
+    @JavascriptInterface
+    public boolean startRecord() {
+        recorder = new MediaRecorder();
+        try {
+            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        } catch (IllegalStateException e) {
+            Log.d(TAG, "startRecord: 设置录音源失败");
+            e.printStackTrace();
+        }
+
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
+        recorder.setOutputFile(basicPath + tempRecordingPath + System.currentTimeMillis() + ".amr");
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        try {
+            recorder.prepare();
+        } catch (IOException e) {
+            Log.d(TAG, "startRecord: 准备失败");
+            e.printStackTrace();
+        }
+        recorder.start();
+        Log.d(TAG, "startRecord: 开始录音");
+        return true;
+    }
+
+    @JavascriptInterface
+    public void stopRecord() {
+        recorder.stop();
+        recorder.reset();
+        recorder.release();
+        recorder = null;
+        Log.d(TAG, "stopRecord: 停止录音");
     }
 }

@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.WebSettings;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        //申请读写权限
+        //动态申请权限
         requestMyPermissions();
     }
 
@@ -171,6 +172,14 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "requestMyPermissions: 有读SD权限");
         }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED) {
+            //没有授权，编写申请权限代码
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.RECORD_AUDIO}, 100);
+        } else {
+            Log.d(TAG, "requestMyPermissions: 有录音权限");
+        }
     }
 
     @Override
@@ -178,8 +187,9 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 
         //删除临时生成的视频文件
-        FileManager.removeFileFromSDCard("/storage/emulated/0/" +
-                new HandleVideo(this).getTempVideoPath());
+        FileManager.removeFileFromSDCard(new HandleVideo(this).getTempVideoPath());
+        //删除临时生成的录音文件
+        FileManager.removeFileFromSDCard(new HandleVideo(this).getTempRecordingPath());
 
         //注销广播监听器
         unregisterReceiver(myReceiver);
