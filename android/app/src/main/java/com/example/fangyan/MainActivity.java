@@ -73,6 +73,16 @@ public class MainActivity extends AppCompatActivity {
                 String message = intent.getStringExtra("message");
                 webView.loadUrl("javascript:alertError('" + message + "')");
             }
+            //添加背景音乐录音
+            else if (type.equals("addBackgroundMusic")) {
+                String filePath = intent.getStringExtra("filePath");
+                webView.loadUrl("javascript:addBackgroundMusic('" + filePath + "')");
+            }
+            //添加方言配音录音
+            else if (type.equals("addDialect")) {
+                String filePath = intent.getStringExtra("filePath");
+                webView.loadUrl("javascript:addDialect('" + filePath + "')");
+            }
         }
     }
 

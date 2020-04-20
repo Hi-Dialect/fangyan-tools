@@ -7,9 +7,11 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
 import java.io.IOException;
 
 import VideoHandle.EpEditor;
@@ -28,7 +30,8 @@ public class HandleVideo extends Object {
     private static String tempRecordingPath = "/Hi-Dialect/temp/recording/";
     private static String inputPath = basicPath + tempVideoPath + "input.mp4";
     private static String outputPath = basicPath + tempVideoPath + "output.mp4";
-    private static String finalPath = basicPath + tempVideoPath + "final.mp4";
+    private static String finalVideoPath = basicPath + tempVideoPath + "final.mp4";
+    private static String finalRecordingPath = basicPath + tempRecordingPath + "final.mp3";
     private static String framePath = "/storage/emulated/0/Hi-Dialect/temp/frame%3d.jpg";
 
     private String backgroundMusicPath = null;
@@ -55,7 +58,7 @@ public class HandleVideo extends Object {
         Intent intent = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
         intent.putExtra("type", "updateRenderProgress");
         intent.putExtra("percentage", percentage);
-        intent.putExtra("filePath", "file://" + finalPath);
+        intent.putExtra("filePath", "file://" + finalVideoPath);
         appCompatActivity.sendBroadcast(intent);
     }
 
@@ -179,12 +182,12 @@ public class HandleVideo extends Object {
         }
     }
 
-    //最后一步
+    //最后一步，处理文件存储
     private void finalStep() {
         //生成随机的临时文件名
         String tempFileName = new String(System.currentTimeMillis() + ".mp4");
 
-        finalPath = finalPath.substring(0, finalPath.lastIndexOf("/") + 1) + tempFileName;
+        finalVideoPath = finalVideoPath.substring(0, finalVideoPath.lastIndexOf("/") + 1) + tempFileName;
         //生成临时文件（退出程序时会自动删除）
         FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(inputPath),
                 tempVideoPath, tempFileName);
@@ -297,30 +300,48 @@ public class HandleVideo extends Object {
         try {
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         } catch (IllegalStateException e) {
-            Log.d(TAG, "startRecord: 设置录音源失败");
-            e.printStackTrace();
+            Log.d(TAG, "startRecord: " + e.getMessage());
         }
-
+        //如临时存放录音的文件夹不存在，则创建文件夾
+        File destDir = new File(basicPath + tempRecordingPath);
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        //准备录音，生成随机的临时文件名
+        String tempFileName = new String(System.currentTimeMillis() + ".mp3");
+        finalRecordingPath = finalRecordingPath.substring(0, finalRecordingPath.lastIndexOf("/") + 1)
+                + tempFileName;
         recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-        recorder.setOutputFile(basicPath + tempRecordingPath + System.currentTimeMillis() + ".amr");
+        recorder.setOutputFile(finalRecordingPath);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         try {
             recorder.prepare();
         } catch (IOException e) {
-            Log.d(TAG, "startRecord: 准备失败");
-            e.printStackTrace();
+            Log.d(TAG, "startRecord: " + e.getMessage());
         }
+        //开始录音
         recorder.start();
-        Log.d(TAG, "startRecord: 开始录音");
         return true;
     }
 
     @JavascriptInterface
-    public void stopRecord() {
+    public void stopRecord(int type) {
         recorder.stop();
         recorder.reset();
         recorder.release();
         recorder = null;
-        Log.d(TAG, "stopRecord: 停止录音");
+        switch (type) {
+            case 1: //添加背景音乐
+                Intent intent1 = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
+                intent1.putExtra("type", "addBackgroundMusic");
+                intent1.putExtra("filePath", "file://" + finalRecordingPath);
+                appCompatActivity.sendBroadcast(intent1);
+                break;
+            case 2: //添加方言配音
+                Intent intent2 = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
+                intent2.putExtra("type", "addDialect");
+                intent2.putExtra("filePath", "file://" + finalRecordingPath);
+                appCompatActivity.sendBroadcast(intent2);
+        }
     }
 }
