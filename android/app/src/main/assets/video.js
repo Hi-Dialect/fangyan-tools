@@ -172,7 +172,6 @@ function addVideo(filePath) {
     let video = document.getElementById('video');
 
     video.src = filePath;
-    video.style.display = 'block';
     video.currentTime = 0.1;
     video.oncanplaythrough = () => {
         let my_range = $('.js-range-slider').data('ionRangeSlider');
@@ -222,7 +221,7 @@ function updateRenderBar(percentage, filePath) {
         backToEdit.style.display = 'none';
         postNews.style.display = 'none';
         outputVideo.style.display = 'none';
-        showRenderModal.click();
+        $('#renderProgress').modal('toggle');
     } else if (percentage == '100') {
         renderProgressLabel.innerHTML = '视频渲染完成';
         cancelRendering.style.display = 'none';
