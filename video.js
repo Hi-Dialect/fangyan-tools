@@ -221,7 +221,7 @@ function updateRenderBar(percentage, filePath) {
         backToEdit.style.display = 'none';
         postNews.style.display = 'none';
         outputVideo.style.display = 'none';
-        showRenderModal.click();
+        $('#renderProgress').modal('toggle');
     } else if (percentage == '100') {
         renderProgressLabel.innerHTML = '视频渲染完成';
         cancelRendering.style.display = 'none';
