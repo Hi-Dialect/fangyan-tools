@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://at.alicdn.com/t/font_1670955_wvazv3l6ai.css">
+    <link rel="stylesheet" href="https://at.alicdn.com/t/font_1670955_f188sbvi3qv.css">
     <link rel="stylesheet" href="mui-master/dist/css/mui.min.css">
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="range-slider/ion.rangeSlider.min.css">
     <link rel="stylesheet" href="frame.css">
-    <script src="https://at.alicdn.com/t/font_1670955_wvazv3l6ai.js"></script>
+    <script src="https://at.alicdn.com/t/font_1670955_f188sbvi3qv.js"></script>
     <script src="jquery.min.js"></script>
     <script src="popper.min.js"></script>
     <script src="mui-master/dist/js/mui.min.js"></script>
@@ -173,8 +173,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="progress">
-                        <div id="renderBar" class="progress-bar bg-success" role="progressbar">
-                        </div>
+                        <div id="renderBar" class="progress-bar bg-success" role="progressbar"></div>
                     </div>
                     <video id="outputVideo" class="video-container" controls="controls" width="100%">
                         <source src="" type="video/mp4">
@@ -192,6 +191,36 @@
                     <button id="postNews" type="button" class="btn btn-outline-primary btn-block">
                         发布动态
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" data-toggle="modal" id="showRecordingModal" data-target="#recording"></button>
+    <div class="modal fade show" id="recording" data-backdrop="static" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">录制音频</h5>
+                </div>
+                <div class="modal-body">
+                    <video id="outputVideo" class="video-container" controls="controls" width="100%">
+                        <source src="" type="video/mp4">
+                    </video>
+                    <div class="progress">
+                        <div id="renderBar" class="progress-bar bg-success" role="progressbar"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <svg id="kuaitui" class="iconfont icon" aria-hidden="true">
+                        <use xlink:href="#icon-cuo"></use>
+                    </svg>
+                    <svg id="kuaitui" class="iconfont icon-large" aria-hidden="true">
+                        <use xlink:href="#icon-bofang"></use>
+                    </svg>
+                    <svg id="kuaitui" class="iconfont icon" aria-hidden="true">
+                        <use xlink:href="#icon-dui"></use>
+                    </svg>
                 </div>
             </div>
         </div>

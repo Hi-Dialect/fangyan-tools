@@ -37,6 +37,7 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
 
 .iconfont {
@@ -49,8 +50,13 @@ body {
 }
 
 .icon {
-    margin: 0vh 10vw;
     font-size: 8vw;
+    color: gray;
+}
+
+.icon-large {
+    margin: auto;
+    font-size: 10vw;
     color: gray;
 }
 
