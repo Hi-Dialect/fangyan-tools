@@ -172,7 +172,6 @@ function addVideo(filePath) {
     let video = document.getElementById('video');
 
     video.src = filePath;
-    video.style.display = 'block';
     video.currentTime = 0.1;
     video.oncanplaythrough = () => {
         let my_range = $('.js-range-slider').data('ionRangeSlider');
