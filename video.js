@@ -61,6 +61,7 @@ window.onload = () => {
     $('#videoStart').change(() => handleCutStart());
     $('#videoEnd').change(() => handleCutEnd());
     $('#render').click(() => handleRender());
+    $('#cutDuration').focus(() => $('#cutDuration').blur());
     $('#backToEdit').click(() => document.getElementById('outputVideo').src = '');
 
     $('#addBackgroundMusic').focus(() => focusElement = 'addBackgroundMusic');
