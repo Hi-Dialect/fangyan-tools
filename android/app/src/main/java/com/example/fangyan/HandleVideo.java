@@ -46,6 +46,7 @@ public class HandleVideo extends Object {
     private boolean isSaveToLocal = false;
     private String localSaveName = null;
     private boolean isRecordStart = false;
+    private boolean isRecordCancel = false;
     private String recordType = null;
 
     public HandleVideo(AppCompatActivity appCompatActivity) {
@@ -313,10 +314,14 @@ public class HandleVideo extends Object {
         recordManager.setRecordResultListener(new RecordResultListener() {
             @Override
             public void onResult(File result) {
-                Intent intent1 = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
-                intent1.putExtra("type", recordType);
-                intent1.putExtra("filePath", "file://" + result.getAbsolutePath());
-                appCompatActivity.sendBroadcast(intent1);
+                if (!isRecordCancel) {
+                    Intent intent1 = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
+                    intent1.putExtra("type", recordType);
+                    intent1.putExtra("filePath", "file://" + result.getAbsolutePath());
+                    appCompatActivity.sendBroadcast(intent1);
+                } else {
+                    isRecordCancel = false;
+                }
             }
         });
         //开始录音
@@ -332,6 +337,9 @@ public class HandleVideo extends Object {
                 else recordManager.resume();
                 isRecordStart = !isRecordStart;
                 break;
+            case 0: //取消录音
+                isRecordCancel = true;
+                recordManager.stop();
             case 1: //添加背景音乐
                 recordType = "addBackgroundMusic";
                 recordManager.stop();

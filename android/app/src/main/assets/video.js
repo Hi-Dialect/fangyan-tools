@@ -34,7 +34,7 @@ window.onload = () => {
     //绑定其余响应函数
     $('#bofang').click(() => handlePlay('video'));
     $('#recordingPlay').click(() => handlePlay('recordingVideo'));
-    $('#recordingCancel').click(() => android.stopRecord(0));
+    $('#recordingCancel').click(() => handleRecordingCancel());
     $('#recordingCheck').click(() => handleRecordingCheck());
     $('#render').click(() => handleRender());
     $('#cutDuration').focus(() => $('#cutDuration').blur());
@@ -145,9 +145,17 @@ function handlePlay(id) {
     }
 }
 
+//取消录音
+function handleRecordingCancel() {
+    $('#recording').modal('hide');
+    isRecordingStart = false;
+    android.stopRecord(0);
+}
+
 //录音完成调用后端生成相关文件
 function handleRecordingCheck() {
     $('#recording').modal('hide');
+    isRecordingStart = false;
     if (focusElement == 'addBackgroundMusic') {
         android.stopRecord(1);
     } else if (focusElement == 'addDialect') {
