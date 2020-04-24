@@ -9,7 +9,7 @@ let cutStart = 0;
 //剪辑的结束时间
 let cutEnd = 0;
 //是否已经开始录音
-let isRecordingStart = false;
+let recordingStart = false;
 
 window.onload = () => {
     //视频响应事件绑定
@@ -136,11 +136,11 @@ function handlePlay(id) {
     video.paused ? video.play() : video.pause();
     //如果是录音模块的控件，则关联到后端录制音频
     if (id == 'recordingVideo') {
-        if (isRecordingStart) {
+        if (recordingStart) {
             android.stopRecord(-1);
         } else {
             android.startRecord();
-            isRecordingStart = true;
+            recordingStart = true;
         }
     }
 }
@@ -148,14 +148,14 @@ function handlePlay(id) {
 //取消录音
 function handleRecordingCancel() {
     $('#recording').modal('hide');
-    isRecordingStart = false;
+    recordingStart = false;
     android.stopRecord(0);
 }
 
 //录音完成调用后端生成相关文件
 function handleRecordingCheck() {
     $('#recording').modal('hide');
-    isRecordingStart = false;
+    recordingStart = false;
     if (focusElement == 'addBackgroundMusic') {
         android.stopRecord(1);
     } else if (focusElement == 'addDialect') {
