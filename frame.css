@@ -97,11 +97,15 @@ body {
 
 .label-font {
     text-align: right;
-    font-size: 4vw;
-    padding-right: 5vw;
+    font-weight: bold;
+    color: gray;
 }
 
 #showRenderModal {
+    display: none;
+}
+
+#showRecordingModal {
     display: none;
 }
 
