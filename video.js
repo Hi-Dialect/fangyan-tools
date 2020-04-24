@@ -1,7 +1,3 @@
-//快进定时器
-let forwardInterval = 0;
-//快退定时器
-let rewindInterval = 0;
 //标记选择音频文件的方式
 let focusElement = '';
 //上传的背景音乐的路径
@@ -34,8 +30,6 @@ window.onload = () => {
         onChange: handleCutDurationChange
     });
     //绑定其余响应函数
-    $('#kuaitui').click(() => handleRewind());
-    $('#kuaijin').click(() => handleForward());
     $('#bofang').click(() => handlePlay('video'));
     $('#recordingPlay').click(() => handlePlay('recordingVideo'));
     $('#recordingCancel').click(() => android.stopRecord(0));
@@ -132,52 +126,12 @@ function handleRender() {
     }
 }
 
-//处理快退，将在下一个版本删除
-function handleForward() {
-    let video = document.getElementById('video');
-
-    video.pause();
-    clearInterval(forwardInterval);
-    clearInterval(rewindInterval);
-
-    //按固定节奏控制视频进度
-    forwardInterval = setInterval(() => {
-        video.currentTime += 0.2;
-        if (video.currentTime >= video.duration) {
-            clearInterval(forwardInterval);
-        }
-    }, 50);
-}
-
-//处理快进，将在下一个版本删除
-function handleRewind() {
-    let video = document.getElementById('video');
-
-    video.pause();
-    clearInterval(forwardInterval);
-    clearInterval(rewindInterval);
-
-    //按固定节奏控制视频进度
-    rewindInterval = setInterval(() => {
-        video.currentTime -= 0.2;
-        if (video.currentTime <= 0) {
-            clearInterval(rewindInterval);
-        }
-    }, 50);
-}
-
 //处理不同模块的视频播放事件
 function handlePlay(id) {
     let video = document.getElementById(id);
 
-    clearInterval(forwardInterval);
-    clearInterval(rewindInterval);
-
-    if (video.paused) {
-        video.play();
-    } else {
-        video.pause();
-    }
+    //切换播放和暂停状态
+    video.paused ? video.play() : video.pause();
 }
 
 //录音完成调用后端生成相关文件
@@ -259,6 +213,7 @@ function updateRenderBar(percentage, filePath) {
     }
 }
 
+//后端的错误信息传递到前端
 function alertError(message) {
     mui.alert(message, '提示');
 }
