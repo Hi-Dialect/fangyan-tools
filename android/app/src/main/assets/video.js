@@ -8,6 +8,8 @@ let dialectPath = '';
 let cutStart = 0;
 //剪辑的结束时间
 let cutEnd = 0;
+//是否已经开始录音
+let isRecordingStart = false;
 
 window.onload = () => {
     //视频响应事件绑定
@@ -134,7 +136,12 @@ function handlePlay(id) {
     video.paused ? video.play() : video.pause();
     //如果是录音模块的控件，则关联到后端录制音频
     if (id == 'recordingVideo') {
-        android.stopRecord(-1);
+        if (isRecordingStart) {
+            android.stopRecord(-1);
+        } else {
+            android.startRecord();
+            isRecordingStart = true;
+        }
     }
 }
 
@@ -161,11 +168,12 @@ function addVideo(filePath) {
         let my_range = $('.js-range-slider').data('ionRangeSlider');
         let cutDuration = document.getElementById('cutDuration');
 
+        cutEnd = Math.round(video.duration * 10) / 10;
         my_range.update({
             min: 0,
-            max: Math.round(video.duration * 10) / 10,
+            max: cutEnd,
             from: 0,
-            to: Math.round(video.duration * 10) / 10,
+            to: cutEnd,
         });
 
         my_range.reset();

@@ -1,6 +1,7 @@
 package com.example.fangyan;
 
 import android.content.Intent;
+import android.media.AudioFormat;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaRecorder;
 import android.os.Environment;
@@ -11,6 +12,10 @@ import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.zlw.main.recorderlib.RecordManager;
+import com.zlw.main.recorderlib.recorder.RecordConfig;
+import com.zlw.main.recorderlib.recorder.listener.RecordResultListener;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -20,7 +25,7 @@ import VideoHandle.OnEditorListener;
 import me.rosuh.filepicker.config.FilePickerManager;
 
 public class HandleVideo extends Object {
-    private MediaRecorder recorder;
+    private RecordManager recordManager;
     private AppCompatActivity appCompatActivity;
 
     private static final String TAG = "FFmpeg";
@@ -31,7 +36,6 @@ public class HandleVideo extends Object {
     private static String inputPath = basicPath + tempVideoPath + "input.mp4";
     private static String outputPath = basicPath + tempVideoPath + "output.mp4";
     private static String finalVideoPath = basicPath + tempVideoPath + "final.mp4";
-    private static String finalRecordingPath = basicPath + tempRecordingPath + "final.mp3";
     private static String framePath = "/storage/emulated/0/Hi-Dialect/temp/frame%3d.jpg";
 
     private String backgroundMusicPath = null;
@@ -40,8 +44,9 @@ public class HandleVideo extends Object {
     private float endTime = 1;
     private boolean isMuted = false;
     private boolean isSaveToLocal = false;
-    private boolean isRecordingStart = false;
     private String localSaveName = null;
+    private boolean isRecordStart = false;
+    private String recordType = null;
 
     public HandleVideo(AppCompatActivity appCompatActivity) {
         this.appCompatActivity = appCompatActivity;
@@ -296,66 +301,45 @@ public class HandleVideo extends Object {
     }
 
     @JavascriptInterface
-    public boolean startRecord() {
-        recorder = new MediaRecorder();
-        try {
-            recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        } catch (IllegalStateException e) {
-            Log.d(TAG, "startRecord: " + e.getMessage());
-        }
-        //如临时存放录音的文件夹不存在，则创建文件夾
-        File destDir = new File(basicPath + tempRecordingPath);
-        if (!destDir.exists()) {
-            destDir.mkdirs();
-        }
-        //准备录音，生成随机的临时文件名
-        String tempFileName = new String(System.currentTimeMillis() + ".mp3");
-        finalRecordingPath = finalRecordingPath.substring(0, finalRecordingPath.lastIndexOf("/") + 1)
-                + tempFileName;
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
-        recorder.setOutputFile(finalRecordingPath);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        try {
-            recorder.prepare();
-        } catch (IOException e) {
-            Log.d(TAG, "startRecord: " + e.getMessage());
-        }
+    public void startRecord() {
+        //配置录音模块
+        recordManager = RecordManager.getInstance();
+        recordManager.init(appCompatActivity.getApplication(), false);
+        recordManager.changeFormat(RecordConfig.RecordFormat.MP3);
+        recordManager.changeRecordConfig(recordManager.getRecordConfig().setSampleRate(16000));
+        recordManager.changeRecordConfig(recordManager.getRecordConfig().setEncodingConfig(AudioFormat.ENCODING_PCM_8BIT));
+        recordManager.changeRecordDir(basicPath + tempRecordingPath);
+        //添加监听函数
+        recordManager.setRecordResultListener(new RecordResultListener() {
+            @Override
+            public void onResult(File result) {
+                Intent intent1 = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
+                intent1.putExtra("type", recordType);
+                intent1.putExtra("filePath", "file://" + result.getAbsolutePath());
+                appCompatActivity.sendBroadcast(intent1);
+            }
+        });
         //开始录音
-        recorder.start();
-        isRecordingStart = true;
-        return true;
+        recordManager.start();
+        isRecordStart = true;
     }
 
     @JavascriptInterface
     public void stopRecord(int type) {
-        //用户阶段性录音
-        if (type == -1) {
-            if (isRecordingStart) {
-                recorder.pause();
-                isRecordingStart = !isRecordingStart;
-            } else {
-                recorder.resume();
-                isRecordingStart = !isRecordingStart;
-            }
-            return;
-        }
-        recorder.stop();
-        recorder.reset();
-        recorder.release();
-        recorder = null;
-        isRecordingStart = false;
         switch (type) {
+            case -1: //暂停和继续录音
+                if (isRecordStart == true) recordManager.pause();
+                else recordManager.resume();
+                isRecordStart = !isRecordStart;
+                break;
             case 1: //添加背景音乐
-                Intent intent1 = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
-                intent1.putExtra("type", "addBackgroundMusic");
-                intent1.putExtra("filePath", "file://" + finalRecordingPath);
-                appCompatActivity.sendBroadcast(intent1);
+                recordType = "addBackgroundMusic";
+                recordManager.stop();
                 break;
             case 2: //添加方言配音
-                Intent intent2 = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
-                intent2.putExtra("type", "addDialect");
-                intent2.putExtra("filePath", "file://" + finalRecordingPath);
-                appCompatActivity.sendBroadcast(intent2);
+                recordType = "addDialect";
+                recordManager.stop();
+                break;
         }
     }
 }
