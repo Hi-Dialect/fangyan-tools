@@ -14,28 +14,13 @@ let cutStart = 0;
 let cutEnd = 0;
 
 window.onload = () => {
-    //Jquery不支持此事件绑定
-    document.getElementById('video').ontimeupdate = handleTimeUpdate;
+    //视频响应事件绑定
+    document.getElementById('video').ontimeupdate = () =>
+        handleTimeUpdate('video', 'bofang');
+    document.getElementById('recordingVideo').ontimeupdate = () =>
+        handleTimeUpdate('recordingVideo', 'recordingPlay');
     //绘制视频帧当做剪辑背景
-    document.getElementById('video').onloadeddata = () => {
-        let video = document.getElementById("video");
-        let frameNumber = 10;
-
-        video.currentTime = 0;
-        document.getElementById('frames').innerHTML = '';
-        for (let i = 1; i <= frameNumber; i++) {
-            setTimeout(() => {
-                let canvas = document.createElement('canvas');
-                let context = canvas.getContext("2d");
-
-                canvas.style.height = '8vh';
-                canvas.style.width = 100 / frameNumber + '%';
-                document.getElementById('frames').appendChild(canvas);
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                video.currentTime = video.duration / frameNumber * i;
-            }, i * 100);
-        }
-    }
+    document.getElementById('video').onloadeddata = handleVideoLoadData;
     //初始化滑块，用于剪辑范围的选取
     $('.js-range-slider').ionRangeSlider({
         skin: 'big',
@@ -46,24 +31,18 @@ window.onload = () => {
         to: 60,
         step: 0.1,
         hide_min_max: true,
-        onChange: (data) => {
-            let cutDuration = document.getElementById('cutDuration');
-
-            cutStart = Math.round(data.from * 10) / 10;
-            cutEnd = Math.round(data.to * 10) / 10;
-            cutDuration.value = Math.round((cutEnd - cutStart) * 10) / 10 + ' s';
-        }
+        onChange: handleCutDurationChange
     });
-
+    //绑定其余响应函数
     $('#kuaitui').click(() => handleRewind());
-    $('#bofang').click(() => handlePlay());
     $('#kuaijin').click(() => handleForward());
-    $('#videoStart').change(() => handleCutStart());
-    $('#videoEnd').change(() => handleCutEnd());
+    $('#bofang').click(() => handlePlay('video'));
+    $('#recordingPlay').click(() => handlePlay('recordingVideo'));
+    $('#recordingCancel').click(() => android.stopRecord(0));
+    $('#recordingCheck').click(() => handleRecordingCheck());
     $('#render').click(() => handleRender());
     $('#cutDuration').focus(() => $('#cutDuration').blur());
     $('#backToEdit').click(() => document.getElementById('outputVideo').src = '');
-
     $('#addBackgroundMusic').focus(() => focusElement = 'addBackgroundMusic');
     $('#addBackgroundMusic').click(() => mui('#popover').popover('toggle'));
     $('#addDialect').focus(() => focusElement = 'addDialect');
@@ -74,6 +53,7 @@ window.onload = () => {
     $('#recordNewAudio').click(() => handleRecordNewAudio());
 }
 
+//从本地选择音频文件，区分背景音乐和配音
 function handleSelectAudioFromLocal() {
     mui('#popover').popover('hide');
     if (focusElement == 'addBackgroundMusic') {
@@ -83,26 +63,59 @@ function handleSelectAudioFromLocal() {
     }
 }
 
+//录制新的音频，唤醒录音模块
 function handleRecordNewAudio() {
     mui('#popover').popover('hide');
-    if (focusElement == 'addBackgroundMusic') {
-        android.selectFile(4);
-    } else if (focusElement == 'addDialect') {
-        android.selectFile(6);
+    $('#recording').modal('show');
+}
+
+//视频加载完成后初始化剪辑模块
+function handleVideoLoadData() {
+    let video = document.getElementById("video");
+    let frameNumber = 10;
+
+    video.currentTime = 0;
+    document.getElementById('frames').innerHTML = '';
+    for (let i = 1; i <= frameNumber; i++) {
+        setTimeout(() => {
+            let canvas = document.createElement('canvas');
+            let context = canvas.getContext("2d");
+
+            canvas.style.height = '8vh';
+            canvas.style.width = 100 / frameNumber + '%';
+            document.getElementById('frames').appendChild(canvas);
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            video.currentTime = video.duration / frameNumber * i;
+        }, i * 100);
     }
 }
 
-function handleTimeUpdate() {
-    let video = document.getElementById('video');
-    let play = document.getElementById('bofang');
+//动态更新剪辑时间
+function handleCutDurationChange(data) {
+    let cutDuration = document.getElementById('cutDuration');
+
+    cutStart = Math.round(data.from * 10) / 10;
+    cutEnd = Math.round(data.to * 10) / 10;
+    cutDuration.value = Math.round((cutEnd - cutStart) * 10) / 10 + ' s';
+}
+
+//根据视频的播放状态更新内容
+function handleTimeUpdate(videoId, buttonId) {
+    let video = document.getElementById(videoId);
+    let play = document.getElementById(buttonId);
 
     if (video.paused) {
         play.setAttribute('xlink:href', '#icon-bofang');
-    } else {
+    } else if (videoId == 'video') {
         play.setAttribute('xlink:href', '#icon-zanting');
+    } else if (videoId == 'recordingVideo') {
+        play.setAttribute('xlink:href', '#icon-tingzhi');
+        $('#recordingBar').css('width', video.currentTime / video.duration * 100 + '%');
+        $('#recordingTimeLeft').html(Math.round(video.duration - video.currentTime));
     }
 }
 
+//调用后端视频渲染功能
 function handleRender() {
     let video = document.getElementById('video');
     let isMuted = document.getElementById('muted').classList.contains('mui-active');
@@ -115,10 +128,11 @@ function handleRender() {
 
     //开始渲染时暂停原始视频播放
     if (video.src != '' && !video.paused) {
-        handlePlay();
+        handlePlay('video');
     }
 }
 
+//处理快退，将在下一个版本删除
 function handleForward() {
     let video = document.getElementById('video');
 
@@ -135,6 +149,7 @@ function handleForward() {
     }, 50);
 }
 
+//处理快进，将在下一个版本删除
 function handleRewind() {
     let video = document.getElementById('video');
 
@@ -151,19 +166,27 @@ function handleRewind() {
     }, 50);
 }
 
-function handlePlay() {
-    let video = document.getElementById('video');
-    let play = document.getElementById('bofang');
+//处理不同模块的视频播放事件
+function handlePlay(id) {
+    let video = document.getElementById(id);
 
     clearInterval(forwardInterval);
     clearInterval(rewindInterval);
 
     if (video.paused) {
         video.play();
-        play.setAttribute('xlink:href', '#icon-zanting');
     } else {
         video.pause();
-        play.setAttribute('xlink:href', '#icon-bofang');
+    }
+}
+
+//录音完成调用后端生成相关文件
+function handleRecordingCheck() {
+    $('#recording').modal('hide');
+    if (focusElement == 'addBackgroundMusic') {
+        android.stopRecord(1);
+    } else if (focusElement == 'addDialect') {
+        android.stopRecord(2);
     }
 }
 
@@ -171,9 +194,11 @@ function handlePlay() {
 
 function addVideo(filePath) {
     let video = document.getElementById('video');
+    let recordingVideo = document.getElementById('recordingVideo');
 
     video.src = filePath;
     video.currentTime = 0.1;
+    recordingVideo.src = filePath;
     video.oncanplaythrough = () => {
         let my_range = $('.js-range-slider').data('ionRangeSlider');
         let cutDuration = document.getElementById('cutDuration');
