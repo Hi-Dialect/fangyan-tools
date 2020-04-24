@@ -40,6 +40,7 @@ public class HandleVideo extends Object {
     private float endTime = 1;
     private boolean isMuted = false;
     private boolean isSaveToLocal = false;
+    private boolean isRecordingStart = false;
     private String localSaveName = null;
 
     public HandleVideo(AppCompatActivity appCompatActivity) {
@@ -321,15 +322,28 @@ public class HandleVideo extends Object {
         }
         //开始录音
         recorder.start();
+        isRecordingStart = true;
         return true;
     }
 
     @JavascriptInterface
     public void stopRecord(int type) {
+        //用户阶段性录音
+        if (type == -1) {
+            if (isRecordingStart) {
+                recorder.pause();
+                isRecordingStart = !isRecordingStart;
+            } else {
+                recorder.resume();
+                isRecordingStart = !isRecordingStart;
+            }
+            return;
+        }
         recorder.stop();
         recorder.reset();
         recorder.release();
         recorder = null;
+        isRecordingStart = false;
         switch (type) {
             case 1: //添加背景音乐
                 Intent intent1 = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");

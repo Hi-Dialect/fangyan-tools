@@ -132,6 +132,10 @@ function handlePlay(id) {
 
     //切换播放和暂停状态
     video.paused ? video.play() : video.pause();
+    //如果是录音模块的控件，则关联到后端录制音频
+    if (id == 'recordingVideo') {
+        android.stopRecord(-1);
+    }
 }
 
 //录音完成调用后端生成相关文件
