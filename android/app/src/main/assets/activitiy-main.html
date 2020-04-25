@@ -2,11 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Hi-dialect</title>
-    <link rel="stylesheet" href="css/style.css">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
+   <head>
+       <meta charset="utf-8" />
+       <meta http-equiv="X-UA-Compatible" content="IE=edge">
+       <title>Hi-dialect</title>
+       <link rel="stylesheet" href="css/style.css">
+       <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width"> 
+   </head>
 </head>
 
 <body>
@@ -20,11 +22,11 @@
     <!-- App Header -->
     <div class="appHeader">
         <div class="left">
-            <a href="#" class="icon goBack">
-                <i class="icon ion-ios-arrow-back"></i>
+            <a href="javascript:;" class="icon toggleSidebar">
+                <i class="icon ion-ios-menu"></i>
             </a>
         </div>
-        <div class="pageTitle">专题</div>
+        <div class="pageTitle">活动</div>
         <div class="right">
             <label for="searchInput" class="mb-0 icon toggleSearchbox">
                 <i class="icon ion-ios-search"></i>
@@ -50,103 +52,80 @@
     <div id="appCapsule">
 
         <div class="appContent">
-
-
-            <!-- post list -->
-            <div class="row mt-2">
-                <!-- item -->
-                <div class="col-6">
-                    <a href="blog-post.html" class="postItem">
-                        <div class="imageWrapper">
-                            <img src="img/sample/photo11.jpg" alt="image" class="image">
-                        </div>
-                        <h2 class="title">#东北话专区</h2>
-                    </a>
-                </div>
-                <!-- * item -->
-                <!-- item -->
-                <div class="col-6">
-                    <a href="blog-post.html" class="postItem">
-                        <div class="imageWrapper">
-                            <img src="img/sample/photo8.jpg" alt="image" class="image">
-                        </div>
-                        <h2 class="title">#四川话专区</h2>
-                    </a>
-                </div>
-                <!-- * item -->
-                <!-- item -->
-                <div class="col-6">
-                    <a href="blog-post.html" class="postItem">
-                        <div class="imageWrapper">
-                            <img src="img/sample/photo3.jpg" alt="image" class="image">
-                        </div>
-                        <h2 class="title">#江苏话专区</h2>
-                    </a>
-                </div>
-                <!-- * item -->
-                <!-- item -->
-                <div class="col-6">
-                    <a href="blog-post.html" class="postItem">
-                        <div class="imageWrapper">
-                            <img src="img/sample/photo4.jpg" alt="image" class="image">
-                        </div>
-                        <h2 class="title">#浙江话专区</h2>
-                    </a>
-                </div>
-                <!-- * item -->
-                <!-- item -->
-                <div class="col-6">
-                    <a href="blog-post.html" class="postItem">
-                        <div class="imageWrapper">
-                            <img src="img/sample/photo12.jpg" alt="image" class="image">
-                        </div>
-                        <h2 class="title">#北京话专区</h2>
-                    </a>
-                </div>
-                <!-- * item -->
-                <!-- item -->
-                <div class="col-6">
-                    <a href="blog-post.html" class="postItem">
-                        <div class="imageWrapper">
-                            <img src="img/sample/photo13.jpg" alt="image" class="image">
-                        </div>
-                        <h2 class="title">#上海话专区</h2>
-                    </a>
-                </div>
-                <!-- * item -->
-                <!-- item -->
-                <div class="col-6">
-                    <a href="blog-post.html" class="postItem">
-                        <div class="imageWrapper">
-                            <img src="img/sample/photo14.jpg" alt="image" class="image">
-                        </div>
-                        <h2 class="title">#安徽话专区</h2>
-                    </a>
-                </div>
-                <!-- * item -->
-                <!-- item -->
-                <div class="col-6">
-                    <a href="blog-post.html" class="postItem">
-                        <div class="imageWrapper">
-                            <img src="img/sample/photo2.jpg" alt="image" class="image">
-                        </div>
-                        <h2 class="title">#其他</h2>
-                    </a>
-                </div>
-                <!-- * item -->
-            </div>
-            <!-- * post list -->
-
-            <div class="mt-2 mb-2">
-                <a href="javascript:;" class="btn btn-primary btn-lg btn-block">Load More</a>
-            </div>
+			<!-- <div class="divider  mb-4 mt-4"></div> -->
+			
+			<!-- Gallery Carousel -->
+			<div class="basicCarousel owl-carousel mt-2">
+				<a href="activity-info.html">
+					<div class="item">
+						<img src="img/sample/photo1.jpg" alt="image" class="imageBlock img-fluid rounded">
+					</div>
+				</a>
+				<a href="activity-info.html">
+					<div class="item">
+						<img src="img/sample/photo2.jpg" alt="image" class="imageBlock img-fluid rounded">
+					</div>
+				</a>
+				<a href="activity-info.html">
+					<div class="item">
+						<img src="img/sample/photo3.jpg" alt="image" class="imageBlock img-fluid rounded">
+					</div>
+				</a>
+				<a href="activity-info.html">
+					<div class="item">
+						<img src="img/sample/photo4.jpg" alt="image" class="imageBlock img-fluid rounded">
+					</div>
+				</a>
+			</div>
+            <div class="divider mt-2 mb-2"></div>
+			<div class="sectionTitle mb-2">
+			    <div class="text-muted">专题</div>
+			    <div class="title">
+			        <h1>热门活动</h1>
+			        <!-- <a href="blog-category.html">查看所有</a> -->
+			    </div>
+			</div>
+			
+			<div class="postCarousel owl-carousel">
+			    <div class="item">
+			        <a href="activity-daily.html">
+			            <img src="img/sample/photo4.jpg" alt="image" class="image">
+			            <h2 class="title">每日一课</h2>
+			        </a>
+			    </div>
+			    <div class="item">
+			        <a href="activity-movie.html">
+			            <img src="img/sample/photo12.jpg" alt="image" class="image">
+			            <h2 class="title">配音大赛</h2>
+			        </a>
+			    </div>
+			    <div class="item">
+			        <a href="activity-info.html">
+			            <img src="img/sample/photo3.jpg" alt="image" class="image">
+			            <h2 class="title">母亲节活动</h2>
+			        </a>
+			    </div>
+			    <div class="item">
+			        <a href="activity-info.html">
+			            <img src="img/sample/photo2.jpg" alt="image" class="image">
+			            <h2 class="title">父亲节活动</h2>
+			        </a>
+			    </div>
+<!-- 			    <div class="item">
+			        <a href="blog-post.html">
+			            <img src="assets/img/sample/photo12.jpg" alt="image" class="image">
+			            <h2 class="title">今年最畅销的家具</h2>
+			        </a>
+			    </div> -->
+			</div>
 
         </div>
 
     </div>
-    <!-- * appCapsule -->
+    <!-- appCapsule -->
 
-<!-- App Bottom Menu -->
+
+    <!-- App Bottom Menu -->
     <div class="appBottomMenu">
         <div class="item">
             <a href="homepage.html">
@@ -156,7 +135,7 @@
                 </p>
             </a>
         </div>
-        <div class="item">
+        <div class="item active">
             <a href="activitiy-main.html">
                 <p>
                     <i class="icon ion-ios-apps"></i>
@@ -200,7 +179,7 @@
                 <h2 class="title">醒了很久还是很感动</h2>
                 <h5 class="lead">
                     <i class="icon ion-ios-pin mr-1"></i>
-                    上海市
+                    浙江省杭州市
                 </h5>
                 <div class="button">
                     <a href="#">
@@ -223,7 +202,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="activitiy-list.html">
+                        <a href="activitiy-main.html">
                             <i class="icon ion-ios-apps"></i>
                             活动
                         </a>
@@ -288,11 +267,12 @@
     <script src="js/lib/jquery-3.4.1.min.js"></script>
     <!-- Bootstrap-->
     <script src="js/lib/popper.min.js"></script>
-    <script src="js/lib/bootstrap.min.js"></script>
+    <script src="s/lib/bootstrap.min.js"></script>
     <!-- Owl Carousel -->
     <script src="js/plugins/owl.carousel.min.js"></script>
     <!-- Main Js File -->
     <script src="js/app.js"></script>
+
 
 </body>
 

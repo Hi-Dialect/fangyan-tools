@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Hi-dalect</title>
+        <link rel="stylesheet" href="css/style.css">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
+		<style type="text/css"></style>
+<!-- 	<!-- <script type="text/javascript">
+	 	function del(){
+	 		/* 显示 */
+	 		document.getElementById("delete").style.display="block";
+	 	}
+	 	function delesc(){
+	 		/* 隐藏 */
+	 		document.getElementById("delete").style.display="none";
+	 	}-->
+<!-- 	</script> --> -->
+
+	 </head>
+	<!--<div id="delete" style="border: 2px solid;width: 100%;margin: auto;height: 100%;position: fixed;left: 0px;top:50%;background: rgb(0,0,0,0);overflow: auto;text-align: center;display: none;">
+		<div style="background: white;width: 250px;height: 150px;margin: auto;margin-top: 50px;border-radius: 5px;">
+			<div style="height: 110px;border-bottom: 1px solid #CCCCCC;">
+				<div style="font-size: 0.9rem;padding-top: 30px;">您确定要删除该项目吗？</div>
+				<div style="font-size: 0.8rem;margin-top: 15px;">一旦删除将不可恢复。</div>
+			</div>
+			<div style="height: 39px;">
+				<div οnclick="javascript:window.location.href=''" style="float: left;width: 49%;height: 39px;border-right: 1px solid #CCCCCC;line-height: 39px;font-size: 1rem;">确认</div>
+				<div οnclick="delesc()" style="float: right;width: 50%;height: 39px;line-height: 39px;font-size: 1rem">取消</div>
+			</div>
+		</div>
+	</div> -->
+	<!-- App Header -->
+	<div class="appHeader">
+	    <div class="left">
+	        <a href="javascript:;" class="icon goBack">
+	            <i class="icon ion-ios-arrow-back"></i>
+	        </a>
+	    </div>
+	    <div class="pageTitle">每日一课打卡</div>
+	</div>
+	<!-- App Header -->
+	<div style="margin-top:14% ;">
+		<video  controls="controls" src="../imgs/try.mp4" poster="screen.jpg" onplay="false" height="100%" width="100%"  onclick="if(/Android/.test(navigator.userAgent))this.play();">
+		<!--视频资源放置-->	   
+		</video>
+	</div>
+    <div style="margin-top:-2%;">
+		<marquee  style=" background-color:#F6F6F6; text-align:center; height: 180px; width: 100%;" scrollamount="3" behavior="scroll" direction="up"><br>您吃了吗</br><br>还没有呢？你呢？</br><br>吃了吃了</br></marquee> 
+	</div>
+	<div style="position: relative; margin-top:8%">
+		<h6 style="position: absolute; left: 4%;">配音选择</h6>
+		<button style="transform:scale(0.7); position: absolute;top:-11px;left: 21%;" type="button" class="btn btn-success mr-1 mb-1">
+				东北话
+		</button>
+		 <button style="transform:scale(0.7) ;position: absolute;top:-11px; margin-left:46%;" type="button" class="btn btn-danger mr-1 mb-1">
+		        北吴语
+		 </button>
+		 <button style="transform:scale(0.7);position: absolute;top:-11px;margin-left:71%;" type="button" class="btn btn-warning mr-1 mb-1">
+		        四川话
+		</button>
+	</div>
+	<div style="position: relative;margin-top:22%;">
+		<span onclick=""  style="position: absolute;font-size: 47px; margin-left:4%;" class="iconify" data-icon="ion:pulse-outline" data-inline="false"></span>
+		<p style="position: absolute;margin-top: 12%; margin-left:5%;">原音</p>
+		<span onclick=""  style="position: absolute;font-size: 47px; margin-left:24%;" class="iconify" data-icon="ion:stop-circle-outline" data-inline="false"></span>
+		<p style="position: absolute;margin-top: 12%;margin-left:25.5%;">暂停</p>
+		<span onclick=""  style="position: absolute;font-size: 47px; margin-left:44%;" class="iconify" data-icon="ion:mic-circle-outline" data-inline="false"></span>
+		<p style="position: absolute;margin-top: 12%;margin-left:42%;">开始配音</p>
+		<span onclick=""  style="position: absolute;font-size: 47px; margin-left:64%;" class="iconify" data-icon="ion:reload-circle-outline" data-inline="false"></span>
+	    <p style="position: absolute;margin-top: 12%;margin-left:65.5%;">重录</p>
+		<span onclick="" style="position: absolute;font-size: 47px;margin-left:83%;" class="iconify" data-icon="ion:checkmark-circle-outline" data-inline="false"></span>
+	    <p style="position: absolute;margin-top: 12%;margin-left:85.5%;">完成</p>
+	</div>
+	<div style="position: relative;margin-top:55%;">
+		<div style=" position: absolute;margin-top:-7%; left:34% ;font-size:16px;">您的分数：98</div>
+		<button style="transform:scale(0.8) ; position: absolute;margin-top:-10%;margin-left:2%;" type="button" class="btn btn-danger mr-1 mb-1">
+		       一键评分
+		</button>
+		<a href="tool-videoShare.html">
+		<button style="transform:scale(0.8) ; position: absolute;margin-top:-10%;margin-left:66%;" type="button" class="btn btn-primary mr-1 mb-1">
+		       选择分享
+		</button>
+		</a>
+	</div>
+	
+		
+	</body>
+
+</html>
