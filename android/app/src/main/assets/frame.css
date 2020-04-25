@@ -39,7 +39,7 @@ body {
 #pills-tab {
     flex-direction: row;
     justify-content: space-around;
-    padding: 1vh 0 0;
+    padding: 1vh 0;
     border-top: 1px solid lightgray;
 }
 
@@ -65,7 +65,6 @@ body {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
 }
 
 .iconfont {
@@ -77,13 +76,18 @@ body {
     overflow: hidden;
 }
 
+.icon-group {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 .icon {
     font-size: 8vw;
     color: gray;
 }
 
 .icon-large {
-    margin: auto;
     font-size: 10vw;
     color: gray;
 }
