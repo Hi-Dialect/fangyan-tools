@@ -32,7 +32,6 @@ window.onload = () => {
         onChange: handleCutDurationChange
     });
     //绑定其余响应函数
-    $('#mianVideo').click(() => handlePlay('video'));
     $('#recordingPlay').click(() => handlePlay('recordingVideo'));
     $('#recordingCancel').click(() => handleRecordingCancel());
     $('#recordingCheck').click(() => handleRecordingCheck());
