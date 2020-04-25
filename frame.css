@@ -39,12 +39,11 @@ body {
 #pills-tab {
     flex-direction: row;
     justify-content: space-around;
-    padding: 2vw;
 }
 
 .tab-pane {
-    margin: 5vw;
-    height: 35vh;
+    height: 40vh;
+    padding: 2vh 5vw;
     overflow: auto;
 }
 
