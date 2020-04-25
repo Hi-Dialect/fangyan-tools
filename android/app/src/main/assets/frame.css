@@ -60,6 +60,11 @@ body {
     height: 100%;
 }
 
+.mui-card-footer {
+    display: inline;
+    text-align: center;
+}
+
 .container-row {
     display: flex;
     flex-direction: row;
