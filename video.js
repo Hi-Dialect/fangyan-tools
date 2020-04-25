@@ -40,9 +40,9 @@ window.onload = () => {
     $('#cutDuration').focus(() => $('#cutDuration').blur());
     $('#backToEdit').click(() => document.getElementById('outputVideo').src = '');
     $('#addBackgroundMusic').focus(() => focusElement = 'addBackgroundMusic');
-    $('#addBackgroundMusic').click(() => mui('#popover').popover('toggle'));
+    $('#addBackgroundMusic').click(() => mui('#chooseAudio').popover('toggle'));
     $('#addDialect').focus(() => focusElement = 'addDialect');
-    $('#addDialect').click(() => mui('#popover').popover('toggle'));
+    $('#addDialect').click(() => mui('#chooseAudio').popover('toggle'));
     $('#selectVideoFromLocal').click(() => android.selectFile(1));
     $('#takeNewVideo').click(() => android.selectFile(2));
     $('#selectAudioFromLocal').click(() => handleSelectAudioFromLocal());
@@ -51,7 +51,7 @@ window.onload = () => {
 
 //从本地选择音频文件，区分背景音乐和配音
 function handleSelectAudioFromLocal() {
-    mui('#popover').popover('hide');
+    mui('#chooseAudio').popover('hide');
     if (focusElement == 'addBackgroundMusic') {
         android.selectFile(3);
     } else if (focusElement == 'addDialect') {
@@ -61,7 +61,7 @@ function handleSelectAudioFromLocal() {
 
 //录制新的音频，唤醒录音模块
 function handleRecordNewAudio() {
-    mui('#popover').popover('hide');
+    mui('#chooseAudio').popover('hide');
     $('#recording').modal('show');
 }
 
