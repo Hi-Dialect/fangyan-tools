@@ -24,7 +24,7 @@
 }
 
 body {
-    font-size: 4vw;
+    font-size: 3vw;
     font-family: Arial, Helvetica, sans-serif;
     color: gray;
 }
@@ -48,14 +48,14 @@ body {
 }
 
 .mui-card {
-    width: 20%;
-    margin: 0 2% 1vh 2%;
+    width: 28%;
+    margin: 1vh 2% 1vh 2%;
     display: inline-block;
 }
 
 .mui-card-content img {
-    width: 20vw;
-    height: 20vw;
+    width: 100%;
+    height: 100%;
 }
 
 .container-row {
