@@ -82,18 +82,18 @@ function handleVideoLoadData() {
     let frames = document.getElementById('frames');
     let frameNumber = 10;
 
-    video.currentTime = 0;
     frames.innerHTML = null;
     for (let i = 1; i <= frameNumber; i++) {
         setTimeout(() => {
             let canvas = document.createElement('canvas');
             let context = canvas.getContext("2d");
 
+            video.currentTime = video.duration / frameNumber * i;
             canvas.style.height = '8vh';
             canvas.style.width = 100 / frameNumber + '%';
             frames.appendChild(canvas);
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            video.currentTime = (i != 10 ? video.duration / frameNumber * i : 0);
+            if (i == frameNumber) video.currentTime = 0;
         }, i * 100);
     }
 }
