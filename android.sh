@@ -15,6 +15,9 @@ then
     sudo cp -r  tools.css      android/app/src/main/assets
     sudo cp -r  tools.js       android/app/src/main/assets
     sudo cp -r  toolkit        android/app/src/main/assets
+    sudo cp -r  css            android/app/src/main/assets
+    sudo cp -r  img            android/app/src/main/assets
+    sudo cp -r  js             android/app/src/main/assets
 elif [ $number -eq 2 ]
 then
     sh /home/yuwen/AndroidStudio/bin/studio.sh &
