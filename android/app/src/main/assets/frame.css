@@ -39,7 +39,7 @@ body {
 #pills-tab {
     flex-direction: row;
     justify-content: space-around;
-    padding: 1vh 0;
+    padding: 1vh 5vw;
     border-top: 1px solid lightgray;
 }
 
