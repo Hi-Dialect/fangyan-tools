@@ -38,6 +38,7 @@ window.onload = () => {
     $('#recordingCheck').click(() => handleRecordingCheck());
     $('#render').click(() => handleRender());
     $('#cutDuration').focus(() => $('#cutDuration').blur());
+    $('#videoSpeed').change(() => handleVideoSpeedChange());
     $('#backToEdit').click(() => document.getElementById('outputVideo').src = '');
     $('#addBackgroundMusic').focus(() => focusElement = 'addBackgroundMusic');
     $('#addBackgroundMusic').click(() => mui('#chooseAudio').popover('toggle'));
@@ -47,6 +48,17 @@ window.onload = () => {
     $('#takeNewVideo').click(() => android.selectFile(2));
     $('#selectAudioFromLocal').click(() => handleSelectAudioFromLocal());
     $('#recordNewAudio').click(() => handleRecordNewAudio());
+}
+
+//改变视频播放的倍速
+function handleVideoSpeedChange() {
+    let video = document.getElementById('video');
+    let recordingVideo = document.getElementById('video');
+    let speed = document.getElementById('videoSpeed').value;
+
+    videoSpeed = speed;
+    video.playbackRate = speed;
+    recordingVideo.playbackRate = speed;
 }
 
 //从本地选择音频文件，区分背景音乐和配音
@@ -101,14 +113,14 @@ function handleTimeUpdate(videoId, buttonId) {
     let video = document.getElementById(videoId);
     let play = document.getElementById(buttonId);
 
-    if (video.paused) {
-        play.setAttribute('xlink:href', '#icon-bofang');
-    } else if (videoId == 'video') {
-        play.setAttribute('xlink:href', '#icon-zanting');
-    } else if (videoId == 'recordingVideo') {
-        play.setAttribute('xlink:href', '#icon-tingzhi');
+    if (videoId == 'recordingVideo') {
         $('#recordingBar').css('width', video.currentTime / video.duration * 100 + '%');
         $('#recordingTimeLeft').html(Math.round(video.duration - video.currentTime));
+        if (video.paused) {
+            play.setAttribute('xlink:href', '#icon-bofang');
+        } else if (videoId == 'video') {
+            play.setAttribute('xlink:href', '#icon-tingzhi');
+        }
     }
 }
 

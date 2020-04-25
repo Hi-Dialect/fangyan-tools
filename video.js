@@ -113,14 +113,14 @@ function handleTimeUpdate(videoId, buttonId) {
     let video = document.getElementById(videoId);
     let play = document.getElementById(buttonId);
 
-    if (video.paused) {
-        play.setAttribute('xlink:href', '#icon-bofang');
-    } else if (videoId == 'video') {
-        play.setAttribute('xlink:href', '#icon-zanting');
-    } else if (videoId == 'recordingVideo') {
-        play.setAttribute('xlink:href', '#icon-tingzhi');
+    if (videoId == 'recordingVideo') {
         $('#recordingBar').css('width', video.currentTime / video.duration * 100 + '%');
         $('#recordingTimeLeft').html(Math.round(video.duration - video.currentTime));
+        if (video.paused) {
+            play.setAttribute('xlink:href', '#icon-bofang');
+        } else if (videoId == 'video') {
+            play.setAttribute('xlink:href', '#icon-tingzhi');
+        }
     }
 }
 

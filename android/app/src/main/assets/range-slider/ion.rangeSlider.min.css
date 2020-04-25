@@ -253,7 +253,7 @@
 }
 
 .irs--big {
-    height: 100px
+    height: 120px
 }
 
 .irs--big.irs-with-grid {
@@ -320,11 +320,9 @@
 .irs--big .irs-to,
 .irs--big .irs-single {
     top: 10vh;
-    color: white;
+    color: gray;
     text-shadow: none;
     padding: 1px 5px;
-    background-color: #428bca;
-    background: linear-gradient(to bottom, #428bca 0%, #3071a9 100%);
     opacity: 50%;
     border-radius: 50px
 }
