@@ -253,7 +253,8 @@
 }
 
 .irs--big {
-    height: 110px
+    margin-top: 2vh;
+    height: 100px
 }
 
 .irs--big.irs-with-grid {
@@ -292,7 +293,7 @@
 
 .irs--big .irs-handle {
     top: -1vh;
-    width: 4vw;
+    width: 5vw;
     height: 10vh;
     border: 1px solid rgba(0, 0, 0, 0.3);
     background-color: lightblue;
@@ -303,7 +304,6 @@
 .irs--big .irs-handle:hover {
     border-color: rgba(0, 0, 0, 0.45);
     background-color: lightblue;
-    opacity: 50%;
 }
 
 .irs--big .irs-min,
