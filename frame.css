@@ -39,6 +39,8 @@ body {
 #pills-tab {
     flex-direction: row;
     justify-content: space-around;
+    padding: 1vh 0;
+    border-top: 1px solid lightgray;
 }
 
 .tab-pane {
