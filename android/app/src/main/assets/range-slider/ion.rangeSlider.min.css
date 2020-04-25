@@ -253,8 +253,8 @@
 }
 
 .irs--big {
-    margin-top: 2vh;
-    height: 100px
+    margin: 2vh 2vw;
+    height: 100px;
 }
 
 .irs--big.irs-with-grid {
