@@ -39,7 +39,7 @@ window.onload = () => {
     $('#cutDuration').focus(() => $('#cutDuration').blur());
     $('#videoSpeed').change(() => handleVideoSpeedChange());
     $('#backToEdit').click(() => document.getElementById('outputVideo').src = '');
-    $('#postNews').click(() => window.location.href = "social-home.html")
+    $('#postNews').click(() => window.location.href = 'social-home.html');
     $('#addBackgroundMusic').focus(() => focusElement = 'addBackgroundMusic');
     $('#addBackgroundMusic').click(() => mui('#chooseAudio').popover('toggle'));
     $('#addDialect').focus(() => focusElement = 'addDialect');

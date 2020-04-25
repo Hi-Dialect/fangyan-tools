@@ -15,6 +15,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
         webView = (WebView) findViewById(R.id.webview);
         webView.loadUrl("file:///android_asset/homepage.html");
+        //取消链接拦截
+        webView.setWebViewClient(new WebViewClient() {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return false;
+            }
+        });
 
         //添加js监听 这样html就能调用客户端
         webView.addJavascriptInterface(new HandleVideo(this), "android");
