@@ -224,7 +224,7 @@
 
     <button type="button" data-toggle="modal" id="showRenderModal" data-target="#renderProgress"></button>
     <div class="modal fade" id="renderProgress" data-backdrop="static" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="renderProgressLabel">视频渲染中...</h5>
@@ -243,7 +243,7 @@
                         data-dismiss="modal">
                         终止渲染
                     </button>
-                    <button id="backToEdit" type="button" class="btn btn-outline-secondary btn-block"
+                    <button id="backToEdit" type="button" class="btn btn-outline-danger btn-block"
                         data-dismiss="modal">
                         返回编辑
                     </button>
@@ -257,7 +257,7 @@
 
     <button type="button" data-toggle="modal" id="showRecordingModal" data-target="#recording"></button>
     <div class="modal fade show" id="recording" data-backdrop="static" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">录制音频</h5>
