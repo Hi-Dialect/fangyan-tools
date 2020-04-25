@@ -45,6 +45,7 @@ body {
 .tab-pane {
     margin: 5vw;
     height: 35vh;
+    overflow: auto;
 }
 
 .mui-card {
