@@ -34,9 +34,11 @@
         </div>
     </div>
 
-    <video id="video" class="video-container" controls="controls" width="100%">
-        <source src="/home/yuwen/Downloads/video.mp4" type="video/mp4">
-    </video>
+    <div id="mainVideo">
+        <video id="video" class="video-container" controls="controls" width="100%">
+            <source src="/home/yuwen/Downloads/video.mp4" type="video/mp4">
+        </video>
+    </div>
 
     <div id="navigation">
         <div class="tab-content" id="pills-tabContent">
@@ -142,7 +144,8 @@
                     <div class="container-row">
                         <label>背景音</label>
                         <label id="backgroundMusicLabel">待上传</label>
-                        <button id="addBackgroundMusic" class="btn btn-success audio-button">
+                        <button type="button" id="addBackgroundMusic"
+                            class="btn btn-warning btn-sm rounded audio-button">
                             点击添加
                         </button>
                     </div>
@@ -151,7 +154,8 @@
                     <div class="container-row">
                         <label>配音</label>
                         <label id="dialectLabel">待上传</label>
-                        <button id="addDialect" class="btn btn-info audio-button">
+                        <button type="button" id="addDialect"
+                            class="btn btn-success btn-sm rounded audio-button">
                             点击添加
                         </button>
                     </div>

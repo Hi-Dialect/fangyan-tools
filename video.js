@@ -32,7 +32,7 @@ window.onload = () => {
         onChange: handleCutDurationChange
     });
     //绑定其余响应函数
-    $('#bofang').click(() => handlePlay('video'));
+    $('#mianVideo').click(() => handlePlay('video'));
     $('#recordingPlay').click(() => handlePlay('recordingVideo'));
     $('#recordingCancel').click(() => handleRecordingCancel());
     $('#recordingCheck').click(() => handleRecordingCheck());
