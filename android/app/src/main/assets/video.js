@@ -67,11 +67,12 @@ function handleRecordNewAudio() {
 
 //视频加载完成后初始化剪辑模块
 function handleVideoLoadData() {
-    let video = document.getElementById("video");
+    let video = document.getElementById("recordingVideo");
+    let frames = document.getElementById('frames');
     let frameNumber = 10;
 
     video.currentTime = 0;
-    document.getElementById('frames').innerHTML = '';
+    frames.innerHTML = null;
     for (let i = 1; i <= frameNumber; i++) {
         setTimeout(() => {
             let canvas = document.createElement('canvas');
@@ -79,9 +80,9 @@ function handleVideoLoadData() {
 
             canvas.style.height = '8vh';
             canvas.style.width = 100 / frameNumber + '%';
-            document.getElementById('frames').appendChild(canvas);
+            frames.appendChild(canvas);
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            video.currentTime = video.duration / frameNumber * i;
+            video.currentTime = (i != 10 ? video.duration / frameNumber * i : 0);
         }, i * 100);
     }
 }
@@ -170,9 +171,8 @@ function addVideo(filePath) {
     let recordingVideo = document.getElementById('recordingVideo');
 
     video.src = filePath;
-    video.currentTime = 0.1;
     recordingVideo.src = filePath;
-    video.oncanplaythrough = () => {
+    recordingVideo.oncanplaythrough = () => {
         let my_range = $('.js-range-slider').data('ionRangeSlider');
         let cutDuration = document.getElementById('cutDuration');
 
