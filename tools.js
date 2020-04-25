@@ -39,6 +39,7 @@ window.onload = () => {
     $('#cutDuration').focus(() => $('#cutDuration').blur());
     $('#videoSpeed').change(() => handleVideoSpeedChange());
     $('#backToEdit').click(() => document.getElementById('outputVideo').src = '');
+    $('#postNews').click(() => window.location.href = "social-home.html")
     $('#addBackgroundMusic').focus(() => focusElement = 'addBackgroundMusic');
     $('#addBackgroundMusic').click(() => mui('#chooseAudio').popover('toggle'));
     $('#addDialect').focus(() => focusElement = 'addDialect');
@@ -78,7 +79,7 @@ function handleRecordNewAudio() {
 
 //视频加载完成后初始化剪辑模块
 function handleVideoLoadData() {
-    let video = document.getElementById("recordingVideo");
+    let video = document.getElementById('recordingVideo');
     let frames = document.getElementById('frames');
     let frameNumber = 10;
 
@@ -86,7 +87,7 @@ function handleVideoLoadData() {
     for (let i = 1; i <= frameNumber; i++) {
         setTimeout(() => {
             let canvas = document.createElement('canvas');
-            let context = canvas.getContext("2d");
+            let context = canvas.getContext('2d');
 
             video.currentTime = video.duration / frameNumber * i;
             canvas.style.height = '8vh';

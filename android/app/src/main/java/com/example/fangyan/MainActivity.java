@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         registerReceiver(myReceiver, intentFilter);
 
         webView = (WebView) findViewById(R.id.webview);
-        webView.loadUrl("file:///android_asset/index.html");
+        webView.loadUrl("file:///android_asset/homepage.html");
 
         //添加js监听 这样html就能调用客户端
         webView.addJavascriptInterface(new HandleVideo(this), "android");
