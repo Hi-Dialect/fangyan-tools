@@ -33,18 +33,17 @@ body {
     position: fixed;
     bottom: 0;
     width: 100%;
-    max-height: 50vh;
 }
 
 #pills-tab {
     flex-direction: row;
     justify-content: space-around;
-    padding: 1vh 2vw;
+    padding: 1vh 1vw;
     border-top: 1px solid lightgray;
 }
 
 .tab-pane {
-    height: 40vh;
+    height: 45vh;
     padding: 2vh 3vw;
     overflow: auto;
 }
