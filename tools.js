@@ -149,6 +149,13 @@ function handlePlay(id) {
     video.paused ? video.play() : video.pause();
     //如果是录音模块的控件，则关联到后端录制音频
     if (id == 'recordingVideo') {
+        //更改图标
+        if (video.paused) {
+            $('recordingPlay').attr('xlink:href', 'icon-zanting');
+        } else {
+            $('recordingPlay').attr('xlink:href', 'icon-bofang');
+        }
+        //后端调用
         if (recordingStart) {
             android.stopRecord(-1);
         } else {
