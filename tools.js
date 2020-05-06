@@ -73,8 +73,15 @@ function handleSelectAudioFromLocal() {
 
 //录制新的音频，唤醒录音模块
 function handleRecordNewAudio() {
+    let video = document.getElementById('video');
+
     mui('#chooseAudio').popover('hide');
     $('#recording').modal('show');
+
+    //开始录音时暂停原始视频播放
+    if (video.src != '' && !video.paused) {
+        handlePlay('video');
+    }
 }
 
 //视频加载完成后初始化剪辑模块
