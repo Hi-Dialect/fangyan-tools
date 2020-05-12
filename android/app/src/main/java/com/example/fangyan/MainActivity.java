@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.WebSettings;
@@ -28,8 +27,8 @@ import me.rosuh.filepicker.config.FilePickerManager;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "FFmpeg";
-    private WebView webView;
     private CommonReceiver myReceiver;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
             //更新渲染进度
             if (type.equals("updateRenderProgress")) {
-                int percentage = intent.getIntExtra("percentage", 0);
+                float percentage = intent.getFloatExtra("percentage", 0);
                 String filePath = intent.getStringExtra("filePath");
                 webView.loadUrl("javascript:updateRenderBar(" + percentage + ",'" + filePath + "')");
             }

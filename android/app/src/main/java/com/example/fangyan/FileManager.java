@@ -262,6 +262,7 @@ public class FileManager {
         return context.getExternalFilesDir(type).getAbsolutePath();
     }
 
+    // 判断文件是否存在
     public static boolean isFileExist(String filePath) {
         File file = new File(filePath);
         return file.isFile();

@@ -3,12 +3,10 @@ package com.example.fangyan;
 import android.content.Intent;
 import android.media.AudioFormat;
 import android.media.MediaMetadataRetriever;
-import android.media.MediaRecorder;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
-import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +15,6 @@ import com.zlw.main.recorderlib.recorder.RecordConfig;
 import com.zlw.main.recorderlib.recorder.listener.RecordResultListener;
 
 import java.io.File;
-import java.io.IOException;
 
 import VideoHandle.EpEditor;
 import VideoHandle.EpVideo;
@@ -48,6 +45,7 @@ public class HandleVideo extends Object {
     private boolean isRecordStart = false;
     private boolean isRecordCancel = false;
     private String recordType = null;
+    private String filter = null;
 
     public HandleVideo(AppCompatActivity appCompatActivity) {
         this.appCompatActivity = appCompatActivity;
@@ -61,7 +59,7 @@ public class HandleVideo extends Object {
         return basicPath + tempRecordingPath;
     }
 
-    private void sendProgressMessage(int percentage) {
+    private void sendProgressMessage(float percentage) {
         Intent intent = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
         intent.putExtra("type", "updateRenderProgress");
         intent.putExtra("percentage", percentage);
@@ -69,10 +67,11 @@ public class HandleVideo extends Object {
         appCompatActivity.sendBroadcast(intent);
     }
 
-    //第一步，选择剪辑范围
+    //第一步，选择剪辑范围并添加滤镜
     private void videoClip() {
         EpVideo epVideo = new EpVideo(inputPath);
         epVideo.clip(startTime, endTime - startTime);
+        if (filter != null) epVideo.addFilter(filter);
         EpEditor.OutputOption outputOption = new EpEditor.OutputOption(outputPath);
         EpEditor.exec(epVideo, outputOption, new OnEditorListener() {
             @Override
@@ -81,7 +80,7 @@ public class HandleVideo extends Object {
                 FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
                         tempVideoPath, "input.mp4");
                 FileManager.removeFileFromSDCard(outputPath);
-                sendProgressMessage(25);
+                sendProgressMessage(50);
                 mute();
             }
 
@@ -92,6 +91,7 @@ public class HandleVideo extends Object {
 
             @Override
             public void onProgress(float progress) {
+                if (progress < 1) sendProgressMessage(50 * progress);
                 Log.d(TAG, "onProgress: videoClip");
             }
         });
@@ -107,7 +107,7 @@ public class HandleVideo extends Object {
                     FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
                             tempVideoPath, "input.mp4");
                     FileManager.removeFileFromSDCard(outputPath);
-                    sendProgressMessage(50);
+                    sendProgressMessage(65);
                     addBackgroundMusic();
                 }
 
@@ -118,11 +118,12 @@ public class HandleVideo extends Object {
 
                 @Override
                 public void onProgress(float progress) {
+                    if (progress < 1) sendProgressMessage(50 + 15 * progress);
                     Log.d(TAG, "onProgress: mute");
                 }
             });
         } else {
-            sendProgressMessage(50);
+            sendProgressMessage(65);
             addBackgroundMusic();
         }
     }
@@ -137,7 +138,7 @@ public class HandleVideo extends Object {
                     FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
                             tempVideoPath, "input.mp4");
                     FileManager.removeFileFromSDCard(outputPath);
-                    sendProgressMessage(75);
+                    sendProgressMessage(80);
                     addDialect();
                 }
 
@@ -148,12 +149,13 @@ public class HandleVideo extends Object {
 
                 @Override
                 public void onProgress(float progress) {
+                    if (progress < 1) sendProgressMessage(65 + 15 * progress);
                     Log.d(TAG, "onProgress: addBackgroundMusic");
                 }
             });
         } else {
             Log.d(TAG, "addBackgroundMusic: backgroundMusicPath Wrong!");
-            sendProgressMessage(75);
+            sendProgressMessage(80);
             addDialect();
         }
     }
@@ -168,7 +170,7 @@ public class HandleVideo extends Object {
                     FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(outputPath),
                             tempVideoPath, "input.mp4");
                     FileManager.removeFileFromSDCard(outputPath);
-                    sendProgressMessage(99);
+                    sendProgressMessage(95);
                     finalStep();
                 }
 
@@ -179,12 +181,13 @@ public class HandleVideo extends Object {
 
                 @Override
                 public void onProgress(float progress) {
+                    if (progress < 1) sendProgressMessage(80 + 15 * progress);
                     Log.d(TAG, "onProgress: addDialect");
                 }
             });
         } else {
             Log.d(TAG, "addDialect: dialectPath Wrong!");
-            sendProgressMessage(99);
+            sendProgressMessage(95);
             finalStep();
         }
     }
@@ -210,8 +213,8 @@ public class HandleVideo extends Object {
 
     @JavascriptInterface
     public void renderVideo(String videoPath, String backgroundMusicPath, String dialectPath,
-                            String startTime, String endTime, boolean isMuted, boolean isSaveToLocal,
-                            String localSaveName) {
+                            String startTime, String endTime, boolean isMuted,
+                            boolean isSaveToLocal, String localSaveName) {
         this.backgroundMusicPath = backgroundMusicPath;
         this.dialectPath = dialectPath;
         this.startTime = Float.parseFloat(startTime);
@@ -219,6 +222,7 @@ public class HandleVideo extends Object {
         this.isMuted = isMuted;
         this.isSaveToLocal = isSaveToLocal;
         this.localSaveName = localSaveName;
+        this.filter = "lutyuv=y=maxval+minval-val:u=maxval+minval-val:v=maxval+minval-val";
 
         //异步操作临时解决方案：剪辑->消音->添加背景音乐->添加方言配音
         if (videoPath == null || videoPath.length() <= 0) {
