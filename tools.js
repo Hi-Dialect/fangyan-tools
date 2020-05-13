@@ -35,6 +35,15 @@ window.onload = () => {
         hide_min_max: true,
         onChange: handleCutDurationChange
     });
+    //滤镜选择时显示对应的图标
+    ([0, 1, 2, 3, 4, 5, 6, 7, 8]).map(number => {
+        $('#filter' + number).click(() => {
+            ([0, 1, 2, 3, 4, 5, 6, 7, 8]).map(number => {
+                $('#lvjing' + number).css('visibility', 'hidden');
+            });
+            $('#lvjing' + number).css('visibility', 'visible');
+        });
+    });
     //绑定其余响应函数
     $('#recordingPlay').click(() => handlePlay('recordingVideo'));
     $('#recordingCancel').click(() => handleRecordingCancel());

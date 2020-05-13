@@ -65,7 +65,7 @@ body {
 .mui-card-content svg {
     margin: 1vw;
     font-size: 5vw;
-    display: none;
+    visibility: hidden;
 }
 
 .mui-card-footer {
