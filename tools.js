@@ -45,9 +45,9 @@ window.onload = () => {
         });
     });
     //绑定其余响应函数
-    $('#recordingPlay').click(() => handlePlay('recordingVideo'));
-    $('#recordingCancel').click(() => handleRecordingCancel());
-    $('#recordingCheck').click(() => handleRecordingCheck());
+    $('#recordingPlay').parent().click(() => handlePlay('recordingVideo'));
+    $('#recordingCancel').parent().click(() => handleRecordingCancel());
+    $('#recordingCheck').parent().click(() => handleRecordingCheck());
     $('#render').click(() => handleRender());
     $('#cutDuration').focus(() => $('#cutDuration').blur());
     $('#videoSpeed').change(() => handleVideoSpeedChange());
