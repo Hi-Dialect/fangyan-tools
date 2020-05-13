@@ -8,6 +8,8 @@ let dialectPath = '';
 let cutStart = 0;
 //剪辑的结束时间
 let cutEnd = 0;
+//当前选择的滤镜
+let filter = 1;
 //是否已经开始录音
 let recordingStart = false;
 
@@ -35,13 +37,16 @@ window.onload = () => {
         hide_min_max: true,
         onChange: handleCutDurationChange
     });
+    //默认不添加滤镜，滤镜会大幅度延缓处理时间
+    $('#lvjing1').css('visibility', 'visible');
     //滤镜选择时显示对应的图标
-    ([0, 1, 2, 3, 4, 5, 6, 7, 8]).map(number => {
+    ([1, 2, 3, 4, 5, 6, 7, 8]).map(number => {
         $('#filter' + number).click(() => {
-            ([0, 1, 2, 3, 4, 5, 6, 7, 8]).map(number => {
+            ([1, 2, 3, 4, 5, 6, 7, 8]).map(number => {
                 $('#lvjing' + number).css('visibility', 'hidden');
             });
             $('#lvjing' + number).css('visibility', 'visible');
+            filter = number;
         });
     });
     //绑定其余响应函数
@@ -153,7 +158,7 @@ function handleRender() {
 
     //注意参数传递和后端保持一致
     android.renderVideo(video.src, backgroundMusicPath, dialectPath,
-        cutStart, cutEnd, isMuted, isSaveToLocal, localSaveName);
+        cutStart, cutEnd, filter, isMuted, isSaveToLocal, localSaveName);
 
     //开始渲染时暂停原始视频播放
     if (video.src != '' && !video.paused) {
