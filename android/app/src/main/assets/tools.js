@@ -8,6 +8,8 @@ let dialectPath = '';
 let cutStart = 0;
 //剪辑的结束时间
 let cutEnd = 0;
+//当前选择的滤镜
+let filter = 1;
 //是否已经开始录音
 let recordingStart = false;
 
@@ -17,6 +19,10 @@ window.onload = () => {
         handleTimeUpdate('video', 'bofang');
     document.getElementById('recordingVideo').ontimeupdate = () =>
         handleTimeUpdate('recordingVideo', 'recordingPlay');
+    document.getElementById('recordingVideo').onended = () => {
+        android.stopRecord(-1);
+        recordingStart = false;
+    }
     //绘制视频帧当做剪辑背景
     document.getElementById('video').onloadeddata = handleVideoLoadData;
     //初始化滑块，用于剪辑范围的选取
@@ -31,10 +37,22 @@ window.onload = () => {
         hide_min_max: true,
         onChange: handleCutDurationChange
     });
+    //默认不添加滤镜，滤镜会大幅度延缓处理时间
+    $('#lvjing1').css('visibility', 'visible');
+    //滤镜选择时显示对应的图标
+    ([1, 2, 3, 4, 5, 6, 7, 8]).map(number => {
+        $('#filter' + number).click(() => {
+            ([1, 2, 3, 4, 5, 6, 7, 8]).map(number => {
+                $('#lvjing' + number).css('visibility', 'hidden');
+            });
+            $('#lvjing' + number).css('visibility', 'visible');
+            filter = number;
+        });
+    });
     //绑定其余响应函数
-    $('#recordingPlay').click(() => handlePlay('recordingVideo'));
-    $('#recordingCancel').click(() => handleRecordingCancel());
-    $('#recordingCheck').click(() => handleRecordingCheck());
+    $('#recordingPlay').parent().click(() => handlePlay('recordingVideo'));
+    $('#recordingCancel').parent().click(() => handleRecordingCancel());
+    $('#recordingCheck').parent().click(() => handleRecordingCheck());
     $('#render').click(() => handleRender());
     $('#cutDuration').focus(() => $('#cutDuration').blur());
     $('#videoSpeed').change(() => handleVideoSpeedChange());
@@ -125,7 +143,7 @@ function handleTimeUpdate(videoId, buttonId) {
         $('#recordingTimeLeft').html(Math.round(video.duration - video.currentTime));
         if (video.paused) {
             play.setAttribute('xlink:href', '#icon-bofang');
-        } else if (videoId == 'video') {
+        } else {
             play.setAttribute('xlink:href', '#icon-tingzhi');
         }
     }
@@ -140,7 +158,7 @@ function handleRender() {
 
     //注意参数传递和后端保持一致
     android.renderVideo(video.src, backgroundMusicPath, dialectPath,
-        cutStart, cutEnd, isMuted, isSaveToLocal, localSaveName);
+        cutStart, cutEnd, filter, isMuted, isSaveToLocal, localSaveName);
 
     //开始渲染时暂停原始视频播放
     if (video.src != '' && !video.paused) {
@@ -156,13 +174,6 @@ function handlePlay(id) {
     video.paused ? video.play() : video.pause();
     //如果是录音模块的控件，则关联到后端录制音频
     if (id == 'recordingVideo') {
-        //更改图标
-        if (video.paused) {
-            $('#recordingPlay').attr('xlink:href', '#icon-bofang');
-        } else {
-            $('#recordingPlay').attr('xlink:href', '#icon-zanting');
-        }
-        //后端调用
         if (recordingStart) {
             android.stopRecord(-1);
         } else {
@@ -174,6 +185,7 @@ function handlePlay(id) {
 
 //取消录音
 function handleRecordingCancel() {
+    document.getElementById('recordingVideo').currentTime = 0;
     $('#recording').modal('hide');
     recordingStart = false;
     android.stopRecord(0);
@@ -181,6 +193,7 @@ function handleRecordingCancel() {
 
 //录音完成调用后端生成相关文件
 function handleRecordingCheck() {
+    document.getElementById('recordingVideo').currentTime = 0;
     $('#recording').modal('hide');
     recordingStart = false;
     if (focusElement == 'addBackgroundMusic') {

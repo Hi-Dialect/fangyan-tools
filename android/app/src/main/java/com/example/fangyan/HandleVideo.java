@@ -213,7 +213,7 @@ public class HandleVideo extends Object {
 
     @JavascriptInterface
     public void renderVideo(String videoPath, String backgroundMusicPath, String dialectPath,
-                            String startTime, String endTime, boolean isMuted,
+                            String startTime, String endTime, int filter, boolean isMuted,
                             boolean isSaveToLocal, String localSaveName) {
         this.backgroundMusicPath = backgroundMusicPath;
         this.dialectPath = dialectPath;
@@ -222,8 +222,14 @@ public class HandleVideo extends Object {
         this.isMuted = isMuted;
         this.isSaveToLocal = isSaveToLocal;
         this.localSaveName = localSaveName;
-        this.filter = "lutyuv=y=maxval+minval-val:u=maxval+minval-val:v=maxval+minval-val";
-
+        switch (filter) {
+            case 2: //底片效果
+                this.filter = "lutyuv=y=maxval+minval-val:u=maxval+minval-val:v=maxval+minval-val";
+                break;
+            default: //其他情况不添加滤镜
+                this.filter = null;
+                break;
+        }
         //异步操作临时解决方案：剪辑->消音->添加背景音乐->添加方言配音
         if (videoPath == null || videoPath.length() <= 0) {
             Log.d(TAG, "renderVideo: videoPath Wrong!");

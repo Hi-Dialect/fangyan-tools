@@ -177,7 +177,6 @@ function handlePlay(id) {
         if (recordingStart) {
             android.stopRecord(-1);
         } else {
-            android.stopRecord(0);
             android.startRecord();
             recordingStart = true;
         }
@@ -186,6 +185,7 @@ function handlePlay(id) {
 
 //取消录音
 function handleRecordingCancel() {
+    document.getElementById('recordingVideo').currentTime = 0;
     $('#recording').modal('hide');
     recordingStart = false;
     android.stopRecord(0);
@@ -193,6 +193,7 @@ function handleRecordingCancel() {
 
 //录音完成调用后端生成相关文件
 function handleRecordingCheck() {
+    document.getElementById('recordingVideo').currentTime = 0;
     $('#recording').modal('hide');
     recordingStart = false;
     if (focusElement == 'addBackgroundMusic') {
