@@ -206,9 +206,13 @@ public class HandleVideo extends Object {
             FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(inputPath),
                     userVideoPath, localSaveName);
         }
-        //删除"FFmpeg"处理的中间文件
-        FileManager.removeFileFromSDCard(inputPath);
+        //发送视频至服务端
         sendProgressMessage(100);
+        try {
+            new PostRequest().uploadVideo(inputPath, "我创作的视频");
+        } catch (Exception e) {
+            Log.d(TAG, "finalStep: " + e.getMessage());
+        }
     }
 
     @JavascriptInterface
@@ -238,6 +242,10 @@ public class HandleVideo extends Object {
             intent.putExtra("message", "无法读取视频文件");
             appCompatActivity.sendBroadcast(intent);
         } else {
+            //删除"FFmpeg"处理的中间文件
+            if (FileManager.isFileExist(inputPath)) {
+                FileManager.removeFileFromSDCard(inputPath);
+            }
             //FileManager类操控外部储存文件，路径以"/storage"为前缀
             videoPath = videoPath.substring(videoPath.indexOf("/storage"));
             //加载原始视频
