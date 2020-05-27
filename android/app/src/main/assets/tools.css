@@ -44,9 +44,22 @@ body {
 }
 
 .tab-pane {
-    height: 45vh;
+    height: 40vh;
     padding: 5vh 3vw;
     overflow: auto;
+}
+
+.nav-item {
+    text-align: center;
+}
+
+.nav-item svg {
+    font-size: 5vw;
+    margin: auto;
+}
+
+.nav-item span {
+    display: block;
 }
 
 .mui-card {
