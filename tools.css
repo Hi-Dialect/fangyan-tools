@@ -49,6 +49,19 @@ body {
     overflow: auto;
 }
 
+.nav-item {
+    text-align: center;
+}
+
+.nav-item svg {
+    font-size: 5vw;
+    margin: auto;
+}
+
+.nav-item span {
+    display: block;
+}
+
 .mui-card {
     width: 22%;
     margin: 1vh 1% 1vh 1%;
