@@ -44,7 +44,7 @@ body {
 }
 
 .tab-pane {
-    height: 45vh;
+    height: 40vh;
     padding: 5vh 3vw;
     overflow: auto;
 }
