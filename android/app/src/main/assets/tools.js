@@ -50,6 +50,10 @@ window.onload = () => {
         });
     });
     //绑定其余响应函数
+    $('#postNews').click(() => {
+        sessionStorage.setItem('videoPath', document.getElementById('outputVideo').src);
+        window.location.href = 'tool-videoShare.html';
+    });
     $('#recordingPlay').parent().click(() => handlePlay('recordingVideo'));
     $('#recordingCancel').parent().click(() => handleRecordingCancel());
     $('#recordingCheck').parent().click(() => handleRecordingCheck());
@@ -57,7 +61,6 @@ window.onload = () => {
     $('#cutDuration').focus(() => $('#cutDuration').blur());
     $('#videoSpeed').change(() => handleVideoSpeedChange());
     $('#backToEdit').click(() => document.getElementById('outputVideo').src = '');
-    $('#postNews').click(() => window.location.href = 'social-home.html');
     $('#addBackgroundMusic').focus(() => focusElement = 'addBackgroundMusic');
     $('#addBackgroundMusic').click(() => mui('#chooseAudio').popover('toggle'));
     $('#addDialect').focus(() => focusElement = 'addDialect');

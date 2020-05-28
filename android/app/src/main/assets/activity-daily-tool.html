@@ -6,6 +6,8 @@
 
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<title>Hi-dalect</title>
+	<link rel="stylesheet" href="toolkit/bootstrap/css/bootstrap.css">
+	<link rel="stylesheet" href="toolkit/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/style.css">
 	<meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
 	<meta name="viewport"
@@ -13,117 +15,85 @@
 	<link href="css/mui.css" rel="stylesheet" />
 	<link rel="stylesheet" href="css/mui.min.css">
 	<script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
-	<style type="text/css"></style>
-	<script>
-		let beginvoice = false;
-		let pausevoice = false;
-		let AudioPath = "";
-		/*//取消录音
-		function handleRecordingCancel() {
-		    document.getElementById('recordingVideo').currentTime = 0;
-		    $('#recording').modal('hide');
-		    recordingStart = false;
-		    android.stopRecord(0);
-		}
-		
-		//录音完成调用后端生成相关文件
-		function handleRecordingCheck() {
-		    document.getElementById('recordingVideo').currentTime = 0;
-		    $('#recording').modal('hide');
-		    recordingStart = false;
-		    if (focusElement == 'addBackgroundMusic') {
-		        android.stopRecord(1);
-		    } else if (focusElement == 'addDialect') {
-		        android.stopRecord(2);
-		    }
-		}*/
-		var voice_befor = document.getElementById('videos').volume;
-
-		function videoOnload() {
-			let video = document.getElementById("videos");
-
-			//切换播放和暂停状态
-			video.play();
-			//如果是录音模块的控件，则关联到后端录制音频
-			if (beginvoice) {} else {
-				android.startRecord();
-				beginvoice = true;
-			}
+	<style type="text/css">
+		* {
+			margin: 0px;
+			padding: 0px;
 		}
 
-		function videoOnPause() {
-			var video = document.getElementById('videos');
-			if (beginvoice) //当按下开始配音后暂停才生效
-			{
-				if (!pausevoice) {
-					video.pause();
-					pausevoice = true;
-					android.stopRecord(-1);
-					document.getElementById('video_pause').innerHTML = "继续";
-				} else {
-					video.play();
-					pausevoice = false;
-					android.stopRecord(-1);
-					document.getElementById('video_pause').innerHTML = "暂停";
-
-				}
-			}
-
+		body {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
 		}
 
-		function videoReload() {
-			var video = document.getElementById('videos');
-			beginvoice = false;
-			pausevoice=false;
-			video.currentTime = 0;
-			video.pause();
-			android.stopRecord(0);
+		.box {
+			margin: 0px;
+			width: 100%;
 		}
 
-		function videoVoice() {
-			var voices = document.getElementById('videos');
-			if (voices.volume != 0) {
-				voice_befor = voices.volume;
-				voices.volume = 0;
-			} else {
-				voices.volume = voice_befor;
-			}
+		.lrc {
+			position: relative;
+			width: 100%;
+			height: 200px;
+			overflow-y: auto;
+			background-color: #ccc
 		}
 
-		function TakeScore() {
-			var score = Math.random() * (100 - 90) + 90;
-			score = score.toFixed(2)
-			document.getElementById('score').innerHTML = "您的分数:" + score;
-
+		.lrc li {
+			background-color: #F2F2F2;
+			display: block;
+			text-align: center;
+			padding: 5px;
 		}
 
-		function addDialect(filePath)//后台调用，无需逻辑
-		{
-			var video=document.getElementById('videos');
-			AudioPath = filePath; //传音频地址
-			android.renderVideo("file:///andriod_asset/test.mp4", null, AudioPath, 0, video.duration, null, null,true, null, null);
+		.z-crt {
+			color: #FF0000;
+			font-size: 23px;
 		}
 
-		function VideoFinish() {
-			var video=document.getElementById('videos');
-			video.currentTime = 0;
-			// $('#recording').modal('hide');
-			beginvoice = false;
-			pausevoice = false;
-			video.pause();
-			android.stopRecord(2);
-			
-			// if (focusElement == 'addBackgroundMusic') {
-			//     android.stopRecord(1);
-			// } else if (focusElement == 'addDialect') {
-			//     android.stopRecord(2);
-			// }
+		.ctrl {
+			margin: 0 auto;
+			padding-left: 100px;
+			width: 300px;
 		}
-	</script>
 
+		#hidebg {
+			z-index: 999;
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			background-color: #000;
+			width: 100%;
+			/*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
+			filter: alpha(opacity=60);
+			/*设置透明度为60%*/
+			opacity: 0.6;
+			/*非IE浏览器下设置透明度为60%*/
+			display: none;
+			z-Index: 2;
+		}
 
+		#hidebox {
+			z-index: 999;
+			position: absolute;
+			width: 100%;
+			height: 10%;
+			top: 40%;
+			left: 0%;
+			background-color: #fff;
+			display: none;
+			cursor: pointer;
+			z-Index: 3;
+		}
+	</style>
 </head>
-<!--<div id="delete" style="border: 2px solid;width: 100%;margin: auto;height: 100%;position: fixed;left: 0px;top:50%;background: rgb(0,0,0,0);overflow: auto;text-align: center;display: none;">
+
+<body>
+	<div id="box">
+		<span id="bar"></span>
+	</div>
+	<!--<div id="delete" style="border: 2px solid;width: 100%;margin: auto;height: 100%;position: fixed;left: 0px;top:50%;background: rgb(0,0,0,0);overflow: auto;text-align: center;display: none;">
 		<div style="background: white;width: 250px;height: 150px;margin: auto;margin-top: 50px;border-radius: 5px;">
 			<div style="height: 110px;border-bottom: 1px solid #CCCCCC;">
 				<div style="font-size: 0.9rem;padding-top: 30px;">您确定要删除该项目吗？</div>
@@ -135,76 +105,357 @@
 			</div>
 		</div>
 	</div> -->
-<!-- App Header -->
-<div class="appHeader">
-	<div class="left">
-		<a href="javascript:;" class="icon goBack">
-			<i class="icon ion-ios-arrow-back"></i>
+	<!-- App Header -->
+	<div class="appHeader">
+		<div class="left">
+			<a href="javascript:;" class="icon goBack">
+				<i class="icon ion-ios-arrow-back"></i>
+			</a>
+		</div>
+		<div class="pageTitle">每日一课打卡</div>
+	</div>
+	<!-- App Header -->
+	<div id="mainVideo" style="margin-top: 14%;">
+		<video id="videos" class="video-container" style="height:30% ; width: 100%; " controls="controls">
+			<source src="myTest.mp4" type="video/mp4">
+		</video>
+	</div>
+	<div class="box" id="box">
+		<ul class="lrc" id="lrc">
+		</ul>
+	</div>
+	<div id="hidebg"></div>
+	<!-- 渲染 -->
+	<div id="hidebox" onClick="hide();">
+		<div class="progress">
+			<div id="renderBar" style="position:absolute; z-index: 200;height: 100%; width:0%;"
+				class="progress-bar bg-success" role="progressbar"><span id="percenttext"
+					style="font-size:20px;">开始渲染</span></div>
+		</div>
+	</div>
+	<div style="position: relative; margin-top:5%">
+		<h6 style="position: absolute; left: 4%;">配音选择</h6>
+		<button style="transform:scale(0.7); position: absolute;top:-11px;left: 21%;" type="button"
+			class="btn btn-success mr-1 mb-1">
+			东北话
+		</button>
+		<button style="transform:scale(0.7) ;position: absolute;top:-11px; margin-left:46%;" type="button"
+			class="btn btn-danger mr-1 mb-1">
+			北吴语
+		</button>
+		<button style="transform:scale(0.7);position: absolute;top:-11px;margin-left:71%;" type="button"
+			class="btn btn-warning mr-1 mb-1">
+			四川话
+		</button>
+	</div>
+
+	<div style="position: relative;margin-top:20%;">
+		<span onclick="videoVoice()" style="position: absolute;font-size: 47px; margin-left:4%;"
+			class="iconify" data-icon="ion:pulse-outline" data-inline="false"></span>
+		<p style="position: absolute;margin-top: 12%; margin-left:6%;">原音</p>
+		<span onclick="videoOnPause()" style="position: absolute;font-size: 47px; margin-left:24%;"
+			class="iconify" data-icon="ion:stop-circle-outline" data-inline="false"></span>
+		<p id="video_pause" style="position: absolute;margin-top: 12%;margin-left:26.3%;">暂停</p>
+		<span onclick="videoOnload()" style="position: absolute;font-size: 47px; margin-left:44%;"
+			class="iconify" data-icon="ion:mic-circle-outline" data-inline="false"></span>
+		<p style="position: absolute;margin-top: 12%;margin-left:43%;">开始配音</p>
+		<span onclick="videoReload()" style="position: absolute;font-size: 47px; margin-left:64%;"
+			class="iconify" data-icon="ion:reload-circle-outline" data-inline="false"></span>
+		<p style="position: absolute;margin-top: 12%;margin-left:66.3%;">重录</p>
+		<span onclick="VideoFinish()" style="position: absolute;font-size: 47px;margin-left:83%;"
+			class="iconify" data-icon="ion:checkmark-circle-outline" data-inline="false"></span>
+		<p style="position: absolute;margin-top: 12%;margin-left:85.3%;">完成</p>
+	</div>
+	<div style="position: relative;margin-top:55%;">
+		<div id="score" style=" position: absolute;margin-top:-7%; left:34% ;font-size:16px;"></div>
+		<button id="Scoring" onclick="TakeScore()"
+			style="transform:scale(0.8) ; position: absolute;margin-top:-10%;margin-left:2%;" type="button"
+			class="btn btn-danger mr-1 mb-1">
+			一键评分
+		</button>
+		<a href="tool-videoShare.html">
+			<button id="Sharing" onclick="SavaData()"
+				style="transform:scale(0.8) ; position: absolute;margin-top:-10%;margin-left:66%;"
+				type="button" class="btn btn-primary mr-1 mb-1">
+				选择分享
+			</button>
 		</a>
 	</div>
-	<div class="pageTitle">每日一课打卡</div>
-</div>
-<!-- App Header -->
-<div id="mainVideo" style="margin-top: 14%;">
-	<video id="videos" class="video-container" style="width: 100%; " controls="controls"
-		poster="./img/poster.jpeg">
-		<source src="./test.mp4" type="video/mp4">
-	</video>
-</div>
-<div style="margin-top:-2%;">
-	<marquee style=" background-color:#F6F6F6; text-align:center; height: 180px; width: 100%;"
-		scrollamount="3" behavior="scroll" direction="up"><br>您吃了吗</br><br>还没有呢？你呢？</br><br>吃了吃了</br>
-	</marquee>
-</div>
-<div style="position: relative; margin-top:8%">
-	<h6 style="position: absolute; left: 4%;">配音选择</h6>
-	<button style="transform:scale(0.7); position: absolute;top:-11px;left: 21%;" type="button"
-		class="btn btn-success mr-1 mb-1">
-		东北话
-	</button>
-	<button style="transform:scale(0.7) ;position: absolute;top:-11px; margin-left:46%;" type="button"
-		class="btn btn-danger mr-1 mb-1">
-		北吴语
-	</button>
-	<button style="transform:scale(0.7);position: absolute;top:-11px;margin-left:71%;" type="button"
-		class="btn btn-warning mr-1 mb-1">
-		四川话
-	</button>
-</div>
-<div style="position: relative;margin-top:22%;">
-	<span onclick="videoVoice()" style="position: absolute;font-size: 47px; margin-left:4%;" class="iconify"
-		data-icon="ion:pulse-outline" data-inline="false"></span>
-	<p style="position: absolute;margin-top: 12%; margin-left:6%;">原音</p>
-	<span onclick="videoOnPause()" style="position: absolute;font-size: 47px; margin-left:24%;"
-		class="iconify" data-icon="ion:stop-circle-outline" data-inline="false"></span>
-	<p id="video_pause" style="position: absolute;margin-top: 12%;margin-left:26.3%;">暂停</p>
-	<span onclick="videoOnload()" style="position: absolute;font-size: 47px; margin-left:44%;"
-		class="iconify" data-icon="ion:mic-circle-outline" data-inline="false"></span>
-	<p style="position: absolute;margin-top: 12%;margin-left:43%;">开始配音</p>
-	<span onclick="videoReload()" style="position: absolute;font-size: 47px; margin-left:64%;"
-		class="iconify" data-icon="ion:reload-circle-outline" data-inline="false"></span>
-	<p style="position: absolute;margin-top: 12%;margin-left:66.3%;">重录</p>
-	<span onclick="VideoFinish()" style="position: absolute;font-size: 47px;margin-left:83%;"
-		class="iconify" data-icon="ion:checkmark-circle-outline" data-inline="false"></span>
-	<p style="position: absolute;margin-top: 12%;margin-left:85.3%;">完成</p>
-</div>
-<div style="position: relative;margin-top:55%;">
-	<div id="score" style=" position: absolute;margin-top:-7%; left:34% ;font-size:16px;"></div>
-	<button id="Scoring" onclick="TakeScore()"
-		style="transform:scale(0.8) ; position: absolute;margin-top:-10%;margin-left:2%;" type="button"
-		class="btn btn-danger mr-1 mb-1">
-		一键评分
-	</button>
-	<a href="tool-videoShare.html">
-		<button id="Sharing" onclick="SelectShare()"
-			style="transform:scale(0.8) ; position: absolute;margin-top:-10%;margin-left:66%;" type="button"
-			class="btn btn-primary mr-1 mb-1">
-			选择分享
-		</button>
-	</a>
-</div>
 
 
 </body>
+<script language="javascript">
+	var _timer;
+	var _now;
+	var __go;
+	var videopercentage = "100";
+	(function () {
+		// 经解析后的歌词
+		var __lis = [{
+				"offset": 0,
+				"text": "无名之辈"
+			},
+			{
+				"offset": 500,
+				"text": "她早不找你，晚不找你"
+			},
+			{
+				"offset": 1000,
+				"text": "偏偏现在来找你"
+			},
+			{
+				"offset": 2800,
+				"text": "还跟你回乡下去结婚?"
+			},
+			{
+				"offset": 4500,
+				"text": "你脑壳昏!"
+			},
+			{
+				"offset": 7000,
+				"text": "这个就是爱情"
+			},
+			{
+				"offset": 9000,
+				"text": "我爱你妈卖麻花情"
+			}
+		];
+		var __eul = document.getElementById("lrc");
+		(function () {
+			for (var i = 0; i < __lis.length; i++) {
+				var eli = document.createElement("li");
+				eli.innerText = __lis[i].text;
+				__eul.appendChild(eli);
+			}
+		})();
+
+		var __freq = 30; // 滚动频率（ms）
+		var __fraction = 2 / 5; // 高亮显示行在歌词显示区域中的固定位置百分比 
+
+		/**
+		 * 当前歌词行（lineno）滚动
+		 */
+		__go = function (_lineno) {
+			var _time;
+			_now = _lineno;
+			if (_lineno === 0) {
+				_time = __lis[_lineno].offset;
+			} else {
+				_time = __lis[_lineno].offset - __lis[_lineno - 1].offset;
+			}
+			// if(beginvoice&&!pausevoice)
+			// {
+			// 	var _timer = setTimeout(__go.bind(this, _lineno+1), _time);
+			// }
+			_timer = setTimeout(__go.bind(this, _lineno + 1), _time);
+			// 高亮下一行歌词
+			if (_lineno > 0) {
+				__eul.children[_lineno - 1].setAttribute("class", "");
+			}
+			var _ep = __eul.children[_lineno];
+			_ep.setAttribute("class", "z-crt");
+
+			// 满足需求5，6
+			var _scrollTop;
+			if (_ep.offsetTop < __eul.clientHeight * __fraction) {
+				_scrollTop = 0;
+			} else if (_ep.offsetTop > (__eul.scrollHeight - __eul.clientHeight * (1 - __fraction))) {
+				_scrollTop = __eul.scrollHeight - __eul.clientHeight;
+			} else {
+				_scrollTop = _ep.offsetTop - __eul.clientHeight * __fraction;
+			}
+
+			// 如用户拖动滚动条导致当前显示行超出显示区域范围，下一行直接定位到当前显示行
+			if (__eul.scrollTop > (_scrollTop + __eul.clientHeight * __fraction) ||
+				(__eul.scrollTop + __eul.clientHeight * __fraction) < _scrollTop) {
+				__eul.scrollTop = _scrollTop;
+			} else { // 单行滚动
+				// 获取滚动步长
+				var _step = Math.ceil(Math.abs(__eul.scrollTop - _scrollTop) / (_time / __freq));
+				__scroll(__eul.scrollTop, _scrollTop, _step);
+			}
+
+		};
+		/**
+		 * 歌词单行滚动实现
+		 */
+		__scroll = function (_crt, _dst, _step) {
+			if (Math.abs(_crt - _dst) < _step) {
+				return;
+			}
+			if (_crt < _dst) {
+				__eul.scrollTop += _step;
+				_crt += _step;
+			} else {
+				__eul.scrollTop -= _step;
+				_crt -= _step;
+			}
+			setTimeout(__scroll.bind(this, _crt, _dst, _step), __freq);
+		};
+
+		// __go(0);
+
+	})();
+</script>
+<script>
+	var beginvoice = false;
+	var pausevoice = false;
+	var AudioPath = "";
+	/*//取消录音
+	function handleRecordingCancel() {
+	    document.getElementById('recordingVideo').currentTime = 0;
+	    $('#recording').modal('hide');
+	    recordingStart = false;
+	    android.stopRecord(0);
+	}
+	
+	//录音完成调用后端生成相关文件
+	function handleRecordingCheck() {
+	    document.getElementById('recordingVideo').currentTime = 0;
+	    $('#recording').modal('hide');
+	    recordingStart = false;
+	    if (focusElement == 'addBackgroundMusic') {
+	        android.stopRecord(1);
+	    } else if (focusElement == 'addDialect') {
+	        android.stopRecord(2);
+	    }
+	}*/
+	var voice_befor = document.getElementById('videos').volume;
+
+	function updateRenderBar(percentage, filePath) {
+		let renderBar = document.getElementById('renderBar');
+		renderBar.style.width = percentage + '%';
+		if (percentage == '0') {
+			var text = document.getElementById('percenttext');
+			text.innerHTML = "开始渲染"
+		} else if (percentage == '100') {
+			videoPath = filePath;
+			var video = document.getElementById('videos');
+			video.src = videoPath;
+			videopercentage = percentage;
+			var text = document.getElementById('percenttext');
+			text.innerHTML = "渲染完成";
+
+		}
+	}
+
+	function show() //显示隐藏层和弹出层
+	{
+		var hideobj = document.getElementById("hidebg");
+		hidebg.style.display = "block"; //显示隐藏层
+		hidebg.style.height = "100%"; //设置隐藏层的高度为当前页面高度
+		document.getElementById("hidebox").style.display = "block"; //显示弹出层
+	}
+
+	function hide() //去除隐藏层和弹出层
+	{
+		if (videopercentage == '100') {
+			document.getElementById("hidebg").style.display = "none";
+			document.getElementById("hidebox").style.display = "none";
+		}
+	}
+
+	function videoOnload() {
+		let video = document.getElementById("videos");
+
+		//切换播放和暂停状态
+		video.play();
+		//如果是录音模块的控件，则关联到后端录制音频
+		if (beginvoice) {} else {
+			__go(0);
+			android.startRecord();
+			beginvoice = true;
+		}
+	}
+
+	function videoOnPause() {
+		var video = document.getElementById('videos');
+		if (beginvoice) //当按下开始配音后暂停才生效
+		{
+			if (!pausevoice) {
+				video.pause();
+				clearTimeout(_timer);
+				pausevoice = true;
+				android.stopRecord(-1);
+				document.getElementById('video_pause').innerHTML = "继续";
+			} else {
+				video.play();
+				__go(_now);;
+				pausevoice = false;
+				android.stopRecord(-1);
+				document.getElementById('video_pause').innerHTML = "暂停";
+
+			}
+		}
+
+	}
+
+	function videoReload() {
+		var video = document.getElementById('videos');
+		beginvoice = false;
+		pausevoice = false;
+		video.currentTime = 0;
+		video.pause();
+		android.stopRecord(0);
+	}
+
+	function videoVoice() {
+		var voices = document.getElementById('videos');
+		if (voices.volume != 0) {
+			voice_befor = voices.volume;
+			voices.volume = 0;
+		} else {
+			voices.volume = voice_befor;
+		}
+	}
+
+	function TakeScore() {
+		var score = Math.random() * (100 - 90) + 90;
+		score = score.toFixed(2)
+		document.getElementById('score').innerHTML = "您的分数:" + score;
+
+	}
+
+	function addDialect(filePath) //后台调用，无需逻辑
+	{
+		var video = document.getElementById('videos');
+		AudioPath = filePath; //传音频地址
+		android.renderVideo("/storage/emulated/0/Hi-Dialect/myVideo/myTest.mp4", null, AudioPath, 0, video
+			.duration, null, true, false, "");
+	}
+
+	function VideoFinish() {
+		var video = document.getElementById('videos');
+		video.currentTime = 0;
+		beginvoice = false;
+		pausevoice = false;
+		video.pause();
+		show();
+		android.stopRecord(2);
+
+		// if (focusElement == 'addBackgroundMusic') {
+		//     android.stopRecord(1);
+		// } else if (focusElement == 'addDialect') {
+		//     android.stopRecord(2);
+		// }
+	}
+
+	function SavaData() {
+		// 检测浏览器支持
+		if (typeof (Storage) !== "undefined") {
+			// 存储
+			sessionStorage.setItem("videoPath", videoPath);
+			// 检索
+		} else {
+			alert("Sorry, your browser does not support Web Storage...");
+		}
+	}
+
+
+	//后端的错误信息传递到前端
+	function alertError(message) {
+		mui.alert(message, '提示');
+	}
+</script>
 
 </html>

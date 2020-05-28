@@ -26,10 +26,10 @@
         </div>
   
 		<div class="pageTitle">首页</div>
-        <div class="right">
-            <label for="searchInput" class="mb-0 icon toggleSearchbox">
+        <div class="right" onclick="gogo()">
+            <a href="javascript:;" class="mb-0 icon">
                 <i class="icon ion-ios-search"></i>
-            </label>
+            </a>
         </div>
     </div>
     <!-- searchBox -->
@@ -576,6 +576,267 @@
     <script src="js/plugins/owl.carousel.min.js"></script>
     <!-- Main Js File -->
     <script src="js/app.js"></script>
+	<script>
+		
+		function gogo(){
+			window.location.href="./search.html"
+		}
+		// <div class="row">
+		//     <!-- item -->
+		//     <div class="col-6">
+		//         <a href="video-play.html" class="postItem">
+		//             <div class="imageWrapper">
+		//                 <img src="assets/img/sample/photo11.jpg" alt="image" class="image">
+		//                 <div class="badge badge-warning">东北话</div>
+		//             </div>
+		//             <h2 class="title">瞅你咋地？我的东北话学习之路</h2>
+		//             <footer>
+		//                 <img src="assets/img/sample/avatar.jpg" alt="avatar" class="avatar">
+		//                 04-17
+		//             </footer>
+		//         </a>
+		//     </div>
+		function newest(){
+		let container = document.createElement('div');
+		container.className = 'col-6';
+		
+		let a = document.createElement('a');
+		a.href = 'video-play.html';
+		a.className = 'postItem';
+		
+		let div_1 = document.createElement('div');
+		div_1.className = 'imageWrapper';
+		
+		let img_1 = document.createElement('img');
+		img_1.src = 'assets/img/sample/photo11.jpg';
+		img_1.alt="image";
+		img_1.className = 'image';
+		
+		let div_1_1 = document.createElement('div');
+		div_1_1.className = 'badge badge-warning';
+		div_1_1.textContent = '东北话';
+		
+		let h2 = document.createElement('title');
+		h2.textContent = '瞅你咋地？我的东北话学习之路';
+		
+		let postlist = document.getElementById('postlist');
+		postlist.appendChild(container);
+		
+		container.appendChild(a);
+		a.appendChild(div_1);
+		div_1.appendChild(img_1);
+		div_1.appendChild(div_1_1);
+		
+		a.appendChild(h2);
+		
+		}
+		
+		
+		// <div id="test" class="cardOverlayCarousel owl-carousel mt-2 mb-4">
+		//     <!-- item -->
+		//     <div class="item">
+		//         <a href="video-play.html" class="card card-overlay text-white">
+		//             <img src="assets/img/sample/photo8.jpg" class="card-img img-fluid" alt="image">
+		//             <div class="card-img-overlay">
+		//                 <div class="header row">
+		//                     <div class="col-8">椅子</div>
+		//                     <div class="col-4 text-right">
+		//                         <i class="icon ion-ios-heart"></i> 523
+		//                     </div>
+		//                 </div>
+		
+		//                 <div class="content">
+		//                     <h1>你应该知道的10种椅子的读法</h1>
+		//                     <footer>
+		//                         <div class="author">
+		//                             <img src="assets/img/sample/avatar3.jpg" alt="avatar">
+		//                             M方言小李
+		//                         </div>
+		//                         <div class="date">
+		//                             5小时前
+		//                         </div>
+		//                     </footer>
+		//                 </div>
+		//             </div>
+		//         </a>
+		//     </div>
+		
+		
+		 // function shouyelunbo(data){
+			// let container = document.createElement('div');
+			// container.className ="item";
+			
+			// let a = document.createElement('a');
+			// a.href="video-play.html";
+			// a.className ="card card-overlay text-white";
+			
+			// let img = document.createElement('img');
+			// img.src="assets/img/sample/photo8.jpg";
+			// img.className ="card-img img-fluid" ;
+			// img.alt="image";
+			
+			// let div_1 = document.createElement('div');
+			// div_1.className ="card-img-overlay";
+			
+			// let div_1_1 = document.createElement('div');
+			// div_1_1.className = "header row";
+			
+			// let div_1_1_1 = document.createElement('div');
+			// div_1_1_1.className = "col-8";
+			// div_1_1_1.textContent = '椅子';
+			
+			// let div_1_1_2 = document.createElement('div');
+			// div_1_1_2.className = "col-4 text-right";
+			
+			// let div_1_1_2_1 = document.createElement('i');
+			// div_1_1_2_1.className = 'icon ion-ios-heart';
+			
+			// let div_1_1_2_2 = document.createElement('a');
+			// div_1_1_2_2.textContent = '523';
+			
+			// let div_1_2 = document.createElement('div');
+			// div_1_2.className = 'content';
+			
+			// let div_1_2_1 = document.createElement('h1');
+			// div_1_2_1.textContent = '你应该知道的10种椅子的读法';
+			
+			// let div_1_2_2 = document.createElement('div');
+			// div_1_2_2.className = 'footer';
+			
+			// let div_1_2_2_1 = document.createElement('div');
+			// div_1_2_2_1.className = "author";
+			
+			//  let div_1_2_2_1_1 = document.createElement('img');
+			// div_1_2_2_1_1.src = 'assets/img/sample/avatar3.jpg';
+			// div_1_2_2_1_1.alt = "avatar";
+			// div_1_2_2_1_1.style.width = '20px';
+			
+			// let div_1_2_2_1_2 = document.createElement('div');
+			// div_1_2_2_1_2.textContent = 'M方言小李';
+			
+			// let div_1_2_2_2 = document.createElement('div');
+			// div_1_2_2_2.className = 'date';
+			// div_1_2_2_2.textContent = '5小时前';
+			
+			// container.appendChild(a);
+			// a.appendChild(img);
+			// a.appendChild(div_1);
+			// div_1.appendChild(div_1_1);
+			// div_1_1.appendChild(div_1_1_1);
+			// div_1_1.appendChild(div_1_1_2);
+			// div_1_1_2.appendChild(div_1_1_2_1);
+			// div_1_1_2.appendChild(div_1_1_2_2);
+			
+			// div_1.appendChild(div_1_2);
+			// div_1_2.appendChild(div_1_2_1);
+			// div_1_2.appendChild(div_1_2_2);
+			// div_1_2_2.appendChild(div_1_2_2_1);
+			// div_1_2_2_1.appendChild(div_1_2_2_1_1);
+			// div_1_2_2_1.appendChild(div_1_2_2_1_2);
+			
+			// div_1_2_2.appendChild(div_1_2_2_2);
+			
+			// let div_test = document.createElement('div');
+			// div_test.className = 'owl-item';
+			// div_test.style.width = '295.2px';
+			// div_test.style.marginRight = '20px';
+			
+			
+			// let ggg = document.getElementById('ggg');
+			
+			// div_test.appendChild(container)
+			// console.log(ggg.parentNode.parentNode);
+			// ggg.parentNode.parentNode.insertBefore(div_test, ggg.parentNode);
+		 // // }
+		 
+		 
+		 
+		 // <div id = "zhuanti" class="postCarousel owl-carousel">
+		 //     <div class="item">
+		 //         <a href="activity-info.html">
+		 //             <img src="assets/img/sample/photo13.jpg" alt="image" class="image">
+		 //             <h2 class="title">您能发现这个场景中的差异吗</h2>
+		 //         </a>
+		 //     </div>
+		 
+		 function lunbo2(){
+			 let lunbo_2 = document.createElement('div');
+			 lunbo_2.className = 'item';
+			 
+			 let a_2 = document.createElement('a');
+			 a_2.href = 'activity-info.html';
+			 
+			 let img_2 = document.createElement('img');
+			 img_2.src = "assets/img/sample/photo13.jpg";
+			 img_2.alt = "image";
+			 img_2.className = 'image';
+			 
+			 let h_2 = document.createElement('h2');
+			 h_2.className = 'title';
+			 h_2.textContent = '您能发现这个场景中的差异吗';
+			 
+			 let zhuanti = document.getElementById('zhuanti');
+			 zhuanti.appendChild(lunbo_2);
+			 
+			 lunbo2.appendChild(a_2);
+			 a_2.appendChild(img_2);
+			 a_2.appendChild(h_2);
+		 }
+		 
+		 // <div class="itemList">
+		 // 	<a href="video-play.html">
+		 // 		<div class="item">
+		 // 			<div class="image">
+		 // 				<img src="assets/img/sample/photo14.jpg" alt="image">
+		 // 			</div>
+		 // 			<div class="text">
+		 // 				<h4 class="title">陕西李</h4>
+		 // 				<div class="text-muted">你那膝盖磕马路牙子上了.</div>
+		 // 				<h2 class="text-muted">12.7万观看.04-15</h2>
+		 // 			</div>
+		 // 		</div>
+		 // 	</a>
+		 function zonglan3(){
+			 let a_3 = document.createElement('a');
+			 a_3.href = "video-play.html";
+			 
+			 let div_31 = document.createElement('div');
+			 div_31.className = 'item';
+			 
+			 let img_3 = document.createElement('img');
+			 img_3.src = 'assets/img/sample/photo14.jpg';
+			 img_3.alt = 'image';
+			 img_3.className = 'image';
+			 img_3.style.width = '100px';
+			 
+			 let div_3 = document.createElement('div');
+			 div_3.className = 'text';
+			 
+			 let h_31 = document.createElement('h4');
+			 h_31.className = 'title';
+			 h_31.textContent = '陕西李';
+			 
+			 let div_3_1 = document.createElement('div');
+			 div_3_1.className = 'text-muted';
+			 div_3_1.textContent = '你那膝盖磕马路牙子上了.';
+			 
+			 let h_32 = document.createElement('h2');
+			 h_32.className = 'text-muted';
+			 h_32.textContent = '12.7万观看.04-15';
+			 
+			 let zonglan = document.getElementById('itemlist');
+			 zonglan.appendChild(a_3);
+			 
+			 a_3.appendChild(div_31);
+			 div_31.appendChild(img_3);
+			 div_31.appendChild(div_3);
+			 div_3.appendChild(h_31);
+			 div_3.appendChild(div_3_1);
+			 div_3.appendChild(h_32);
+		 }
+	
+		 
+	</script>
 
 </body>
 
