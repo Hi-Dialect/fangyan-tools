@@ -1,6 +1,7 @@
 package com.example.fangyan;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +21,6 @@ public class DataAccess {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(name, value);
         editor.commit();
-
     }
 
     @JavascriptInterface
@@ -28,16 +28,17 @@ public class DataAccess {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt(name, value);
         editor.commit();
-
     }
 
     @JavascriptInterface
-    public void fetchStringData(String name) {
+    public String fetchStringData(String name) {
         String value = preferences.getString(name, "");
+        return value;
     }
 
     @JavascriptInterface
-    public void fetchIntergerData(String name) {
+    public int fetchIntegerData(String name) {
         int value = preferences.getInt(name, -1);
+        return value;
     }
 }
