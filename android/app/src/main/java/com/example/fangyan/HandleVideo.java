@@ -15,6 +15,8 @@ import com.zlw.main.recorderlib.recorder.RecordConfig;
 import com.zlw.main.recorderlib.recorder.listener.RecordResultListener;
 
 import java.io.File;
+import java.lang.reflect.Array;
+import java.nio.file.Path;
 
 import VideoHandle.EpEditor;
 import VideoHandle.EpVideo;
@@ -206,10 +208,20 @@ public class HandleVideo extends Object {
             FileManager.saveFileToSDCardCustomDir(FileManager.loadFileFromSDCard(inputPath),
                     userVideoPath, localSaveName);
         }
-        //发送视频至服务端
+        //更新进度，完成渲染
         sendProgressMessage(100);
+        //删除"FFmpeg"处理的中间文件
+        FileManager.removeFileFromSDCard(inputPath);
+    }
+
+    @JavascriptInterface
+    public void uploadVideoToServer(String videoPath, String videoName, String videoRemark, String posterPath,
+                                    int userNo, int isPublic, int[] labels) {
         try {
-            new PostRequest().uploadVideo(inputPath, "我创作的视频");
+            String url = new PostRequest().uploadVideo(videoPath, videoName);
+            String success = new PostRequest().addVideo(url, videoName, videoRemark, posterPath, userNo,
+                    0, isPublic, labels);
+            Log.d(TAG, "finalStep: " + success);
         } catch (Exception e) {
             Log.d(TAG, "finalStep: " + e.getMessage());
         }
@@ -242,10 +254,6 @@ public class HandleVideo extends Object {
             intent.putExtra("message", "无法读取视频文件");
             appCompatActivity.sendBroadcast(intent);
         } else {
-            //删除"FFmpeg"处理的中间文件
-            if (FileManager.isFileExist(inputPath)) {
-                FileManager.removeFileFromSDCard(inputPath);
-            }
             //FileManager类操控外部储存文件，路径以"/storage"为前缀
             videoPath = videoPath.substring(videoPath.indexOf("/storage"));
             //加载原始视频

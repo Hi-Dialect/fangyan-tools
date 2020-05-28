@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
@@ -18,14 +19,58 @@ public class PostRequest {
     private static final String TAG = "PostRequest";
     private static final String BOUNDARY = "----------HV2ymHFg03ehbqgZCaKO6jyH";
 
-    public static void uploadVideo(String videoPath, String videoName) throws Exception {
+    /**
+     * 上传视频至服务器
+     *
+     * @param videoPath
+     * @param videoName
+     * @return
+     * @throws Exception
+     */
+    public static String uploadVideo(String videoPath, String videoName) throws Exception {
         String urlStr = "http://47.95.220.161:8080/videos/importVdo";
         Map<String, String> textMap = new HashMap<String, String>();
         textMap.put("productName", videoName);
         Map<String, String> fileMap = new HashMap<String, String>();
         fileMap.put("file", videoPath);
         String ret = formUpload(urlStr, textMap, fileMap);
-        System.out.println(ret);
+        return ret;
+    }
+
+    /**
+     * 添加视频信息至服务器
+     *
+     * @param videoPath
+     * @param videoName
+     * @param videoRemark
+     * @param posterPath
+     * @param userNo
+     * @param isPublic
+     * @return
+     * @throws Exception
+     */
+    public static String addVideo(String videoPath, String videoName, String videoRemark, String posterPath,
+                                  int userNo, int videoType, int isPublic, int[] labels) throws Exception {
+        String urlStr = "http://47.95.220.161:8080/videos/addVdo";
+        Map<String, String> textMap = new HashMap<String, String>();
+        textMap.put("vdoNa", videoName);
+        textMap.put("vdoRemark", videoRemark);
+        textMap.put("userNo", "" + userNo);
+        textMap.put("vdoPath", videoPath);
+        textMap.put("vdoImg", posterPath);
+        textMap.put("vdoType", "" + videoType);
+        textMap.put("isPublic", "" + isPublic);
+        String label = "[";
+        for (int i = 0; i < labels.length; i++) {
+            label += "{" + labels[i] + "}";
+            if (i != labels.length - 1)
+                label += ",";
+        }
+        label += "]";
+        textMap.put("videoLabels", "" + labels);
+        Map<String, String> fileMap = new HashMap<String, String>();
+        String ret = formUpload(urlStr, textMap, fileMap);
+        return ret;
     }
 
     /**
