@@ -2,12 +2,18 @@ package com.example.fangyan;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -51,25 +57,86 @@ public class PostRequest {
     public static String addVideo(String videoPath, String videoName, String videoRemark, String posterPath,
                                   int userNo, int videoType, int isPublic, int[] labels) throws Exception {
         String urlStr = "http://47.95.220.161:8080/videos/addVdo";
-        Map<String, String> textMap = new HashMap<String, String>();
-        textMap.put("vdoNa", videoName);
-        textMap.put("vdoRemark", videoRemark);
-        textMap.put("userNo", "" + userNo);
-        textMap.put("vdoPath", videoPath);
-        textMap.put("vdoImg", posterPath);
-        textMap.put("vdoType", "" + videoType);
-        textMap.put("isPublic", "" + isPublic);
-        String label = "[";
+        JSONObject jsonParam = new JSONObject();
+
+        jsonParam.put("vdoNa", videoName);
+        jsonParam.put("vdoRemark", videoRemark);
+        jsonParam.put("userNo", "" + userNo);
+        jsonParam.put("vdoPath", videoPath);
+        jsonParam.put("vdoImg", posterPath);
+        jsonParam.put("vdoType", "" + videoType);
+        jsonParam.put("isPublic", "" + isPublic);
+
+        JSONArray jsonArray = new JSONArray();
         for (int i = 0; i < labels.length; i++) {
-            label += "{" + labels[i] + "}";
-            if (i != labels.length - 1)
-                label += ",";
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("labelId", labels[i]);
+            jsonArray.put(jsonObject);
         }
-        label += "]";
-        textMap.put("videoLabels", "" + labels);
-        Map<String, String> fileMap = new HashMap<String, String>();
-        String ret = formUpload(urlStr, textMap, fileMap);
-        return ret;
+
+        jsonParam.put("videoLabels", jsonArray);
+        String data = getJsonData(jsonParam, urlStr);
+        return data;
+    }
+
+    public static String getJsonData(JSONObject jsonParam, String urls) {
+        StringBuffer sb = new StringBuffer();
+        try {
+            // 创建url资源
+            URL url = new URL(urls);
+            // 建立http连接
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            // 设置允许输出
+            conn.setDoOutput(true);
+            // 设置允许输入
+            conn.setDoInput(true);
+            // 设置不用缓存
+            conn.setUseCaches(false);
+            // 设置传递方式
+            conn.setRequestMethod("POST");
+            // 设置维持长连接
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            // 设置文件字符集:
+            conn.setRequestProperty("Charset", "UTF-8");
+            // 转换为字节数组
+            byte[] data = (jsonParam.toString()).getBytes();
+            // 设置文件长度
+            conn.setRequestProperty("Content-Length", String.valueOf(data.length));
+            // 设置文件类型:
+            conn.setRequestProperty("Content-Type", "application/json");
+            // 开始连接请求
+            conn.connect();
+            OutputStream out = new DataOutputStream(conn.getOutputStream());
+            // 写入请求的字符串
+            out.write((jsonParam.toString()).getBytes());
+            out.flush();
+            out.close();
+            System.out.println(conn.getResponseCode());
+
+            // 请求返回的状态
+            if (HttpURLConnection.HTTP_OK == conn.getResponseCode()) {
+                System.out.println("连接成功");
+                // 请求返回的数据
+                InputStream in1 = conn.getInputStream();
+                try {
+                    String readLine = new String();
+                    BufferedReader responseReader = new BufferedReader(new InputStreamReader(in1, "UTF-8"));
+                    while ((readLine = responseReader.readLine()) != null) {
+                        sb.append(readLine).append("\n");
+                    }
+                    responseReader.close();
+                    System.out.println(sb.toString());
+
+                } catch (Exception e1) {
+                    e1.printStackTrace();
+                }
+            } else {
+                System.out.println("error++");
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "getJsonData: " + e.getMessage());
+        }
+        return sb.toString();
     }
 
     /**

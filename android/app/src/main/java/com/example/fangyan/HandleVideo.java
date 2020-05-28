@@ -215,12 +215,13 @@ public class HandleVideo extends Object {
     }
 
     @JavascriptInterface
-    public void uploadVideoToServer(String videoPath, String videoName, String videoRemark, String posterPath,
-                                    int userNo, int isPublic, int[] labels) {
+    public void uploadVideoToServer(String videoPath, String videoName, String videoRemark,
+                                    String posterPath, int userNo, int isPublic, int[] labels) {
         try {
+            videoPath = videoPath.substring(videoPath.indexOf("/storage"));
             String url = new PostRequest().uploadVideo(videoPath, videoName);
-            String success = new PostRequest().addVideo(url, videoName, videoRemark, posterPath, userNo,
-                    0, isPublic, labels);
+            String success = new PostRequest().addVideo(url, videoName, videoRemark, posterPath,
+                    userNo, 0, isPublic, labels);
             Log.d(TAG, "finalStep: " + success);
         } catch (Exception e) {
             Log.d(TAG, "finalStep: " + e.getMessage());
