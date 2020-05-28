@@ -219,10 +219,16 @@ public class HandleVideo extends Object {
                                     String posterPath, int userNo, int isPublic, int[] labels) {
         try {
             videoPath = videoPath.substring(videoPath.indexOf("/storage"));
+            //上传视频文件
             String url = new PostRequest().uploadVideo(videoPath, videoName);
+            //添加视频信息
             String success = new PostRequest().addVideo(url, videoName, videoRemark, posterPath,
                     userNo, 0, isPublic, labels);
-            Log.d(TAG, "finalStep: " + success);
+            //通知前端结果
+            Intent intent = new Intent("com.nangch.broadcasereceiver.MYRECEIVER");
+            intent.putExtra("type", "uploadServerResult");
+            intent.putExtra("result", success);
+            appCompatActivity.sendBroadcast(intent);
         } catch (Exception e) {
             Log.d(TAG, "finalStep: " + e.getMessage());
         }

@@ -90,6 +90,11 @@ public class MainActivity extends AppCompatActivity {
                 String filePath = intent.getStringExtra("filePath");
                 webView.loadUrl("javascript:addDialect('" + filePath + "')");
             }
+            //视频上传服务器结果通知
+            else if (type.equals("uploadServerResult")) {
+                String result = intent.getStringExtra("result");
+                webView.loadUrl("javascript:getVideoUploadResult('" + result + "')");
+            }
         }
     }
 
