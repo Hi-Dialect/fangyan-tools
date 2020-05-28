@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         //添加js监听 这样html就能调用客户端
         webView.addJavascriptInterface(new HandleVideo(this), "android");
+        webView.addJavascriptInterface(new DataAccess(this), "androidData");
 
         //允许使用js
         WebSettings webSettings = webView.getSettings();
