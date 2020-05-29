@@ -23,7 +23,8 @@ then
     sh /home/yuwen/AndroidStudio/bin/studio.sh &
 elif [ $number -eq 3 ]
 then
-    scp android/app/build/outputs/apk/debug/app-debug.apk root@49.235.190.178:/var/www/html/file
+    scp android/app/build/outputs/apk/debug/app-debug.apk \
+    root@49.235.190.178:/var/www/html/download/fangyan.apk
 elif [ $number -eq 4 ]
 then
     sudo chown yuwen -R /dev/kvm
