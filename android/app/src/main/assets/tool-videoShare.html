@@ -62,7 +62,7 @@
 <!-- App Header -->
 <div class="mui-content">
 </div>
-<video id="video" style="margin-top: 14%;" controls="controls" src="" onplay="false" height="100%"
+<video id="video" style="margin-top: 14%;" controls="controls" src="" onplay="false" height="100%"  preload="auto"
        width="100%" onclick="if(/Android/.test(navigator.userAgent))this.play();">
     <!--视频资源放置-->
 </video>
@@ -133,6 +133,7 @@
 <script src="js/plugins/owl.carousel.min.js"></script>
 <!-- Main Js File -->
 <script src="js/app.js"></script>
+<script src="js/mui.js"></script>
 <script>
 		function SelectSucess(target)
 		{
@@ -168,13 +169,19 @@
 			hidebg.style.display="block";  //显示隐藏层
 			hidebg.style.height="100%";  //设置隐藏层的高度为当前页面高度
             let labels=[82868,83582,84270];
+			var data=1;
+			getVideoUploadResult(data);
 		    android.uploadVideoToServer(vPath,Title.innerHTML,Describe.innerHTML,"",57176,1,labels);
 		}
 		function getVideoUploadResult(isSuccses)
 		{
-			if(isSuccses==1)
+			if(isSuccses==1||isSuccses=="1")
 			{
-				//window.location.href="social-home.html"
+				document.getElementById("hidebg").style.display="none";
+				mui.alert('已上传!!!','','确定',function (e) {
+				   window.location.href="social-home.html"
+				},'div')	
+			
 			}
 			else
 			{

@@ -2,12 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Hi-dialect</title>
-    <link rel="stylesheet" href="css/style.css">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
- 
+   <meta charset="utf-8" />
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <title>Hi-dialect</title>
+   <link rel="stylesheet" href="css/style.css">
+   <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
 </head>
 
 <body>
@@ -39,10 +38,13 @@
             <div class="sectionTitle mt-2">
                 <div class="text-muted">Overview</div>
                 <div class="title">
-                    <h1 id="actName"></h1>
-                    <a href="activity-daily-tool.html">参与活动</a>	<!-- 工具界面 -->
+                    <h1>父亲节快乐！</h1>
+                    <a href="#">参与活动</a>	<!-- 工具界面 -->
                 </div>
-                <div class="lead  text-muted" id="brief"></div>
+                <div class="lead  text-muted">
+                    方言送祝福，老爹乐开怀
+                </div>
+				<div class="lead  text-muted" id="brief"></div>
 				<div class="lead  text-muted" id="startTime"></div>
 				<div class="lead  text-muted" id="endTime"></div>
             </div>
@@ -50,13 +52,13 @@
             <!-- item list -->
             <div class="itemList">
 				<a href="video-play.html">
-					<div class="item mt-2">
+					<div class="item mb-2">
 						<div class="image">
 							<img src="img/sample/photo14.jpg" alt="image">
 						</div>
 						<div class="text">
-							<h4 class="title" id="actOTitle">打个招呼</h4>
-							<div class="text-muted" id="actODes">早上好，学巴得嘞。</div>
+							<h4 class="title">打个招呼</h4>
+							<div class="text-muted">早上好，学巴得嘞。</div>
 						</div>
 					</div>
 				</a>
@@ -101,7 +103,7 @@
 
     <!-- App Bottom Menu -->
     <div class="appBottomMenu">
-        <div class="item ">
+        <div class="item">
             <a href="homepage.html">
                 <p>
                     <i class="icon ion-ios-water"></i>
@@ -170,9 +172,7 @@
 						console.log(res);
 						var temp='';
 						for(var $i = 0; $i < res.length; $i++) {
-							if(res[$i].actNa=="testAct2"){
-							 $("#actName").html(res[$i].actNa);
-							 $("#brief").html(res[$i].actRemark);
+							if(res[$i].actNa=="testAct1"){
 							 $("#startTime").html("开始时间 "+res[$i].startTime);
 							 $("#endTime").html("结束时间 "+res[$i].startTime);
 							}
@@ -187,6 +187,7 @@
 			}
 		});
 	</script>
+
 </body>
-  
+
 </html>
