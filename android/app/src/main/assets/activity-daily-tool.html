@@ -196,27 +196,27 @@
 				"text": "无名之辈"
 			},
 			{
-				"offset": 500,
+				"offset": 1000,
 				"text": "她早不找你，晚不找你"
 			},
 			{
-				"offset": 1000,
+				"offset": 2000,
 				"text": "偏偏现在来找你"
 			},
 			{
-				"offset": 2800,
+				"offset": 3800,
 				"text": "还跟你回乡下去结婚?"
 			},
 			{
-				"offset": 4500,
+				"offset": 5500,
 				"text": "你脑壳昏!"
 			},
 			{
-				"offset": 7000,
+				"offset": 8000,
 				"text": "这个就是爱情"
 			},
 			{
-				"offset": 9000,
+				"offset": 10000,
 				"text": "我爱你妈卖麻花情"
 			}
 		];
@@ -380,7 +380,7 @@
 				document.getElementById('video_pause').innerHTML = "继续";
 			} else {
 				video.play();
-				__go(_now);;
+				__go(_now);
 				pausevoice = false;
 				android.stopRecord(-1);
 				document.getElementById('video_pause').innerHTML = "暂停";
@@ -429,6 +429,7 @@
 		video.currentTime = 0;
 		beginvoice = false;
 		pausevoice = false;
+		clearTimeout(_timer);
 		video.pause();
 		show();
 		android.stopRecord(2);
