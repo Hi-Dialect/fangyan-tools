@@ -129,7 +129,8 @@
 			};
 			PostStringToRear(set_comment_url_suffix, set_comment_data, set_comment_success);
 		}
-		$(function(){
+		
+		window.onload = () => {
 			$(document).ready(function(){
 				// 显示点赞
 				// 设置点赞状态
@@ -144,7 +145,7 @@
 				// 设置视频状态
 				get_video();
 			});
-		});
+		};
 		
 		// 添加评论
 		function add_comment() {
