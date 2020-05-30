@@ -2,13 +2,15 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bitter Mobile Template</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
-    <meta name="description" content="Bitter Mobile Template">
-    <meta name="keywords" content="bootstrap, mobile template, cordova, phonegap, mobile, html, responsive" />
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Hi-dialect</title>
+  <link rel="stylesheet" href="css/style.css">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
+</head>
+
+<body>
+
 <!-- #if 1 -->
 	<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 	<script>
@@ -152,8 +154,8 @@
 					"vdoId": nowVdoId,
 					"content": $('textarea').val()
 				};
-			let add_comment_success = function(data) {
-				console.log('add_comment 成功, 收到的数据: ' + JSON.stringify(data));
+			let add_comment_success = function(d) {
+				console.log('add_comment 成功, 收到的数据: ' + JSON.stringify(d));
 				// 在本地插入新评论，而不是刷新页面
 				let html = `<div class="item">
 						<a href="people-info.html">
@@ -174,19 +176,6 @@
 			// location.reload(true);
 			PostJSONToRear(add_comment_url_suffix, add_comment_data, add_comment_success);
 		};
-		// 搜索测试
-		function search() {
-				// 传普通类型数据
-				let search_url_suffix = '/videos/search';
-				let search_data = {
-						searchWords : "1",
-						vdoType : "0"
-					};
-				let search_success = function(data) {
-					console.log('成功, 收到的数据: ' + JSON.stringify(data));
-				};
-				PostStringToRear(search_url_suffix, search_data, search_success);
-		};
 		// 添加喜欢
 		function add_like() {
 			let add_like_url_suffix = '/like/addLike';
@@ -202,7 +191,7 @@
 				like_num += 1;
 				$("#like_div").children("span").text(like_num);
 			};
-			PostStringToRear(add_like_url_suffix, add_like_data, add_like_success, "text");
+			PostJSONToRear(add_like_url_suffix, add_like_data, add_like_success, "text");
 			// location.reload(true);
 		};
 		// 删除喜欢
@@ -230,6 +219,41 @@
 				console.log('test_hello 成功, 收到的数据: ' + JSON.stringify(data));
 			};
 			GetFromRear(test_hello_url_suffix,test_hello_success);
+		};
+		// 搜索测试
+		function search() {
+				// 传普通类型数据
+				let search_url_suffix = '/videos/search';
+				let search_data = {
+						searchWords : "1",
+						vdoType : "0"
+					};
+				let search_success = function(data) {
+					console.log('成功, 收到的数据: ' + JSON.stringify(data));
+				};
+				PostStringToRear(search_url_suffix, search_data, search_success);
+		};
+		// 添加视频测试
+		function add_video() {
+			let add_video_url_suffix = '/videos/addVdo';
+			let add_video_data = {
+				vdoNa : "I'm testVdo1",
+				vdoRemark : "Am I wrong?",
+				userNo : nowUserNo,
+				vdoPath : "nonono",
+				vdoImg : "nonono",
+				vdoType : 0,
+				isPublic : 1,
+				videoLabels : [
+					{labelId: 1},
+					{labelId: 2},
+					{labelId: 3}
+				]
+			};
+			let add_video_success = function() {
+				console.log('add_video 成功');
+			};
+			PostJSONToRear(add_video_url_suffix, add_video_data, add_video_success, "text");
 		}
 	</script>
 <!-- #endif -->
@@ -282,7 +306,7 @@
                 <header>
                     <div class="user" id="usermaker_div">
                         <a href="people-info.html">
-                            <img src="assets/img/sample/avatar6.jpg" alt="avatar" class="avatar">
+                            <img src="img/sample/avatar6.jpg" alt="avatar" class="avatar">
                             <strong>M方言小李</strong>
                         </a>
                     </div>
@@ -341,14 +365,15 @@
 
     <!-- ///////////// Js Files ////////////////////  -->
     <!-- Jquery -->
-    <script src="assets/js/lib/jquery-3.4.1.min.js"></script>
+    <script src="js/lib/jquery-3.4.1.min.js"></script>
     <!-- Bootstrap-->
-    <script src="assets/js/lib/popper.min.js"></script>
-    <script src="assets/js/lib/bootstrap.min.js"></script>
+    <script src="js/lib/popper.min.js"></script>
+	
+    <script src="js/lib/bootstrap.min.js"></script>
     <!-- Owl Carousel -->
-    <script src="assets/js/plugins/owl.carousel.min.js"></script>
+    <script src="js/plugins/owl.carousel.min.js"></script>
     <!-- Main Js File -->
-    <script src="assets/js/app.js"></script>
+    <script src="js/app.js"></script>
 
 </body>
 
