@@ -171,8 +171,8 @@
             let labels=[82868,83582,84270];
 			//var data=1;
 			//getVideoUploadResult(data);
-		    android.uploadVideoToServer(vPath,Title.innerHTML,Describe.innerHTML,"",57176,1,labels);
-		}
+            setTimeout(() =>android.uploadVideoToServer(vPath,Title.innerHTML,Describe.innerHTML,"",57176,1,labels), 0);
+        }
 		function getVideoUploadResult(isSuccses)
 		{
 			if(isSuccses==1||isSuccses=="1")
