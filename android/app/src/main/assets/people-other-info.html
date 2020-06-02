@@ -7,8 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 	 <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
     <title>Hi-dialect</title>
-    <link rel="stylesheet" href="css/style.css">
-
+    <link rel="stylesheet" href="css/style.css">   
 	<script src="https://code.iconify.design/1/1.0.6/iconify.min.js"></script>
 	<style>
 			.set_ {
@@ -88,14 +87,14 @@
     <!-- * Page loading -->
 
     <!-- App Header -->
-	
     <div class="appHeader">
 		<div class="left">
-		    <!-- <a href="javascript:;" class="icon toggleSidebar">
-		        <i class="icon ion-ios-menu"></i>
-		    </a> -->
+		    <a href="javascript:;" class="icon goBack">
+		        <i class="icon ion-ios-arrow-back"></i>
+		    </a>
 		</div>
-        <div class="pageTitle ">我的信息</div>
+		<!-- 我不知道写什么上去 -->
+        <div class="pageTitle "></div>
     </div>
     <!-- * App Header -->
 
@@ -142,17 +141,17 @@
 				<div class="divider m-1"></div>
 				
 					<!-- post buttons -->
-					<div class="row m-1">
-						<div class="col-6">
-							<a href="javascript:;" class="btn btn-primary btn-block " onclick="edit_info()">
-								<i class=" icon ion-ios-settings" ></i> 编辑
+					<div class="row m-1" id="attention">
+						<!-- <div class="col-6">
+							<a href="javascript:;" class="btn btn-primary btn-block">
+								<i class="icon ion-md-add"></i> 关注
 							</a>
 						</div>
 						<div class="col-6">
 							<a href="javascript:;" class="btn btn-danger btn-block">
 								<i class="icon ion-ios-mail"></i> 私信
 							</a>
-						</div>
+						</div> -->
 					</div>
 					<!-- * post buttons -->
 				
@@ -253,44 +252,13 @@
     </div>
     <!-- * App Bottom Menu -->
 
-
     
     <!-- Sidebar Menu -->
 
-	<div class="set_">
-		<nav class="sidebar1">
-			<div class="profilebox">
-				<div class="overlay toggleSidebar1">
-					
-				</div>
-				 <div class="listView textView">
-				     <a href="#" class="listItem" id="setuesrInfo">
-				         <div class="text " >
-				             <div>
-				                 <strong>编辑资料</strong>
-				             </div>
-				         </div>
-						 
-				     </a>
-					<a href="#" class="listItem">
-					    <div class="text" >
-					        <div>
-					            <strong>设置</strong>
-					        </div>
-					    </div>										 
-					</a>
-					<a href="#" class="listItem">
-					    <div class="text">
-					        <div>
-					            <strong>登出</strong>
-					        </div>
-					    </div>										 
-					</a>
-				</div>
-			</div>
-		</nav>
-	</div>
+	
     <!-- * Sidebar Menu -->
+
+    <!-- ///////////// Js Files ////////////////////  -->
     <!-- Jquery -->
    <script src="js/lib/jquery-3.4.1.min.js"></script>
    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
@@ -301,7 +269,7 @@
    <script src="js/plugins/owl.carousel.min.js"></script>
    <!-- Main Js File -->
    <script src="js/app.js"></script>
-  <script src="people-info.js"></script>
+   <script src="people-other-info.js"></script>
    <script >
 	   
    </script>

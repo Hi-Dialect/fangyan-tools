@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>编辑个人信息</title>
+    <link rel="stylesheet" href="css/style.css">
+	<link href="css/mui.picker.css" rel="stylesheet" />
+	<link href="css/mui.poppicker.css" rel="stylesheet" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, width=device-width">
+    <meta name="description" content="Bitter Mobile Template">
+    <meta name="keywords" content="bootstrap, mobile template, cordova, phonegap, mobile, html, responsive" />
+
+	<style type="text/css">
+	
+	a{border:0;}
+	.words-split{vertical-align: middle;}
+	.lbl-input{
+		display: inline-block;
+		width: 120px; 
+		
+		line-height: 26px;
+
+		text-indent: 1em;
+		border: 1px solid #ddd; 
+		border-radius: 5px;
+	}
+
+	.words-split a{display: inline-block; padding:0 20px; position: relative;margin-right: 5px;}
+	.words-split a em{display:none; width: 16px; height: 100%; position: absolute; background: #f60;right: 0;top: 0;}
+	.words-split a em:after{ content: "-"; color: #fff; font: bold 20px 'Microsoft Yahei';}
+	.words-split a:hover em{ display: block; }
+	a.words-split-add{display: inline-block;font: bold 20px 'Microsoft Yahei'; color: #ffaaff}
+	
+	.fm-button {
+
+		text-align: center;
+		
+		color: #000000;
+		height: 28px;
+		line-height: 28px;
+		border-radius: 15px;
+		opacity: .9;
+		filter: alpha(opacity=90);
+		background:#e5e9f2;
+		margin-bottom: 10px !important;
+	}
+	a{text-decoration:none;}
+		h3{color: aliceblue}
+	</style>
+</head>
+
+<body>
+
+    <!-- Page loading -->
+    <div class="loading">
+        <div class="spinner-grow"></div>
+    </div>
+    <!-- * Page loading -->
+
+    <!-- App Header -->
+    <div class="appHeader">
+        <div class="left">
+            <a href="javascript:;" class="icon goBack">
+                <i class="icon ion-ios-arrow-back"></i>
+            </a>
+        </div>
+        <div class="pageTitle">编辑个人信息</div>
+        <div class="right" >
+          <button type="button" class="btn btn-danger mr-1 mb-0 " style="font-size: 15px;height:35px ; padding: 0 15px" onclick="save()">保存</button>
+        </div>
+    </div>  
+
+    <!-- App Capsule -->
+    <div id="appCapsule" class="pb-2">
+		<div class="appContent pb-0">
+
+			<div class="row mb-2 mt-2">
+				<div style="text-align: center; margin: 0 auto;" id="user_img">
+					
+				</div>
+				
+			</div>
+	
+			<form >
+						<div class="form-group" style="display: flex;align-items: center;">
+							<span style="width: 50px;">昵称</span>
+							<input type="text" class="form-control" placeholder="Name" id="user_name">
+						</div>
+						<div class="form-group"style="display: flex;align-items: center;">
+							<span style="width: 50px;">性别</span>
+								<select class="form-control" id="exampleFormControlSelect1" >
+									<option value="0">保密</option>
+									<option value="1">男</option>
+									<option value="2">女</option>                     
+							</select>
+						</div>
+						
+						<div class="form-group"style="display: flex;align-items: center;" >
+							<span style="width: 50px;">个性签名</span>
+							<textarea class="form-control" rows="2" placeholder="还没想好个性的签名(*^_^*)" id="user_signature"></textarea>
+						</div>
+						<div class="form-group"style="display: flex;align-items: center;">
+							<span style="width: 50px;">城市</span>
+							<input type="text" id='showCityPicker' class="form-control" readonly="readonly"   placeholder="所在地" >
+										
+						</div>
+						<div id="" style="">
+							
+							<span class="form-group" style="margin-right: 10px;" >标签</span>
+							<input type="text" name="staticPath"  id="staticPath2" style="float: right !important;">
+							
+						</div>
+					</div>
+
+				</div>                
+			</form>
+	
+</div>
+
+
+    </div>
+
+
+
+        <!-- side -->
+    <div class="sidebarWrapper">
+        <div class="overlay toggleSidebar"></div>
+
+            <div class="card mb-3 sidebar">
+                <form class="card-body">
+                    <h5 class="card-title">Outline Chips</h5>
+					<input type="checkbox" name="label"  value="潮人" />
+                    <!-- <span class="badge badge-outline-primary mr-1 mb-1"></span> -->
+                    <span class="badge badge-outline-secondary mr-1 mb-1">00后</span>
+                    <span class="badge badge-outline-success mr-1 mb-1">东北</span>
+                    <span class="badge badge-outline-danger mr-1 mb-1">土味</span>
+                    <span class="badge badge-outline-warning mr-1 mb-1">上流</span>
+                    <span class="badge badge-outline-info mr-1 mb-1">非主流</span>
+                    <span class="badge badge-outline-light mr-1 mb-1">嗨</span>
+                    <span class="badge badge-outline-dark mr-1 mb-1">幽默</span>
+                </form>
+            </div>
+    </div>
+    <!-- * Sidebar Menu -->
+
+    <!-- ///////////// Js Files ////////////////////  -->
+    <!-- Jquery -->
+    <script src="js/lib/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap-->
+    <script src="js/lib/popper.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
+    <!-- Owl Carousel -->
+    <script src="js/plugins/owl.carousel.min.js"></script>
+    <!-- Main Js File -->
+    <script src="js/app.js"></script>
+	<script src="js/mui.min.js"></script>
+	<!--<script src="../js/mui.picker.min.js"></script>-->
+	
+	
+	
+	<script src="js/mui.picker.js"></script>
+	<script src="js/mui.poppicker.js"></script>
+	<script src="people-info-set.js"></script>
+	<script src="js/city.data.js" type="text/javascript" charset="utf-8"></script>
+	
+	<script>
+		
+				
+	</script>
+	
+
+
+</body>
+
+</html>
