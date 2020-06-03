@@ -66,21 +66,23 @@
 			background-color: #000;
 			width: 100%;
 			/*宽度设置为100%，这样才能使隐藏背景层覆盖原页面*/
-			filter: alpha(opacity=60);
-			/*设置透明度为60%*/
-			opacity: 0.6;
+			filter: alpha(opacity=80);
+			/*设置透明度为80%*/
+			opacity: 0.8;
 			/*非IE浏览器下设置透明度为60%*/
 			display: none;
 			z-Index: 2;
 		}
 
 		#hidebox {
+			border-radius: 25px;
 			z-index: 999;
 			position: absolute;
-			width: 100%;
-			height: 10%;
-			top: 40%;
-			left: 0%;
+			width: 96%;
+			height: 3%;
+			top: 50%;
+			left: 2%;
+			right: 2%;
 			background-color: #fff;
 			display: none;
 			cursor: pointer;
@@ -124,32 +126,34 @@
 		<ul class="lrc" id="lrc">
 		</ul>
 	</div>
-	<div id="hidebg"></div>
+	<div id="hidebg">
+		<p  id="percenttext"style="z-index: 222; position: absolute;top: 55%;left:41% ;font-size:20px;color: white; ">
+			渲染中...
+		</p>
+	</div>
 	<!-- 渲染 -->
-	<div id="hidebox" onClick="hide();">
-		<div class="progress">
-			<div id="renderBar" style="position:absolute; z-index: 200;height: 100%; width:0%;"
-				class="progress-bar bg-success" role="progressbar"><span id="percenttext"
-					style="font-size:20px;">开始渲染</span></div>
+	<div id="hidebox" onclick="hide();"class="progress">
+		<div id="renderBar" style="position:absolute; z-index: 200;height: 100%; width:0%;"
+			class="progress-bar bg-success" role="progressbar">
 		</div>
 	</div>
-	<div style="position: relative; margin-top:5%">
-		<h6 style="position: absolute; left: 4%;">配音选择</h6>
-		<button style="transform:scale(0.7); position: absolute;top:-11px;left: 21%;" type="button"
+	<div style="position: relative; margin-top:10%">
+		<h5 style="position: absolute; left: 4%;">配音选择</h5>
+		<button style="transform:scale(0.8); position: absolute;top:-11px;left: 21%;" type="button"
 			class="btn btn-success mr-1 mb-1">
 			东北话
 		</button>
-		<button style="transform:scale(0.7) ;position: absolute;top:-11px; margin-left:46%;" type="button"
+		<button style="transform:scale(0.8) ;position: absolute;top:-11px; margin-left:46%;" type="button"
 			class="btn btn-danger mr-1 mb-1">
 			北吴语
 		</button>
-		<button style="transform:scale(0.7);position: absolute;top:-11px;margin-left:71%;" type="button"
+		<button style="transform:scale(0.8);position: absolute;top:-11px;margin-left:71%;" type="button"
 			class="btn btn-warning mr-1 mb-1">
 			四川话
 		</button>
 	</div>
 
-	<div style="position: relative;margin-top:20%;">
+	<div style="position: relative;margin-top:23%;">
 		<span onclick="videoVoice()" style="position: absolute;font-size: 47px; margin-left:4%;"
 			class="iconify" data-icon="ion:pulse-outline" data-inline="false"></span>
 		<p style="position: absolute;margin-top: 12%; margin-left:6%;">原音</p>
@@ -166,17 +170,17 @@
 			class="iconify" data-icon="ion:checkmark-circle-outline" data-inline="false"></span>
 		<p style="position: absolute;margin-top: 12%;margin-left:85.3%;">完成</p>
 	</div>
-	<div style="position: relative;margin-top:55%;">
+	<div style="position: relative;margin-top:45%;">
 		<div id="score" style=" position: absolute;margin-top:-7%; left:34% ;font-size:16px;"></div>
 		<button id="Scoring" onclick="TakeScore()"
-			style="transform:scale(0.8) ; position: absolute;margin-top:-10%;margin-left:2%;" type="button"
-			class="btn btn-danger mr-1 mb-1">
+			style="transform:scale(1.3);  width: 34%; margin-left: 9%;" type="button"
+			class="mui-btn mui-btn-royal">
 			一键评分
 		</button>
 		<a href="tool-videoShare.html">
 			<button id="Sharing" onclick="SavaData()"
-				style="transform:scale(0.8) ; position: absolute;margin-top:-10%;margin-left:66%;"
-				type="button" class="btn btn-primary mr-1 mb-1">
+				style="transform:scale(1.3); width: 34%;margin-left: 12%;"
+				type="button" class="mui-btn mui-btn-primary">
 				选择分享
 			</button>
 		</a>
@@ -200,25 +204,25 @@
 				"text": "她早不找你，晚不找你"
 			},
 			{
-				"offset": 2000,
+				"offset": 2500,
 				"text": "偏偏现在来找你"
 			},
 			{
-				"offset": 3800,
+				"offset": 4500,
 				"text": "还跟你回乡下去结婚?"
 			},
 			{
-				"offset": 5500,
+				"offset": 6000,
 				"text": "你脑壳昏!"
 			},
 			{
-				"offset": 8000,
+				"offset": 8500,
 				"text": "这个就是爱情"
 			},
 			{
-				"offset": 10000,
+				"offset": 10500,
 				"text": "我爱你妈卖麻花情"
-			}
+			},
 		];
 		var __eul = document.getElementById("lrc");
 		(function () {
@@ -229,8 +233,8 @@
 			}
 		})();
 
-		var __freq = 30; // 滚动频率（ms）
-		var __fraction = 2 / 5; // 高亮显示行在歌词显示区域中的固定位置百分比 
+		var __freq = 50; // 滚动频率（ms）
+		var __fraction = 4/ 5; // 高亮显示行在歌词显示区域中的固定位置百分比 
 
 		/**
 		 * 当前歌词行（lineno）滚动
@@ -327,7 +331,7 @@
 		renderBar.style.width = percentage + '%';
 		if (percentage == '0') {
 			var text = document.getElementById('percenttext');
-			text.innerHTML = "开始渲染"
+			text.innerHTML = "渲染中..."
 		} else if (percentage == '100') {
 			videoPath = filePath;
 			var video = document.getElementById('videos');
@@ -357,11 +361,10 @@
 
 	function videoOnload() {
 		let video = document.getElementById("videos");
-
-		//切换播放和暂停状态
-		video.play();
-		//如果是录音模块的控件，则关联到后端录制音频
 		if (beginvoice) {} else {
+			//切换播放和暂停状态
+			video.play();
+			//如果是录音模块的控件，则关联到后端录制音频
 			__go(0);
 			android.startRecord();
 			beginvoice = true;
