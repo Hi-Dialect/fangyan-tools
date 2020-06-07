@@ -88,22 +88,22 @@
 </div>
 <div id="topicSelect" onclick="hideSelecttopic()">
     <div>
-        <a onclick="SelectSucess(this)"
+        <a id="labe1" onclick="SelectSucess(this)"
            style="color: #0069D9;position: absolute; margin-top: 3%; margin-left: 5%;">#爱情</a>
-        <a onclick="SelectSucess(this)"
+        <a id="labe2" onclick="SelectSucess(this)"
            style="color: #0069D9;position: absolute; margin-top: 3%; margin-left: 35%;">#电影</a>
-        <a onclick="SelectSucess(this)"
+        <a id="labe3" onclick="SelectSucess(this)"
            style="color: #0069D9;position: absolute; margin-top: 3%; margin-left: 65%;">#每日一刻</a>
     </div>
 </div>
 <div id="friendSelect" onclick="hideSelectfriend()">
     <div>
         <a onclick="FriendSucess(this)"
-           style="color: #0069D9;position: absolute; margin-top: 3%; margin-left: 5%;">徐悦皓</a>
+           style="color: #0069D9;position: absolute; margin-top: 3%; margin-left: 5%;">小明</a>
         <a onclick="FriendSucess(this)"
-           style="color: #0069D9;position: absolute; margin-top: 3%; margin-left: 35%;">冯云浩</a>
+           style="color: #0069D9;position: absolute; margin-top: 3%; margin-left: 35%;">小强</a>
         <a onclick="FriendSucess(this)"
-           style="color: #0069D9;position: absolute; margin-top: 3%; margin-left: 65%;">舒智文</a>
+           style="color: #0069D9;position: absolute; margin-top: 3%; margin-left: 65%;">小刚</a>
     </div>
 </div>
 <div id="hidebg">
@@ -130,6 +130,25 @@
 <script src="js/app.js"></script>
 <script src="js/mui.js"></script>
 <script>
+	let login = async () => {
+	  let fetchUrl = 'http://47.95.220.161:8080/labels/getAllLabels';
+	  let fetchOption = {
+	    method: 'GET',
+	    headers: {
+	      'Accept': 'application/json',
+	      'Content-Type': 'application/x-www-form-urlencoded',
+	    },
+	    //body: ``,
+	  };
+	
+	  fetch(fetchUrl, fetchOption).then(promise => promise.json()).then(data => {
+		  console.log(data);
+		 document.getElementById("labe1").innerHTML='#'+data[1].labelNa;
+		 document.getElementById("labe2").innerHTML='#'+data[2].labelNa;
+		 document.getElementById("labe3").innerHTML='#'+data[3].labelNa;
+	  });
+	 }
+	  login();
 		function SelectSucess(target)
 		{
 			document.getElementById("Topic").innerHTML=target.text;
@@ -166,7 +185,7 @@
             let labels=[82868,83582,84270];
 			//var data=1;
 			//getVideoUploadResult(data);
-            setTimeout(() =>android.uploadVideoToServer(vPath,Title.innerHTML,Describe.innerHTML,"",57176,1,labels), 500);
+            setTimeout(() =>android.uploadVideoToServer(vPath,Title.innerHTML,Describe.innerHTML,"",57176,1,labels), 0);
         }
 		function getVideoUploadResult(isSuccses)
 		{
