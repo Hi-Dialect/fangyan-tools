@@ -12,6 +12,8 @@ let cutEnd = 0;
 let filter = 1;
 //是否已经开始录音
 let recordingStart = false;
+//标记视频路径是否改变
+let isVideoPathChanged = false;
 
 window.onload = () => {
     //视频响应事件绑定
@@ -24,7 +26,7 @@ window.onload = () => {
         recordingStart = false;
     }
     //绘制视频帧当做剪辑背景
-    document.getElementById('video').onloadeddata = handleVideoLoadData;
+    document.getElementById('recordingVideo').oncanplay = handleRenderFrames;
     //初始化滑块，用于剪辑范围的选取
     $('.js-range-slider').ionRangeSlider({
         skin: 'big',
@@ -106,24 +108,26 @@ function handleRecordNewAudio() {
 }
 
 //视频加载完成后初始化剪辑模块
-function handleVideoLoadData() {
+function handleRenderFrames() {
+    //视频路径没有改变则不需要重复绘制视频帧
+    if (!isVideoPathChanged) return;
+
     let video = document.getElementById('recordingVideo');
     let frames = document.getElementById('frames');
     let frameNumber = 10;
 
     frames.innerHTML = null;
+    setTimeout(() => isVideoPathChanged = false, 1000);
     for (let i = 1; i <= frameNumber; i++) {
-        setTimeout(() => {
-            let canvas = document.createElement('canvas');
-            let context = canvas.getContext('2d');
+        let canvas = document.createElement('canvas');
+        let context = canvas.getContext('2d');
 
-            video.currentTime = video.duration / frameNumber * i;
-            canvas.style.height = '8vh';
-            canvas.style.width = 100 / frameNumber + '%';
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            frames.appendChild(canvas);
-            if (i == frameNumber) video.currentTime = 0;
-        }, i * 100);
+        video.currentTime = video.duration / frameNumber * i;
+        canvas.style.height = '8vh';
+        canvas.style.width = 100 / frameNumber + '%';
+        frames.appendChild(canvas);
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        if (i == frameNumber) video.currentTime = 0;
     }
 }
 
@@ -214,6 +218,7 @@ function addVideo(filePath) {
 
     video.src = filePath;
     recordingVideo.src = filePath;
+    isVideoPathChanged = true;
     recordingVideo.oncanplaythrough = () => {
         let my_range = $('.js-range-slider').data('ionRangeSlider');
         let cutDuration = document.getElementById('cutDuration');
