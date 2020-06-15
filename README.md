@@ -12,6 +12,6 @@
 3. 目前只开发了一个 Activity，你可以使用 Intent 正常跳转，或者 Webview 链接到 [file:///android_asset/index.html](./android/app/src/main/assets/index.html)
 
 ### 开发进度
-* 最近更新: 添加"底片"滤镜，其余滤镜参数待研究
-* 故障排除: 修复录音按钮不灵敏、录音控制错乱等问题
-* 最新安卓 APK 下载: [传送门（点我点我）](http://shuzhiwen.com/download/fangyan.apk) 
+* 最近更新: 简单修改界面UI
+* 故障排除: 修复剪辑模块视频帧不会绘制的BUG，修复录音退出按钮视频播放不停止的BUG
+* 最新安卓 APK 下载: [传送门（点我点我）](http://shuzhiwen.com/download/fangyan.apk)
