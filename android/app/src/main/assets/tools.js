@@ -120,8 +120,8 @@ function handleVideoLoadData() {
             video.currentTime = video.duration / frameNumber * i;
             canvas.style.height = '8vh';
             canvas.style.width = 100 / frameNumber + '%';
-            frames.appendChild(canvas);
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            frames.appendChild(canvas);
             if (i == frameNumber) video.currentTime = 0;
         }, i * 100);
     }
