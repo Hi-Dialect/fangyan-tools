@@ -10,11 +10,11 @@
 
 /*修改预定义MUI样式*/
 .mui-input-range .mui-tooltip {
-    top: -60px;
-    width: 50px;
-    height: 50px;
-    font-size: 20px;
-    line-height: 50px;
+    top: -50px;
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+    line-height: 40px;
 }
 
 /*修改预定义Bootstrap样式*/
@@ -27,6 +27,10 @@ body {
     font-size: 3vw;
     font-family: Arial, Helvetica, sans-serif;
     color: gray;
+}
+
+label {
+    font-size: 3.5vw;
 }
 
 #navigation {
@@ -109,6 +113,7 @@ body {
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .icon-filter {
@@ -125,6 +130,12 @@ body {
 .icon-large {
     font-size: 10vw;
     color: gray;
+}
+
+#addBackgroundMusic,
+#addDialect {
+    font-size: 3vw;
+    width: 25vw;
 }
 
 .video-container {
