@@ -192,7 +192,10 @@ function handlePlay(id) {
 
 //取消录音
 function handleRecordingCancel() {
-    document.getElementById('recordingVideo').currentTime = 0;
+    let video = document.getElementById('recordingVideo');
+
+    video.pause();
+    video.currentTime = 0;
     $('#recording').modal('hide');
     recordingStart = false;
     android.stopRecord(0);
@@ -200,9 +203,11 @@ function handleRecordingCancel() {
 
 //录音完成调用后端生成相关文件
 function handleRecordingCheck() {
-    document.getElementById('recordingVideo').currentTime = 0;
-    $('#recording').modal('hide');
+    let video = document.getElementById('recordingVideo');
+
+    video.pause();
     recordingStart = false;
+    $('#recording').modal('hide');
     if (focusElement == 'addBackgroundMusic') {
         android.stopRecord(1);
     } else if (focusElement == 'addDialect') {
