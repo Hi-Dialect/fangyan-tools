@@ -107,7 +107,7 @@ function handleRecordNewAudio() {
 
 //视频加载完成后初始化剪辑模块
 function handleVideoLoadData() {
-    let video = document.getElementById('recordingVideo');
+    let video = document.getElementById('video');
     let frames = document.getElementById('frames');
     let frameNumber = 10;
 
