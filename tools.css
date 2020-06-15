@@ -66,6 +66,7 @@ body {
     width: 22%;
     margin: 1vh 1% 1vh 1%;
     display: inline-block;
+    border-radius: 3vw;
 }
 
 .mui-card-content {
@@ -113,6 +114,7 @@ body {
 .icon-filter {
     width: 80%;
     height: 80%;
+    color: skyblue;
 }
 
 .icon {
@@ -177,7 +179,7 @@ body {
 
 #render {
     width: 94%;
-    height: 14vw;
+    height: 12vw;
     margin: 2vh 3%;
     border-radius: 50px;
 }
