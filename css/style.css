@@ -4506,13 +4506,15 @@ input[type=submit].btn-block {
 }
 
 .nav-pills .nav-link {
+  color: gray;
   border-radius: .25rem;
+  border-bottom: 2px solid white;
 }
 
 .nav-pills .nav-link.active,
 .nav-pills .show>.nav-link {
-  color: #fff;
-  background-color: skyblue;
+  color: darkcyan;
+  background-color: white;
 }
 
 .nav-fill .nav-item {

@@ -24,7 +24,7 @@
 }
 
 body {
-    font-size: 2vw;
+    font-size: 3vw;
     font-family: Arial, Helvetica, sans-serif;
     color: gray;
 }
@@ -39,13 +39,12 @@ body {
 #pills-tab {
     flex-direction: row;
     justify-content: space-around;
-    padding: 1vh 1vw;
     border-top: 1px solid lightgray;
 }
 
 .tab-pane {
     height: 40vh;
-    padding: 5vh 3vw;
+    padding: 2vh 2vw;
     overflow: auto;
 }
 
@@ -59,6 +58,7 @@ body {
 }
 
 .nav-item span {
+    font-size: 3vw;
     display: block;
 }
 
@@ -72,7 +72,9 @@ body {
     height: 10vh;
     background-size: 100% 100%;
     background-image: url('./img/filter.jpg');
-    text-align: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .mui-card-content svg {
@@ -81,9 +83,9 @@ body {
     visibility: hidden;
 }
 
-.mui-card-footer {
-    display: inline;
+.filter-label {
     text-align: center;
+    padding: 5px 0;
 }
 
 .container-row {
@@ -106,6 +108,11 @@ body {
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+
+.icon-filter {
+    width: 80%;
+    height: 80%;
 }
 
 .icon {
