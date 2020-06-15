@@ -70,7 +70,7 @@ body {
 }
 
 .mui-card-content {
-    height: 10vh;
+    height: 8vh;
     background-size: 100% 100%;
     background-image: url('./img/filter.jpg');
     display: flex;
