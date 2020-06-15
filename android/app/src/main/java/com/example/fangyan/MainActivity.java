@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -60,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
 
         //动态申请权限
         requestMyPermissions();
+
+        //隐藏状态栏
+        hideStatusBar();
     }
 
     //接收广播，然后与JS通信
@@ -218,5 +222,19 @@ public class MainActivity extends AppCompatActivity {
 
         webView.destroy();
         webView = null;
+    }
+
+    //全屏并且隐藏状态栏
+    private void hideStatusBar() {
+        WindowManager.LayoutParams attrs = getWindow().getAttributes();
+        attrs.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        getWindow().setAttributes(attrs);
+    }
+
+    //全屏并且状态栏透明显示
+    private void showStatusBar() {
+        WindowManager.LayoutParams attrs = getWindow().getAttributes();
+        attrs.flags &= ~WindowManager.LayoutParams.FLAG_FULLSCREEN;
+        getWindow().setAttributes(attrs);
     }
 }
