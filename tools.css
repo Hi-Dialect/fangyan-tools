@@ -30,7 +30,7 @@ body {
 }
 
 label {
-    font-size: 3.5vw;
+    font-size: 4vw;
 }
 
 #navigation {
@@ -134,7 +134,7 @@ label {
 
 #addBackgroundMusic,
 #addDialect {
-    font-size: 3vw;
+    font-size: 4vw;
     width: 25vw;
 }
 
@@ -162,7 +162,7 @@ label {
 }
 
 .audio-button {
-    font-size: 3.5vw;
+    font-size: 4vw;
     margin: 0.5vh 4vw 2vh 4vw;
     border-radius: 50px;
 }
