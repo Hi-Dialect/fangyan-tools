@@ -174,9 +174,10 @@ label {
     margin-top: 2vh;
 }
 
-.label-font {
-    text-align: right;
+.input-font {
+    font-size: 4vw;
     font-weight: bold;
+    text-align: right;
     color: gray;
 }
 
