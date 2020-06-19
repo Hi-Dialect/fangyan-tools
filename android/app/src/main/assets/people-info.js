@@ -144,7 +144,7 @@
 	function edit_info()
 	{
 		var index=JSON.stringify(user_data);
-		var url="people-Info-set.html?Info="+index;
+		var url="people-info-set.html?Info="+index;
 		
 		window.open(url);
 	}
